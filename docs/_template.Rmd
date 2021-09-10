@@ -97,14 +97,16 @@ summary(iris)
 ---
 class: exercise
 
-# `r emoji("pencil")` Exercise
+# `r emoji("pencil")` Exercise with timer
 
 Prompt.
 
 - Items
 - Items
 
-
+```{r, echo = FALSE}
+countdown::countdown(minutes = 0, seconds = 2, top = 0)
+```
 
 ---
 class: inverse, bottom, left

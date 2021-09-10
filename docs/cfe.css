@@ -52,6 +52,30 @@ a, a > code {
   background-color: var(--yellow);
 }
 
+.countdown {
+  border-color: var(--pluma);
+  background-color: #ffffff9;
+}
+.countdown-digits {
+  color: var(--pluma);
+}
+
+.countdown.running {
+  border-color: var(--plum);
+  background-color: var(--pluma);
+}
+.countdown.running .countdown-digits {
+  color: white;
+}
+
+.countdown.finished {
+  border-color: var(--orange);
+  background-color: var(--orangea);
+}
+.countdown.finished .countdown-digits {
+  color: white;
+}
+
 /*
 docs: https://github.com/yihui/xaringan/wiki/Footer-and-header-lines#3-example
 live: https://arm.rbind.io/slides/xaringan#1
