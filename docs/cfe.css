@@ -1,8 +1,33 @@
+/* builds on xaringan:::list_css()["rladies"] */
+
 :root {
 	--orange: rgb(255, 98, 56);
+	--orangea: rgb(255, 98, 56, 0.3);
 	--plum: rgb(125, 39, 74);
 	--yellow: rgb(255, 215, 145);
 }
+
+
+h1, h2, h3 {
+  font-weight: normal;
+  color: var(--plum);
+}
+a, a > code {
+  color: #88398a;
+}
+.remark-code-line-highlighted {
+  background-color: var(--orangea);
+}
+.remark-code, .remark-inline-code {
+  color: var(--plum);
+}
+.inverse {
+  background-color: var(--plum);
+}
+.inverse, .inverse h1, .inverse h2, .inverse h3, .inverse a, inverse a > code {
+  color: #fff;
+}
+
 
 /*
 Alternative way to set up the title slide

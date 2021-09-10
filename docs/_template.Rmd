@@ -13,7 +13,7 @@ params:
   png_background: "img/gradient-background.png"
 output:
   xaringan::moon_reader:
-    css: ["default", "rladies", "cfe-fonts.css", "cfe.css"]
+    css: ["default", "cfe-fonts.css", "cfe.css"]
     lib_dir: libs
     seal: false # to customise the title slide
     nature:
@@ -59,6 +59,12 @@ class: left, middle
 # A regular slide
 
 With text. Let's see the text.
+
+```{r}
+1 + 1
+2 + 2 #<<
+```
+
 
 ---
 class: inverse, middle, left
