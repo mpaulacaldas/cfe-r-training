@@ -40,20 +40,21 @@ background-size: cover
 
 <br/>
 
-#### `r rmarkdown::metadata$author` and `r rmarkdown::metadata$ta`
+`r rmarkdown::metadata$author` and `r rmarkdown::metadata$ta`
 
 ---
-class: left, middle
+class: middle
 
-# Links for today
+# Useful links
 
-### Slides:  <`r params$url_slides`>
-### Project: <`r params$url_project`>
+[Slides](`r params$url_slides`), if you want to follow along
 
-# In general
+[RStudio Project](`r params$url_project`), to try out the exercises
 
-### Teams space: <`r params$url_teams`>
-### Github repo: <`r params$url_github`>
+[Teams Space](`r params$url_teams`), for discussions
+
+[Github repository](`r params$url_github`), for later reference
+
 
 ---
 # A regular slide

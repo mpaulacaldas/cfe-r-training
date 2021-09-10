@@ -4,6 +4,7 @@
 	--orange: rgb(255, 98, 56);
 	--orangea: rgb(255, 98, 56, 0.3);
 	--plum: rgb(125, 39, 74);
+	--pluma: rgba(125, 39, 74, 0.7);
 	--yellow: rgb(255, 215, 145);
 }
 
@@ -13,8 +14,14 @@ h1, h2, h3 {
   color: var(--plum);
 }
 a, a > code {
-  color: #88398a;
+  color: var(--orangeh);
 }
+
+:any-link {
+  color: var(--pluma);
+  text-decoration: underline;
+}
+
 .remark-code-line-highlighted {
   background-color: var(--orangea);
 }
