@@ -1,5 +1,5 @@
 ---
-title: "Our titles are long so checking if this looks good"
+title: "Our titles are not as long"
 author: "María Paula Caldas"
 ta: "Jolien Noels"
 date: "2021-09-13"
@@ -13,7 +13,7 @@ params:
   png_background: "img/gradient-background.png"
 output:
   xaringan::moon_reader:
-    css: ["default", "rladies", "rladies-fonts", "cfe.css"]
+    css: ["default", "rladies", "cfe-fonts.css", "cfe.css"]
     lib_dir: libs
     seal: false # to customise the title slide
     nature:
@@ -54,6 +54,11 @@ class: left, middle
 
 ### Teams space: <`r params$url_teams`>
 ### Github repo: <`r params$url_github`>
+
+---
+# A regular slide
+
+With text. Let's see the text.
 
 ---
 class: inverse, middle, left

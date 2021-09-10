@@ -1,0 +1,17 @@
+/* builds on xaringan:::list_css()["rladies-fonts"] */
+
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700');
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:400,700');
+
+body {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+.remark-code, .remark-inline-code {
+  font-family: 'Inconsolata', 'Lucida Console', Monaco, monospace;
+  color: #88398A
+}
