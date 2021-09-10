@@ -1,0 +1,65 @@
+---
+title: "Our titles are long so checking if this looks good"
+author: "María Paula Caldas"
+ta: "Jolien Noels"
+date: "2021-09-13"
+description: ""
+params:
+  module: "1"
+  url_slides:  ""
+  url_project: ""
+  url_teams: ""
+  url_github: ""
+  png_background: "img/gradient-background.png"
+output:
+  xaringan::moon_reader:
+    css: ["default", "rladies", "rladies-fonts", "cfe.css"]
+    lib_dir: libs
+    seal: false # to customise the title slide
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      highlightLanguage: ["r", "css", "yaml"]
+      countIncrementalSlides: true
+      ratio: "16:9"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, eval = FALSE)
+```
+
+class: title-slide, inverse, bottom
+background-image: url(`r params$png_background`)
+background-size: cover
+
+# `r rmarkdown::metadata$title`
+### `r paste0("CFE R Training - Module ", params$module)`
+
+<br/>
+
+#### `r rmarkdown::metadata$author` and `r rmarkdown::metadata$ta`
+
+---
+class: left, middle
+
+# Links for today
+
+### Slides:  <`r params$url_slides`>
+### Project: <`r params$url_project`>
+
+# In general
+
+### Teams space: <`r params$url_teams`>
+### Github repo: <`r params$url_github`>
+
+---
+class: inverse, middle, left
+background-image: url(`r params$png_background`)
+background-size: cover
+
+# Thank you!
+## Any questions?
+

@@ -1,0 +1,29 @@
+:root {
+	--orange: rgb(255, 98, 56);
+	--plum: rgb(125, 39, 74);
+	--yellow: rgb(255, 215, 145);
+}
+
+/*
+Alternative way to set up the title slide
+https://stackoverflow.com/a/64276243/14115463
+
+.bg_cfe {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_cfe::before {
+  content: "";
+  background-image:
+    linear-gradient(205deg, white 35%, transparent 35%),
+    url(gradient-background.png);
+  background-size: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  z-index: -1;
+}
+*/
