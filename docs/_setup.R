@@ -1,4 +1,5 @@
-devtools::install_github("gadenbuie/xaringanExtra")
+remotes::install_github("gadenbuie/xaringanExtra")
+remotes::install_github("hadley/emo")
 remotes::install_github("mitchelloharawild/icons")
 icons::download_fontawesome()
 

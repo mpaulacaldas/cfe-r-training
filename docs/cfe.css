@@ -38,6 +38,20 @@ a, a > code {
   color: #fff;
 }
 
+/* increase font size */
+/* https://github.com/yihui/xaringan/issues/69#issuecomment-474199832 */
+.remark-slide-content p, ul, ol, li {
+  font-size: 25px;
+}
+.remark-code {
+  font-size: 22px;
+}
+
+/* give slides with exercises a different look */
+.exercise {
+  background-color: var(--yellow);
+}
+
 /*
 docs: https://github.com/yihui/xaringan/wiki/Footer-and-header-lines#3-example
 live: https://arm.rbind.io/slides/xaringan#1

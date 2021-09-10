@@ -28,7 +28,11 @@ editor_options:
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(fig.retina = 3, eval = FALSE)
+knitr::opts_chunk$set(
+  fig.retina = 3, # can't remember why I put this in another deck
+  collapse = TRUE,
+  comment = "#>"
+  )
 
 xaringanExtra::use_xaringan_extra(c(
   "tile_view",  # type 'o' to see an overview of the slides
@@ -36,6 +40,8 @@ xaringanExtra::use_xaringan_extra(c(
   "panelset",   # panels, https://pkg.garrickadenbuie.com/xaringanExtra/panelset/
   "freezeframe" # so gifs play when we get to the slide
   ))
+
+emoji <- function(x) paste0(emo::ji(x), "&nbsp;")
 ```
 
 class: title-slide, inverse, bottom
@@ -75,10 +81,34 @@ With text. Let's see the text.
 
 
 ---
-class: inverse, middle, left
+class:inverse, bottom, left
+
+# Section division
+
+---
+# Another simple slide
+
+With text. Let's see the text.
+
+```{r}
+summary(iris)
+```
+
+---
+class: exercise
+
+# `r emoji("pencil")` Exercise
+
+Prompt.
+
+- Items
+- Items
+
+
+
+---
+class: inverse, bottom, left
 background-image: url(`r params$png_background`)
 background-size: cover
 
-# Thank you!
-## Any questions?
-
+## Thank you!
