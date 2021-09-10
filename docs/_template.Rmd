@@ -47,7 +47,7 @@ class: middle
 
 # Useful links
 
-[Slides](`r params$url_slides`), if you want to follow along
+[Slides](`r params$url_slides`), if you want to navigate on your own
 
 [RStudio Project](`r params$url_project`), to try out the exercises
 
