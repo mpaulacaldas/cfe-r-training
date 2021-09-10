@@ -29,6 +29,13 @@ editor_options:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.retina = 3, eval = FALSE)
+
+xaringanExtra::use_xaringan_extra(c(
+  "tile_view",  # type 'o' to see an overview of the slides
+  "clipboard",  # copy-paste of the code chunks
+  "panelset",   # panels, https://pkg.garrickadenbuie.com/xaringanExtra/panelset/
+  "freezeframe" # so gifs play when we get to the slide
+  ))
 ```
 
 class: title-slide, inverse, bottom
