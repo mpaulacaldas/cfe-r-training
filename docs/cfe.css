@@ -8,6 +8,9 @@
 	--yellow: rgb(255, 215, 145);
 }
 
+.title-slide .remark-slide-number {
+  display: none;
+}
 
 h1, h2, h3 {
   font-weight: normal;
@@ -33,6 +36,31 @@ a, a > code {
 }
 .inverse, .inverse h1, .inverse h2, .inverse h3, .inverse a, inverse a > code {
   color: #fff;
+}
+
+/*
+docs: https://github.com/yihui/xaringan/wiki/Footer-and-header-lines#3-example
+live: https://arm.rbind.io/slides/xaringan#1
+
+not used, since I couldn't figure out how to remove it from the title slide
+only
+*/
+
+div.cfe-header {
+  background: linear-gradient(225deg, var(--yellow), var(--plum));
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 20px;
+  width: 100%;
+  text-align: left;
+}
+div.cfe-header span {
+  font-size: 10pt;
+  color: #F7F8FA;
+  position: absolute;
+  left: 15px;
+  top: 2px;
 }
 
 
