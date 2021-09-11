@@ -10,6 +10,7 @@ by [María Paula Caldas](mailto:mariapaula.caldas@oecd.org) and [Jolien Noels](m
 
 | Date       | Topic                                        |
 |:-----------|:---------------------------------------------|
+| _Template_ | [_Template_](_template.html)
 | 2021-10-16 | Introduction to R, RStudio and the Tidyverse |
 | 2021-10-23 | Data visualisation                           |
 | 2021-10-30 | Programming with R                           |

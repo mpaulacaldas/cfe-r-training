@@ -40,5 +40,6 @@ rmds %>%
 
 library(rmarkdown)
 
+render("README.md", output_file = "docs/index.html")
 render("docs/_template.Rmd")
 usethis::use_github_pages(branch = "main", path = "/docs")
