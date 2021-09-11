@@ -38,8 +38,11 @@ rmds %>%
 
 # Render ------------------------------------------------------------------
 
+if (FALSE) {
+  usethis::use_github_pages(branch = "main", path = "/docs")
+}
+
 library(rmarkdown)
 
 render("README.md", output_file = "docs/index.html")
-render("docs/_template.Rmd")
-usethis::use_github_pages(branch = "main", path = "/docs")
+render("docs/00_template.Rmd")
