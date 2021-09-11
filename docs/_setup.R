@@ -41,4 +41,4 @@ rmds %>%
 library(rmarkdown)
 
 render("docs/_template.Rmd")
-usethis::use_github_pages()
+usethis::use_github_pages(branch = "main", path = "/docs")
