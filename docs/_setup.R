@@ -13,7 +13,9 @@ if (FALSE) {
   install.packages("tidyverse")
 }
 
-# infrastructure
+
+# Files and directories ---------------------------------------------------
+
 library(purrr)
 
 rmds <- c(
@@ -32,3 +34,11 @@ rmds %>%
   fs::path_ext_remove() %>%
   fs::path("exercises/", .) %>%
   fs::dir_create()
+
+
+# Render ------------------------------------------------------------------
+
+library(rmarkdown)
+
+render("docs/_template.Rmd")
+usethis::use_github_pages()

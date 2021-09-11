@@ -2,8 +2,3 @@
 .Rhistory
 .RData
 .Ruserdata
-
-# temporary ignores, during the first rounds of tweaking
-*.html
-docs/libs/*
-*.png
