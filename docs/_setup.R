@@ -1,17 +1,34 @@
-remotes::install_github("gadenbuie/xaringanExtra")
-remotes::install_github("gadenbuie/countdown")
-remotes::install_github("hadley/emo")
-remotes::install_github("mitchelloharawild/icons")
-icons::download_fontawesome()
+# what I installed for the slides, in work laptop
+if (FALSE) {
+  install.packages("xaringan")
+  remotes::install_github("gadenbuie/xaringanExtra")
+  remotes::install_github("gadenbuie/countdown")
+  remotes::install_github("hadley/emo")
+  remotes::install_github("mitchelloharawild/icons")
+  icons::download_fontawesome()
+}
 
+# what I installed in each RStudio Cloud project
+if (FALSE) {
+  install.packages("tidyverse")
+}
+
+# infrastructure
 library(purrr)
-c(
+
+rmds <- c(
   "01_intro.Rmd",
   "02_dataviz.Rmd",
   "03_programming.Rmd",
   "04_rmarkdown.Rmd",
   "05_goodpractice.Rmd"
-  ) %>%
+  )
+
+rmds %>%
   fs::path("docs/", .) %>%
   walk(~ fs::file_copy("docs/_template.Rmd", .x))
 
+rmds %>%
+  fs::path_ext_remove() %>%
+  fs::path("exercises/", .) %>%
+  fs::dir_create()
