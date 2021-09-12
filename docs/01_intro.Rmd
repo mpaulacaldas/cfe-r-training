@@ -1,0 +1,117 @@
+---
+title: "Our titles are not as long"
+author: "María Paula Caldas"
+ta: "Jolien Noels"
+date: "2021-09-13"
+description: ""
+params:
+  module: "1"
+  url_slides:  ""
+  url_project: ""
+  url_teams: ""
+  url_github: ""
+  png_background: "img/gradient-background.png"
+output:
+  xaringan::moon_reader:
+    css: ["default", "cfe-fonts.css", "cfe.css"]
+    lib_dir: libs
+    seal: false # to customise the title slide
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      highlightLanguage: ["r", "css", "yaml"]
+      countIncrementalSlides: true
+      ratio: "16:9"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.retina = 3, # can't remember why I put this in another deck
+  collapse = TRUE,
+  comment = "#>"
+  )
+
+xaringanExtra::use_xaringan_extra(c(
+  "tile_view",  # type 'o' to see an overview of the slides
+  "clipboard",  # copy-paste of the code chunks
+  "panelset",   # panels, https://pkg.garrickadenbuie.com/xaringanExtra/panelset/
+  "freezeframe" # so gifs play when we get to the slide
+  ))
+
+emoji <- function(x) paste0(emo::ji(x), "&nbsp;")
+```
+
+class: title-slide, inverse, bottom
+background-image: url(`r params$png_background`)
+background-size: cover
+
+# `r rmarkdown::metadata$title`
+### `r paste0("CFE R Training - Module ", params$module)`
+
+<br/>
+
+`r rmarkdown::metadata$author` and `r rmarkdown::metadata$ta`
+
+---
+class: middle
+
+# Useful links
+
+[Slides](`r params$url_slides`), if you want to navigate on your own
+
+[RStudio Project](`r params$url_project`), to try out the exercises
+
+[Teams Space](`r params$url_teams`), for discussions
+
+[Github repository](`r params$url_github`), for later reference
+
+
+---
+# A regular slide
+
+With text. Let's see the text.
+
+```{r}
+1 + 1
+2 + 2 #<<
+```
+
+
+---
+class:inverse, bottom, left
+
+# Section division
+
+---
+# Another simple slide
+
+With text. Let's see the text.
+
+```{r}
+summary(iris)
+```
+
+---
+class: exercise
+
+# `r emoji("pencil")` Exercise with timer
+
+Prompt.
+
+- Items
+- Items
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 0, seconds = 2, top = 0)
+```
+
+---
+class: inverse, bottom, left
+background-image: url(`r params$png_background`)
+background-size: cover
+
+# Annex
+
