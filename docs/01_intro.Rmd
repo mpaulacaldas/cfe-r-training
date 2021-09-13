@@ -1,16 +1,18 @@
 ---
-title: "Our titles are not as long"
+title: "Introduction to R, RStudio and the tidyverse"
 author: "María Paula Caldas"
 ta: "Jolien Noels"
 date: "2021-09-13"
 description: ""
 params:
   module: "1"
-  url_slides:  ""
-  url_project: ""
-  url_teams: ""
-  url_github: ""
+  url_slides:  "https://mpaulacaldas.github.io/cfe-r-training/01_intro.html"
+  url_project: "https://rstudio.cloud/project/2864232"
+  url_teams: "https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c"
+  url_github: "https://github.com/mpaulacaldas/cfe-r-training"
   png_background: "img/gradient-background.png"
+  background_position: "1050px 20px"
+  background_size: "100px"
 output:
   xaringan::moon_reader:
     css: ["default", "cfe-fonts.css", "cfe.css"]
@@ -31,7 +33,8 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
   fig.retina = 3, # can't remember why I put this in another deck
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  error = TRUE
   )
 
 xaringanExtra::use_xaringan_extra(c(
@@ -42,6 +45,10 @@ xaringanExtra::use_xaringan_extra(c(
   ))
 
 emoji <- function(x) paste0(emo::ji(x), "&nbsp;")
+
+url_tidyverse_logo <- function(pkg) {
+  sprintf("https://raw.githubusercontent.com/tidyverse/%s/master/man/figures/logo.png", pkg)
+} 
 ```
 
 class: title-slide, inverse, bottom
@@ -70,43 +77,717 @@ class: middle
 
 
 ---
-# A regular slide
+class: middle
 
-With text. Let's see the text.
+# Housekeeping matters
 
-```{r}
-1 + 1
-2 + 2 #<<
-```
+`r emoji("woman_raising_hand")` During the session, ask questions in the chat 
+or raise your hand
 
+`r emoji("camera")` Sessions are recorded. Remember to turn off your camera if 
+its your preference
+
+`r emoji("speech_balloon")` After the session, post follow-up questions, 
+comments or reactions in the [Teams space](`r params$url_teams`)
+
+`r emoji("pencil")` If you are going through these slides on your own, type `p` 
+to see the presenter notes
+
+???
+
+The presenter notes are where you might also find OECD or CFE specific 
+information.
+
+---
+class: middle
+
+# Learning objectives for today
+
+1. Understand how to use the RStudio IDE to execute R code 
+
+1. Know how to import data from common file formats into R with `readr`, `readxl` and `haven`.
+
+1. Learn the basics of data manipulation with `dplyr`
 
 ---
 class:inverse, bottom, left
 
-# Section division
+# R, RStudio and the tidyverse
 
 ---
-# Another simple slide
 
-With text. Let's see the text.
+# R and RStudio
 
-```{r}
-summary(iris)
+.pull-left[
+__R__ is an open source programming language for statistical computing and graphics.
+
+<br/>
+
+.center[
+```{r, echo = FALSE, out.width="50%"}
+knitr::include_graphics("https://www.r-project.org/logo/Rlogo.svg")
 ```
+]
+
+]
+
+.pull-right[
+__RStudio__ is an integrated development environment (IDE) for R programming.
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/e/ed/RStudio_IDE_screenshot.png")
+```
+
+]
+
+???
+
+Think of it like a car: R is the engine, and RStudio is the car.
+
+In this training we will use RStudio Cloud, a lightweight, cloud-based solution that mimics the RStudio IDE. This is to make sure that everyone is using a standardised computing environment (same R and package versions). 
+
+R and RStudio are available to OECD staff upon request to the Service Desk.
+
+---
+
+# Parts of the RStudio IDE
+
+.pull-left[
+
+These are known as _panes_.
+
+- __Source:__ For scripts.
+
+- __Console:__ Where commands are executed.
+
+- __Environment:__ Objects you have created and are available in memory.
+
+- __Files/Plots/Help:__ To navigate the file system, see plots, get help.
+
+]
+
+.pull-right[
+```{r, echo = FALSE}
+knitr::include_graphics("https://datacarpentry.org/genomics-r-intro/fig/rstudio_session_4pane_layout.png")
+```
+]
+
+.footnote[https://datacarpentry.org/genomics-r-intro/01-introduction/index.html]
 
 ---
 class: exercise
 
-# `r emoji("pencil")` Exercise with timer
+# `r emoji("pencil")` Discover the RStudio IDE
 
-Prompt.
+<br/>
 
-- Items
-- Items
+1. Go to the [RStudio Cloud project](`r params$url_project`) and __TODO: Need input from Jolien for the steps__.
+
+1. Try do some simple math operations in the __Console__. Press `Enter` to execute the code.
+
+1. Open the `discover-rstudio.R` script from the __Files__ pane, and follow 
+the instructions that appear there.
+
 
 ```{r, echo = FALSE}
-countdown::countdown(minutes = 0, seconds = 2, top = 0)
+countdown::countdown(minutes = 5, top = 0)
 ```
+
+---
+
+# R packages
+
+
+.pull-left[
+__Packages__ are collections of R functions, data, and compiled code in a well-defined format. 
+
+The directory where they are stored is called the __library__.
+
+```{r, eval = FALSE}
+# to install a package
+install.packages("dplyr")
+
+# to use a package
+library(dplyr)
+```
+
+]
+
+.pull-right[
+The __tidyverse__ is an opinionated collection of R packages designed for data science. 
+
+Tidyverse packages share an underlying philosophy and common APIs.
+
+```{r, eval = TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+#> -- Attaching packages -------------------------------------------------------------------- tidyverse 1.3.1 --
+#> v ggplot2 3.3.5     v purrr   0.3.4
+#> v tibble  3.1.2     v dplyr   1.0.7
+#> v tidyr   1.1.3     v stringr 1.4.0
+#> v readr   1.4.0     v forcats 0.5.1
+#> -- Conflicts ----------------------------------------------------------------------- tidyverse_conflicts() --
+#> x dplyr::filter() masks stats::filter()
+#> x dplyr::lag()    masks stats::lag()
+```
+]
+
+???
+Think of R as a new phone, and R packages as the apps that you install there. (Credit: WB DIME Analytics Trainings)
+
+Most of the functionality in open source languages like R and Python comes from packages or libraries.
+
+Anyone can write and publish an R package. This means there can be many (up to hundreds of) packages to do the same thing.
+
+Given the large variety of packages, it's important to choose packages that are of good quality (e.g. that are well-tested or actively maintained), that have a large user base, or that have a cohesive design.
+
+As a team, it's also a good idea to have some cohesiveness on the packages used, particularly for the most common data tasks.
+
+The tidyverse is a good convention to adopt: it is a collection of R packages which offer a unified grammar and design philosophy that makes it easier to learn one package after the next.
+
+---
+class:inverse, bottom, left
+
+# Importing data into R
+
+---
+background-image: url(`r url_tidyverse_logo("readr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# Tabular data with `readr`
+
+`readr` is useful to read (and write) rectangular data from (to) flat text files.
+
+.panelset[
+
+.panel[
+.panel-name[Syntax]
+
+```{r, include = FALSE}
+library(readr)
+ejemplo_csv <- "
+Comuna,Defunciones,Fecha
+Contulmo,1,2019-06-05
+Calbuco,1,2020-01-16
+Chillán Viejo,1,2021-08-16
+Gorbea,2,2011-05-30
+San Miguel,1,2012-02-11
+Lumaco,1,2021-09-08
+"
+```
+
+.pull-left[
+
+`defunciones.csv` in a text editor:
+
+```{r, echo = FALSE, comment=""}
+cat(paste0(
+  read_lines(ejemplo_csv, locale = locale(encoding = "Latin1")), 
+  collapse = "\n"
+  ))
+```
+
+]
+.pull-right[
+
+In `r icons::fontawesome("r-project")` :
+
+```{r, eval = FALSE}
+library(readr)
+read_csv("defunciones.csv")
+#> # A tibble: 6 x 3
+#>   Comuna        Defunciones Fecha     
+#>   <chr>               <dbl> <date>    
+#> 1 Contulmo                1 2019-06-05
+#> 2 Calbuco                 1 2020-01-16
+#> 3 Chillán Viejo           1 2021-08-16
+#> 4 Gorbea                  2 2011-05-30
+#> 5 San Miguel              1 2012-02-11
+#> 6 Lumaco                  1 2021-09-08
+```
+
+]
+]
+
+.panel[.panel-name[Functions]
+
+.pull-left[
+<br/>
+Alternatively, you can use the `read.*` functions that are already loaded with the basic installation of R.
+
+The most general of these functions is `read_delim()`, where you can specify the specific delimiter of the file.
+
+Every `read_*` function has a sister `write_*` function to save data in different formats.
+]
+
+.pull-right[
+
+<br/>
+
+| Base R function | `readr` function | Delimiter |
+|-----------------|------------------|:----:|
+| `read.csv()`    | `read_csv()`     | `,`  |
+| `read.csv2()`   | `read_csv2()`    | `;`  |
+| `read.tsv()`    | `read_tsv()`     | `\t` |
+| `read.delim()`  | `read_delim()`   | Any  |
+
+]
+
+]
+
+.panel[.panel-name[Arguments]
+
+You can have more control over the way the data is read by using the _arguments_ of the `readr` functions.
+
+The most useful ones are:
+
+- `delim`
+- `col_names`
+- `col_types`
+- `skip`
+- `n_max`
+
+To read about them, type `?read_delim` in the R Console.
+
+]
+
+.panel[.panel-name[Troubleshooting]
+
+When you import data with `readr`, the `problems()` function is useful to let you know if something went wrong and where.
+
+```{r, include = FALSE}
+library(readr)
+problem_csv <- "
+Comuna,Defunciones,Fecha
+Contulmo,1,2019-06-05
+Calbuco,1,2020-01-16
+Chillán Viejo,1,2021-08-16
+Gorbea,2,2011-05-30
+San Miguel,1,2012-02-11
+Lumaco,1,2021-13-08
+"
+```
+
+```{r, eval = FALSE}
+oops <- read_csv("path/to/problematic-file.csv")
+#> Warning: 1 parsing failure.
+#> row   col   expected     actual         file
+#>   6 Fecha valid date 2021-13-08 literal data
+problems(oops)
+#> # A tibble: 1 x 5
+#>     row col   expected   actual     file        
+#>   <int> <chr> <chr>      <chr>      <chr>       
+#> 1     6 Fecha valid date 2021-13-08 literal data
+```
+
+]
+
+]
+
+???
+Rectangular data means "tables", with a series of cells organised into rows and columns. Not all types of data are necessarily stored in this format.
+
+The first tab of this slide shows what tabular data looks like when you open a file with a text editor like the windows notepad. On the right, we see how the same data looks in R when we import it using readr.
+
+
+---
+background-image: url(`r url_tidyverse_logo("readxl")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# Spreadsheets
+
+`readxl` and `writexl` are two light-weight packages designed to read data into R.
+
+.pull-left[
+### [`readxl`](https://readxl.tidyverse.org/)
+
+- `read_excel()` to read spreadsheets of `xlsx` or `xls` files.
+- `excel_sheets()` to list the spreadsheets in a file.
+
+]
+
+.pull-right[
+### [`writexl`](https://docs.ropensci.org/writexl/)
+
+- `write_xlsx()` to write tables to `xlsx` files.
+- `xl_formula()` or `xl_hyperlink()`, to write special column types to a spreadsheet.
+
+]
+
+---
+background-image: url(`r url_tidyverse_logo("haven")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# SPSS, Stata and SAS with `haven`
+
+.pull-left[
+
+### [`haven`](https://haven.tidyverse.org/)
+
+Enables R to read and write various data formats used by other statistical packages.
+
+
+| Software | Read functions | Write functions |
+|-|-|-|
+| SAS  | `read_sas()`, `read_xpt()` | None |
+| SPSS | `read_sav()`, `read_por()` | `write_sav()` |
+| Stata | `read_dta()` |  `write_dta()` |
+
+]
+
+.pull-right[
+
+### [`foreign`](https://cran.r-project.org/web/packages/foreign/foreign.pdf) 
+
+A commonly used alternative to `haven` is the `foreign` package. 
+
+- Notably, it reads `dbf` files.
+
+- Unfortunately, it doesn't read Stata files past version 12.
+
+]
+
+---
+# R native formats
+
+.panelset[
+
+.panel[.panel-name[`r emoji("warning")` RData]
+
+.pull-left[
+
+You can save multiple R objects to a single RData file. 
+
+When you load a new RData file into R, any R objects inside it will keep the names you originally assigned to them.
+
+`load()` will silently overwrite objects with conflicting names. __This makes it dangerous__.
+
+]
+
+.pull-right[
+
+```{r, eval=FALSE}
+# load the uk_irl.RData, which can have 
+# more than one object
+load("gbr_irl.RData")
+
+eu <- read_csv("eu.csv")
+us <- read_dta("us.dta")
+
+# saves 4 objects from the environment to 
+# all_countries.RData
+save(
+  irl, gbr, eu, us,
+  file = "all_countries.RData"
+  )
+```
+
+]
+
+]
+
+.panel[.panel-name[`r emoji("white_check_mark")` RDS]
+
+
+.pull-left[
+You can only save one object at a time to an RDS file.
+
+You can assign any new name to the object when you read it into R.
+]
+
+
+.pull-right[
+
+**01_clean-postcodes.R**
+
+```{r, eval = FALSE}
+writeRDS(gbr, "postcodes/gbr.rds")
+writeRDS(irl, "postcodes/irl.rds")
+```
+
+**02_analysis.R**
+
+```{r, eval = FALSE}
+indicators <- readRDS("indicators/irl.rds")
+postcodes  <- readRDS("postcodes/irl.rds")
+```
+
+]
+
+]
+
+]
+
+.footnote[
+`r emoji("book")` https://yihui.org/en/2017/12/save-vs-saverds/
+]
+
+???
+
+If you are going to be working mainly in R, you may want to save intermediary objects in a format that can be easily read (i.e. fast)
+and interpreted by R. 
+
+Unless you have a very good reason to do so, you should always favour RDS over RData files. The latter is dangerous because similarly named objects can be silently overwritten.
+
+RData files are also harder to iterate over, exactly because you don't know the names of the objects that are being loaded into the environment. 
+
+That is not to say that RData files are not useful. They can be extremely useful, for example, in Shiny apps, where it's often more efficient to have smaller objects.
+
+The limitation of "one object per RDS" is less of an issue because of a special type of R structure known as a "list". We will speak more about these in a later session.
+
+---
+class: exercise
+
+# `r emoji("pencil")` Let's read some data
+
+<br/>
+
+Go to the [RStudio Cloud project](`r params$url_project`), open and follow the instructions in the `import.R` script.
+
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, top = 0)
+```
+
+Prepare yourself for some show-and-tell after the 5 minutes are over. Volunteers are welcome!
+
+
+---
+class: inverse, bottom, left
+
+# Data manipulation
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# Main `dplyr` verbs
+
+The main functions, or _verbs_ from `dplyr` are:
+
+- `select()`, to select columns.
+- `rename()`, to rename columns.
+- `filter()`, to select rows.
+- `mutate()`, to create or modify columns.
+- `summarise()`, to summarise information from columns.
+
+The last three of these can be used with `group_by()` to do operations by groups of rows.
+
+???
+dplyr is a package focused on data manipulation. In R circles, more often people use the term data _wrangling_.
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# Main `dplyr` verbs
+
+For the demonstrations, we will be using data from DOTSTAT, on air pollution:
+
+```{r, cache=TRUE}
+(air_pol <- tibble(readsdmx::read_sdmx(
+  "http://dotstat.oecd.org/restsdmx/sdmx.ashx/GetData/REGION_SOCIAL/1+2..AIR_POL.ALL./all?"
+  )))
+```
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# `select()` columns
+
+.panelset[
+
+.panel[.panel-name[Syntax]
+
+.center[`select(<DATA>, <VAR1>, <VAR2>, ...)`]
+
+```{r}
+select(air_pol, REG_ID, TIME, ObsValue)
+```
+
+]
+
+.panel[.panel-name[Selection helpers]
+
+
+`select()` is often used with __selection helpers__, documented in `?tidyselect::language`.
+
+.pull-left[
+```{r}
+select(air_pol, REG_ID:TL)
+```
+]
+
+.pull-right[
+```{r}
+select(air_pol,  REG_ID, starts_with("T"))
+```
+]
+
+]
+
+.panel[.panel-name[Extension]
+```{r}
+select(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
+```
+]
+
+]
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# `rename()` columns
+
+.panelset[
+.panel[.panel-name[Syntax]
+
+.center[`rename(<DATA>, <NEWNAME> = <0LDNAME>, ...)`]
+
+```{r}
+rename(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
+```
+]
+
+.panel[.panel-name[Extension]
+```{r}
+rename_with(air_pol, tolower)
+```
+]
+
+]
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# `filter()` rows
+
+.panelset[
+
+.panel[.panel-name[Syntax]
+
+.center[
+`filter(<DATA>, <COND1>, <COND2>, ...)`
+]
+
+Important to keep in mind:
+
+- Conditions are operations that return `TRUE`
+- If the condition returns some missing values (`NA`), these are removed.
+- The comma is equivalent to an AND (`&`) condition.
+
+]
+
+.panel[.panel-name[Logical comparisons]
+
+<br/>
+
+| Condition | Reads |
+|----------|-------|
+| `x > y`  | `x` is greater than `y` |
+| `x >= y` | `x` is greater or equal to `y` |
+| `x == 3` | `x` is equal to 3 |
+| `x %in% c(2, 8)` | `x` is either 2 or 8 |
+| `x > y & x < z` | `x` is greater than `y` AND smaller than `z` |
+| <code>x > y &#124; x < z</code> | `x` is greater than `y` OR smaller than `z` |
+
+<!-- https://stackoverflow.com/a/17320389/14115463 -->
+
+]
+
+.panel[.panel-name[Examples]
+
+
+```{r, eval = FALSE}
+# Keep only rows for France
+filter(air_pol, REG_ID == "FRA")
+
+# Get the region with the lowest level of air pollution
+filter(air_pol, ObsValue == min(ObsValue))
+
+# What was the level of PM2.5 in Colombia in 2000?
+filter(air_pol, TIME == "2000" & REG_ID == "COL")
+filter(air_pol, TIME == "2000", REG_ID == "COL") # mind the comma!
+```
+
+]
+]
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# `mutate()` and `summarise()`
+
+.panelset[
+
+.panel[.panel-name[`mutate()`]
+
+.center[
+`mutate(<DATA>, <NEW_OR_UPDATED_COLUMN> = <OPERATIONS ON OTHER COLUMNS>, ...)`
+]
+
+Mutate can be used to update existing columns:
+
+```{r, eval = FALSE}
+mutate(air_pol, pm_rounded = round(as.numeric(ObsValue), 2))
+```
+
+Or to create new ones:
+
+```{r, eval = FALSE}
+mutate(air_pol, ObsValue = round(as.numeric(ObsValue), 2))
+```
+
+]
+
+.panel[.panel-name[`summarise()`]
+
+.center[
+`summarise(<DATA>, <SUMMARISED_COLUMN> = <SUMMARY OPERATIONS ON OTHER COLUMNS>, ...)`
+]
+
+
+]
+]
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# Main `dplyr` verbs
+### `summarise()`
+
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# Main `dplyr` verbs
+### `group_by()`
+
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/magrittr/master/man/figures/logo.png)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# _Piping_ operations
+
+Magrittr pipe, example DIME, advanced notation, base R pipe.
 
 ---
 class: inverse, bottom, left
@@ -114,4 +795,11 @@ background-image: url(`r params$png_background`)
 background-size: cover
 
 # Annex
+
+---
+
+# To read data from our internal data bases
+
+- [OECD Database](https://algobank.oecd.org:4430/territorial-stats-unit/technical-docs/-/blob/main/accessing-dotstat-data.md)
+- [Spatial data from the PostGIS Database](https://algobank.oecd.org:4430/gis-community-of-practise/oecd-gis-technical-docs/-/blob/master/r-and-postgis.md)
 
