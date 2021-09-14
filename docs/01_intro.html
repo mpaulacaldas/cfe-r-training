@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to R, RStudio and the tidyverse</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="María Paula Caldas" />
+    <meta name="date" content="2021-09-13" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="cfe-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="cfe.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide, inverse, bottom
+background-image: url(img/gradient-background.png)
+background-size: cover
+
+# Introduction to R, RStudio and the tidyverse
+### CFE R Training - Module 1
+
+&lt;br/&gt;
+
+María Paula Caldas and Jolien Noels
+
+---
+class: middle
+
+# Useful links
+
+[Slides](https://mpaulacaldas.github.io/cfe-r-training/01_intro.html), if you want to navigate on your own
+
+[RStudio Project](https://rstudio.cloud/project/2864232), to try out the exercises
+
+[Teams Space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c), for discussions
+
+[Github repository](https://github.com/mpaulacaldas/cfe-r-training), for later reference
+
+
+---
+class: middle
+
+# Housekeeping matters
+
+🙋‍♀️&amp;nbsp; During the session, ask questions in the chat 
+or raise your hand
+
+📷&amp;nbsp; Sessions are recorded. Remember to turn off your camera if 
+its your preference
+
+💬&amp;nbsp; After the session, post follow-up questions, 
+comments or reactions in the [Teams space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c)
+
+📝&amp;nbsp; If you are going through these slides on your own, type `p` 
+to see the presenter notes
+
+???
+
+The presenter notes are where you might also find OECD or CFE specific 
+information.
+
+---
+class: middle
+
+# Learning objectives for today
+
+1. Understand how to use the RStudio IDE to execute R code 
+
+1. Know how to import data from common file formats into R with `readr`, `readxl` and `haven`.
+
+1. Learn the basics of data manipulation with `dplyr`
+
+---
+class:inverse, bottom, left
+
+# R, RStudio and the tidyverse
+
+---
+
+# R and RStudio
+
+.pull-left[
+__R__ is an open source programming language for statistical computing and graphics.
+
+&lt;br/&gt;
+
+.center[
+&lt;img src="https://www.r-project.org/logo/Rlogo.svg" width="50%" /&gt;
+]
+
+]
+
+.pull-right[
+__RStudio__ is an integrated development environment (IDE) for R programming.
+
+![](https://upload.wikimedia.org/wikipedia/commons/e/ed/RStudio_IDE_screenshot.png)&lt;!-- --&gt;
+
+]
+
+???
+
+Think of it like a car: R is the engine, and RStudio is the car.
+
+In this training we will use RStudio Cloud, a lightweight, cloud-based solution that mimics the RStudio IDE. This is to make sure that everyone is using a standardised computing environment (same R and package versions). 
+
+R and RStudio are available to OECD staff upon request to the Service Desk.
+
+---
+
+# Parts of the RStudio IDE
+
+.pull-left[
+
+These are known as _panes_.
+
+- __Source:__ For scripts.
+
+- __Console:__ Where commands are executed.
+
+- __Environment:__ Objects you have created and are available in memory.
+
+- __Files/Plots/Help:__ To navigate the file system, see plots, get help.
+
+]
+
+.pull-right[
+![](https://datacarpentry.org/genomics-r-intro/fig/rstudio_session_4pane_layout.png)&lt;!-- --&gt;
+]
+
+.footnote[https://datacarpentry.org/genomics-r-intro/01-introduction/index.html]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Discover the RStudio IDE
+
+&lt;br/&gt;
+
+1. Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232) and __TODO: Need input from Jolien for the steps__.
+
+1. Try do some simple math operations in the __Console__. Press `Enter` to execute the code.
+
+1. Open the `discover-rstudio.R` script from the __Files__ pane, and follow 
+the instructions that appear there.
+
+
+<div class="countdown" id="timer_614054f9" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+# R packages
+
+
+.pull-left[
+__Packages__ are collections of R functions, data, and compiled code in a well-defined format. 
+
+The directory where they are stored is called the __library__.
+
+
+```r
+# to install a package
+install.packages("dplyr")
+
+# to use a package
+library(dplyr)
+```
+
+]
+
+.pull-right[
+The __tidyverse__ is an opinionated collection of R packages designed for data science. 
+
+Tidyverse packages share an underlying philosophy and common APIs.
+
+
+```r
+library(tidyverse)
+#&gt; -- Attaching packages -------------------------------------------------------------------- tidyverse 1.3.1 --
+#&gt; v ggplot2 3.3.5     v purrr   0.3.4
+#&gt; v tibble  3.1.2     v dplyr   1.0.7
+#&gt; v tidyr   1.1.3     v stringr 1.4.0
+#&gt; v readr   1.4.0     v forcats 0.5.1
+#&gt; -- Conflicts ----------------------------------------------------------------------- tidyverse_conflicts() --
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()
+```
+]
+
+???
+Think of R as a new phone, and R packages as the apps that you install there. (Credit: WB DIME Analytics Trainings)
+
+Most of the functionality in open source languages like R and Python comes from packages or libraries.
+
+Anyone can write and publish an R package. This means there can be many (up to hundreds of) packages to do the same thing.
+
+Given the large variety of packages, it's important to choose packages that are of good quality (e.g. that are well-tested or actively maintained), that have a large user base, or that have a cohesive design.
+
+As a team, it's also a good idea to have some cohesiveness on the packages used, particularly for the most common data tasks.
+
+The tidyverse is a good convention to adopt: it is a collection of R packages which offer a unified grammar and design philosophy that makes it easier to learn one package after the next.
+
+---
+class:inverse, bottom, left
+
+# Importing data into R
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/readr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Tabular data with `readr`
+
+`readr` is useful to read (and write) rectangular data from (to) flat text files.
+
+.panelset[
+
+.panel[
+.panel-name[Syntax]
+
+
+
+.pull-left[
+
+`defunciones.csv` in a text editor:
+
+
+```
+
+Comuna,Defunciones,Fecha
+Contulmo,1,2019-06-05
+Calbuco,1,2020-01-16
+Chillán Viejo,1,2021-08-16
+Gorbea,2,2011-05-30
+San Miguel,1,2012-02-11
+Lumaco,1,2021-09-08
+```
+
+]
+.pull-right[
+
+In &lt;svg viewBox="0 0 581 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"&gt;&lt;/path&gt;&lt;/svg&gt; :
+
+
+```r
+library(readr)
+read_csv("defunciones.csv")
+#&gt; # A tibble: 6 x 3
+#&gt;   Comuna        Defunciones Fecha     
+#&gt;   &lt;chr&gt;               &lt;dbl&gt; &lt;date&gt;    
+#&gt; 1 Contulmo                1 2019-06-05
+#&gt; 2 Calbuco                 1 2020-01-16
+#&gt; 3 Chillán Viejo           1 2021-08-16
+#&gt; 4 Gorbea                  2 2011-05-30
+#&gt; 5 San Miguel              1 2012-02-11
+#&gt; 6 Lumaco                  1 2021-09-08
+```
+
+]
+]
+
+.panel[.panel-name[Functions]
+
+.pull-left[
+&lt;br/&gt;
+Alternatively, you can use the `read.*` functions that are already loaded with the basic installation of R.
+
+The most general of these functions is `read_delim()`, where you can specify the specific delimiter of the file.
+
+Every `read_*` function has a sister `write_*` function to save data in different formats.
+]
+
+.pull-right[
+
+&lt;br/&gt;
+
+| Base R function | `readr` function | Delimiter |
+|-----------------|------------------|:----:|
+| `read.csv()`    | `read_csv()`     | `,`  |
+| `read.csv2()`   | `read_csv2()`    | `;`  |
+| `read.tsv()`    | `read_tsv()`     | `\t` |
+| `read.delim()`  | `read_delim()`   | Any  |
+
+]
+
+]
+
+.panel[.panel-name[Arguments]
+
+You can have more control over the way the data is read by using the _arguments_ of the `readr` functions.
+
+The most useful ones are:
+
+- `delim`
+- `col_names`
+- `col_types`
+- `skip`
+- `n_max`
+
+To read about them, type `?read_delim` in the R Console.
+
+]
+
+.panel[.panel-name[Troubleshooting]
+
+When you import data with `readr`, the `problems()` function is useful to let you know if something went wrong and where.
+
+
+
+
+```r
+oops &lt;- read_csv("path/to/problematic-file.csv")
+#&gt; Warning: 1 parsing failure.
+#&gt; row   col   expected     actual         file
+#&gt;   6 Fecha valid date 2021-13-08 literal data
+problems(oops)
+#&gt; # A tibble: 1 x 5
+#&gt;     row col   expected   actual     file        
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       
+#&gt; 1     6 Fecha valid date 2021-13-08 literal data
+```
+
+]
+
+]
+
+???
+Rectangular data means "tables", with a series of cells organised into rows and columns. Not all types of data are necessarily stored in this format.
+
+The first tab of this slide shows what tabular data looks like when you open a file with a text editor like the windows notepad. On the right, we see how the same data looks in R when we import it using readr.
+
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/readxl/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Spreadsheets
+
+`readxl` and `writexl` are two light-weight packages designed to read data into R.
+
+.pull-left[
+### [`readxl`](https://readxl.tidyverse.org/)
+
+- `read_excel()` to read spreadsheets of `xlsx` or `xls` files.
+- `excel_sheets()` to list the spreadsheets in a file.
+
+]
+
+.pull-right[
+### [`writexl`](https://docs.ropensci.org/writexl/)
+
+- `write_xlsx()` to write tables to `xlsx` files.
+- `xl_formula()` or `xl_hyperlink()`, to write special column types to a spreadsheet.
+
+]
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/haven/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# SPSS, Stata and SAS with `haven`
+
+.pull-left[
+
+### [`haven`](https://haven.tidyverse.org/)
+
+Enables R to read and write various data formats used by other statistical packages.
+
+
+| Software | Read functions | Write functions |
+|-|-|-|
+| SAS  | `read_sas()`, `read_xpt()` | None |
+| SPSS | `read_sav()`, `read_por()` | `write_sav()` |
+| Stata | `read_dta()` |  `write_dta()` |
+
+]
+
+.pull-right[
+
+### [`foreign`](https://cran.r-project.org/web/packages/foreign/foreign.pdf) 
+
+A commonly used alternative to `haven` is the `foreign` package. 
+
+- Notably, it reads `dbf` files.
+
+- Unfortunately, it doesn't read Stata files past version 12.
+
+]
+
+---
+# R native formats
+
+.panelset[
+
+.panel[.panel-name[⚠️&amp;nbsp; RData]
+
+.pull-left[
+
+You can save multiple R objects to a single RData file. 
+
+When you load a new RData file into R, any R objects inside it will keep the names you originally assigned to them.
+
+`load()` will silently overwrite objects with conflicting names. __This makes it dangerous__.
+
+]
+
+.pull-right[
+
+
+```r
+# load the uk_irl.RData, which can have 
+# more than one object
+load("gbr_irl.RData")
+
+eu &lt;- read_csv("eu.csv")
+us &lt;- read_dta("us.dta")
+
+# saves 4 objects from the environment to 
+# all_countries.RData
+save(
+  irl, gbr, eu, us,
+  file = "all_countries.RData"
+  )
+```
+
+]
+
+]
+
+.panel[.panel-name[✅&amp;nbsp; RDS]
+
+
+.pull-left[
+You can only save one object at a time to an RDS file.
+
+You can assign any new name to the object when you read it into R.
+]
+
+
+.pull-right[
+
+**01_clean-postcodes.R**
+
+
+```r
+writeRDS(gbr, "postcodes/gbr.rds")
+writeRDS(irl, "postcodes/irl.rds")
+```
+
+**02_analysis.R**
+
+
+```r
+indicators &lt;- readRDS("indicators/irl.rds")
+postcodes  &lt;- readRDS("postcodes/irl.rds")
+```
+
+]
+
+]
+
+]
+
+.footnote[
+📖&amp;nbsp; https://yihui.org/en/2017/12/save-vs-saverds/
+]
+
+???
+
+If you are going to be working mainly in R, you may want to save intermediary objects in a format that can be easily read (i.e. fast)
+and interpreted by R. 
+
+Unless you have a very good reason to do so, you should always favour RDS over RData files. The latter is dangerous because similarly named objects can be silently overwritten.
+
+RData files are also harder to iterate over, exactly because you don't know the names of the objects that are being loaded into the environment. 
+
+That is not to say that RData files are not useful. They can be extremely useful, for example, in Shiny apps, where it's often more efficient to have smaller objects.
+
+The limitation of "one object per RDS" is less of an issue because of a special type of R structure known as a "list". We will speak more about these in a later session.
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Let's read some data
+
+&lt;br/&gt;
+
+Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232), open and follow the instructions in the `import.R` script.
+
+
+<div class="countdown" id="timer_61405534" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+Prepare yourself for some show-and-tell after the 5 minutes are over. Volunteers are welcome!
+
+
+---
+class: inverse, bottom, left
+
+# Data manipulation
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Main `dplyr` verbs
+
+The main functions, or _verbs_ from `dplyr` are:
+
+- `select()`, to select columns.
+- `rename()`, to rename columns.
+- `filter()`, to select rows.
+- `mutate()`, to create or modify columns.
+- `summarise()`, to summarise information from columns.
+
+The last three of these can be used with `group_by()` to do operations by groups of rows.
+
+???
+dplyr is a package focused on data manipulation. In R circles, more often people use the term data _wrangling_.
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Main `dplyr` verbs
+
+For the demonstrations, we will be using data from DOTSTAT, on air pollution:
+
+
+```r
+(air_pol &lt;- tibble(readsdmx::read_sdmx(
+  "http://dotstat.oecd.org/restsdmx/sdmx.ashx/GetData/REGION_SOCIAL/1+2..AIR_POL.ALL./all?"
+  )))
+#&gt; # A tibble: 9,480 x 8
+#&gt;    OBS_STATUS ObsValue POS   POWERCODE REG_ID TIME  TL    VAR    
+#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       3.88     ALL   0         AUS    2003  1     AIR_POL
+#&gt;  2 &lt;NA&gt;       3.301    ALL   0         AUS    2006  1     AIR_POL
+#&gt;  3 &lt;NA&gt;       3.594    ALL   0         AUS    2009  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7        ALL   0         AUS    2012  1     AIR_POL
+#&gt;  5 &lt;NA&gt;       4.744    ALL   0         AU1    2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       3.277    ALL   0         AU1    2006  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       3.443    ALL   0         AU1    2009  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       7.08     ALL   0         AU1    2012  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       4.315    ALL   0         AU2    2003  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       4.142    ALL   0         AU2    2006  2     AIR_POL
+#&gt; # ... with 9,470 more rows
+```
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# `select()` columns
+
+.panelset[
+
+.panel[.panel-name[Syntax]
+
+.center[`select(&lt;DATA&gt;, &lt;VAR1&gt;, &lt;VAR2&gt;, ...)`]
+
+
+```r
+select(air_pol, REG_ID, TIME, ObsValue)
+#&gt; # A tibble: 9,480 x 3
+#&gt;    REG_ID TIME  ObsValue
+#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   
+#&gt;  1 AUS    2003  3.88    
+#&gt;  2 AUS    2006  3.301   
+#&gt;  3 AUS    2009  3.594   
+#&gt;  4 AUS    2012  7       
+#&gt;  5 AU1    2003  4.744   
+#&gt;  6 AU1    2006  3.277   
+#&gt;  7 AU1    2009  3.443   
+#&gt;  8 AU1    2012  7.08    
+#&gt;  9 AU2    2003  4.315   
+#&gt; 10 AU2    2006  4.142   
+#&gt; # ... with 9,470 more rows
+```
+
+]
+
+.panel[.panel-name[Selection helpers]
+
+
+`select()` is often used with __selection helpers__, documented in `?tidyselect::language`.
+
+.pull-left[
+
+```r
+select(air_pol, REG_ID:TL)
+#&gt; # A tibble: 9,480 x 3
+#&gt;    REG_ID TIME  TL   
+#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 AUS    2003  1    
+#&gt;  2 AUS    2006  1    
+#&gt;  3 AUS    2009  1    
+#&gt;  4 AUS    2012  1    
+#&gt;  5 AU1    2003  2    
+#&gt;  6 AU1    2006  2    
+#&gt;  7 AU1    2009  2    
+#&gt;  8 AU1    2012  2    
+#&gt;  9 AU2    2003  2    
+#&gt; 10 AU2    2006  2    
+#&gt; # ... with 9,470 more rows
+```
+]
+
+.pull-right[
+
+```r
+select(air_pol,  REG_ID, starts_with("T"))
+#&gt; # A tibble: 9,480 x 3
+#&gt;    REG_ID TIME  TL   
+#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 AUS    2003  1    
+#&gt;  2 AUS    2006  1    
+#&gt;  3 AUS    2009  1    
+#&gt;  4 AUS    2012  1    
+#&gt;  5 AU1    2003  2    
+#&gt;  6 AU1    2006  2    
+#&gt;  7 AU1    2009  2    
+#&gt;  8 AU1    2012  2    
+#&gt;  9 AU2    2003  2    
+#&gt; 10 AU2    2006  2    
+#&gt; # ... with 9,470 more rows
+```
+]
+
+]
+
+.panel[.panel-name[Extension]
+
+```r
+select(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
+#&gt; # A tibble: 9,480 x 3
+#&gt;    reg_id year  pm2_5
+#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 AUS    2003  3.88 
+#&gt;  2 AUS    2006  3.301
+#&gt;  3 AUS    2009  3.594
+#&gt;  4 AUS    2012  7    
+#&gt;  5 AU1    2003  4.744
+#&gt;  6 AU1    2006  3.277
+#&gt;  7 AU1    2009  3.443
+#&gt;  8 AU1    2012  7.08 
+#&gt;  9 AU2    2003  4.315
+#&gt; 10 AU2    2006  4.142
+#&gt; # ... with 9,470 more rows
+```
+]
+
+]
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# `rename()` columns
+
+.panelset[
+.panel[.panel-name[Syntax]
+
+.center[`rename(&lt;DATA&gt;, &lt;NEWNAME&gt; = &lt;0LDNAME&gt;, ...)`]
+
+
+```r
+rename(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
+#&gt; # A tibble: 9,480 x 8
+#&gt;    OBS_STATUS pm2_5 POS   POWERCODE reg_id year  TL    VAR    
+#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       3.88  ALL   0         AUS    2003  1     AIR_POL
+#&gt;  2 &lt;NA&gt;       3.301 ALL   0         AUS    2006  1     AIR_POL
+#&gt;  3 &lt;NA&gt;       3.594 ALL   0         AUS    2009  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7     ALL   0         AUS    2012  1     AIR_POL
+#&gt;  5 &lt;NA&gt;       4.744 ALL   0         AU1    2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       3.277 ALL   0         AU1    2006  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       3.443 ALL   0         AU1    2009  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       7.08  ALL   0         AU1    2012  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       4.315 ALL   0         AU2    2003  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       4.142 ALL   0         AU2    2006  2     AIR_POL
+#&gt; # ... with 9,470 more rows
+```
+]
+
+.panel[.panel-name[Extension]
+
+```r
+rename_with(air_pol, tolower)
+#&gt; # A tibble: 9,480 x 8
+#&gt;    obs_status obsvalue pos   powercode reg_id time  tl    var    
+#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       3.88     ALL   0         AUS    2003  1     AIR_POL
+#&gt;  2 &lt;NA&gt;       3.301    ALL   0         AUS    2006  1     AIR_POL
+#&gt;  3 &lt;NA&gt;       3.594    ALL   0         AUS    2009  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7        ALL   0         AUS    2012  1     AIR_POL
+#&gt;  5 &lt;NA&gt;       4.744    ALL   0         AU1    2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       3.277    ALL   0         AU1    2006  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       3.443    ALL   0         AU1    2009  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       7.08     ALL   0         AU1    2012  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       4.315    ALL   0         AU2    2003  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       4.142    ALL   0         AU2    2006  2     AIR_POL
+#&gt; # ... with 9,470 more rows
+```
+]
+
+]
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# `filter()` rows
+
+.panelset[
+
+.panel[.panel-name[Syntax]
+
+.center[
+`filter(&lt;DATA&gt;, &lt;COND1&gt;, &lt;COND2&gt;, ...)`
+]
+
+Important to keep in mind:
+
+- Conditions are operations that return `TRUE`
+- If the condition returns some missing values (`NA`), these are removed.
+- The comma is equivalent to an AND (`&amp;`) condition.
+
+]
+
+.panel[.panel-name[Logical comparisons]
+
+&lt;br/&gt;
+
+| Condition | Reads |
+|----------|-------|
+| `x &gt; y`  | `x` is greater than `y` |
+| `x &gt;= y` | `x` is greater or equal to `y` |
+| `x == 3` | `x` is equal to 3 |
+| `x %in% c(2, 8)` | `x` is either 2 or 8 |
+| `x &gt; y &amp; x &lt; z` | `x` is greater than `y` AND smaller than `z` |
+| &lt;code&gt;x &gt; y &amp;#124; x &lt; z&lt;/code&gt; | `x` is greater than `y` OR smaller than `z` |
+
+&lt;!-- https://stackoverflow.com/a/17320389/14115463 --&gt;
+
+]
+
+.panel[.panel-name[Examples]
+
+
+
+```r
+# Keep only rows for France
+filter(air_pol, REG_ID == "FRA")
+
+# Get the region with the lowest level of air pollution
+filter(air_pol, ObsValue == min(ObsValue))
+
+# What was the level of PM2.5 in Colombia in 2000?
+filter(air_pol, TIME == "2000" &amp; REG_ID == "COL")
+filter(air_pol, TIME == "2000", REG_ID == "COL") # mind the comma!
+```
+
+]
+]
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# `mutate()` and `summarise()`
+
+.panelset[
+
+.panel[.panel-name[`mutate()`]
+
+.center[
+`mutate(&lt;DATA&gt;, &lt;NEW_OR_UPDATED_COLUMN&gt; = &lt;OPERATIONS ON OTHER COLUMNS&gt;, ...)`
+]
+
+Mutate can be used to update existing columns:
+
+
+```r
+mutate(air_pol, pm_rounded = round(as.numeric(ObsValue), 2))
+```
+
+Or to create new ones:
+
+
+```r
+mutate(air_pol, ObsValue = round(as.numeric(ObsValue), 2))
+```
+
+]
+
+.panel[.panel-name[`summarise()`]
+
+.center[
+`summarise(&lt;DATA&gt;, &lt;SUMMARISED_COLUMN&gt; = &lt;SUMMARY OPERATIONS ON OTHER COLUMNS&gt;, ...)`
+]
+
+
+]
+]
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Main `dplyr` verbs
+### `summarise()`
+
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Main `dplyr` verbs
+### `group_by()`
+
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/magrittr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# _Piping_ operations
+
+Magrittr pipe, example DIME, advanced notation, base R pipe.
+
+---
+class: inverse, bottom, left
+background-image: url(img/gradient-background.png)
+background-size: cover
+
+# Annex
+
+---
+
+# To read data from our internal data bases
+
+- [OECD Database](https://algobank.oecd.org:4430/territorial-stats-unit/technical-docs/-/blob/main/accessing-dotstat-data.md)
+- [Spatial data from the PostGIS Database](https://algobank.oecd.org:4430/gis-community-of-practise/oecd-gis-technical-docs/-/blob/master/r-and-postgis.md)
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": ["r", "css", "yaml"],
+"countIncrementalSlides": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
