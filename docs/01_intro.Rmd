@@ -258,10 +258,9 @@ background-size: `r params$background_size`
 
 `readr` is useful to read (and write) rectangular data from (to) flat text files.
 
-.panelset[
+.panelset.sideways[
 
-.panel[
-.panel-name[Syntax]
+.panel[.panel-name[Tabular data]
 
 ```{r, include = FALSE}
 library(readr)
@@ -276,7 +275,6 @@ Lumaco,1,2021-09-08
 "
 ```
 
-.pull-left[
 
 `defunciones.csv` in a text editor:
 
@@ -288,7 +286,8 @@ cat(paste0(
 ```
 
 ]
-.pull-right[
+
+.panel[.panel-name[Syntax]
 
 In `r icons::fontawesome("r-project")` :
 
@@ -306,7 +305,6 @@ read_csv("defunciones.csv")
 #> 6 Lumaco                  1 2021-09-08
 ```
 
-]
 ]
 
 .panel[.panel-name[Functions]
@@ -601,7 +599,7 @@ background-size: `r params$background_size`
 
 # `select()` columns
 
-.panelset[
+.panelset.sideways[
 
 .panel[.panel-name[Syntax]
 
@@ -647,7 +645,7 @@ background-size: `r params$background_size`
 
 # `rename()` columns
 
-.panelset[
+.panelset.sideways[
 .panel[.panel-name[Syntax]
 
 .center[`rename(<DATA>, <NEWNAME> = <0LDNAME>, ...)`]
@@ -672,7 +670,7 @@ background-size: `r params$background_size`
 
 # `filter()` rows
 
-.panelset[
+.panelset.sideways[
 
 .panel[.panel-name[Syntax]
 
@@ -730,7 +728,7 @@ background-size: `r params$background_size`
 
 # `mutate()` and `summarise()`
 
-.panelset[
+.panelset.sideways[
 
 .panel[.panel-name[`mutate()`]
 
