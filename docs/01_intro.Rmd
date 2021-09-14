@@ -790,6 +790,22 @@ background-size: `r params$background_size`
 Magrittr pipe, example DIME, advanced notation, base R pipe.
 
 ---
+class:inverse, bottom, left
+
+# Wrap up demo
+
+---
+# Preparing data for an OECD report
+
+.center[
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("https://www.oecd-ilibrary.org/sites/959d5ba0-en/images/images/02-chapter2/emf/g2-11.png")
+```
+]
+
+`r emoji("pencil")` .footnote[[Go to code](https://rstudio.cloud/project/2876071)]
+
+---
 class: inverse, bottom, left
 background-image: url(`r params$png_background`)
 background-size: cover
