@@ -8,8 +8,8 @@ params:
   module: "1"
   url_slides:  ""
   url_project: ""
-  url_teams: ""
-  url_github: ""
+  url_teams: "https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c"
+  url_github: "https://github.com/mpaulacaldas/cfe-r-training"
   png_background: "img/gradient-background.png"
 output:
   xaringan::moon_reader:
@@ -68,6 +68,27 @@ class: middle
 
 [Github repository](`r params$url_github`), for later reference
 
+---
+class: middle
+
+# Housekeeping matters
+
+`r emoji("woman_raising_hand")` During the session, ask questions in the chat 
+or raise your hand
+
+`r emoji("camera")` Sessions are recorded. Remember to turn off your camera if 
+its your preference
+
+`r emoji("speech_balloon")` After the session, post follow-up questions, 
+comments or reactions in the [Teams space](`r params$url_teams`)
+
+`r emoji("pencil")` If you are going through these slides on your own, type `p` 
+to see the presenter notes
+
+???
+
+The presenter notes are where you might also find OECD or CFE specific 
+information.
 
 ---
 # A regular slide
