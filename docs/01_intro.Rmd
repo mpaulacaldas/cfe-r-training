@@ -8,6 +8,7 @@ params:
   module: "1"
   url_slides:  "https://mpaulacaldas.github.io/cfe-r-training/01_intro.html"
   url_project: "https://rstudio.cloud/project/2864232"
+  url_demo: "https://rstudio.cloud/project/2876071"
   url_teams: "https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c"
   url_github: "https://github.com/mpaulacaldas/cfe-r-training"
   png_background: "img/gradient-background.png"
@@ -555,6 +556,16 @@ countdown::countdown(minutes = 5, top = 0)
 
 Prepare yourself for some show-and-tell after the 5 minutes are over. Volunteers are welcome!
 
+---
+class: inverse, bottom, left
+background-image: url(https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80)
+background-size: cover
+
+# Break
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 10, top = 0)
+```
 
 ---
 class: inverse, bottom, left
@@ -586,9 +597,9 @@ background-image: url(`r url_tidyverse_logo("dplyr")`)
 background-position: `r params$background_position`
 background-size: `r params$background_size`
 
-# Main `dplyr` verbs
+## Air pollution in PM2.5
 
-For the demonstrations, we will be using data from DOTSTAT, on air pollution:
+Average level in µg/m³ experienced by the population
 
 ```{r, cache=TRUE}
 (air_pol <- tibble(readsdmx::read_sdmx(
@@ -617,8 +628,7 @@ select(air_pol, REG_ID, TIME, ObsValue)
 
 .panel[.panel-name[Selection helpers]
 
-
-`select()` is often used with __selection helpers__, documented in `?tidyselect::language`.
+`select()` is most useful when used with __selection helpers__, as documented in `?tidyselect::language`.
 
 .pull-left[
 ```{r}
@@ -628,19 +638,28 @@ select(air_pol, REG_ID:TL)
 
 .pull-right[
 ```{r}
-select(air_pol,  REG_ID, starts_with("T"))
+select(air_pol, REG_ID, 
+       starts_with("T"))
 ```
 ]
 
 ]
 
 .panel[.panel-name[Extension]
+
+Columns can be renamed also during selection:
+
 ```{r}
 select(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
 ```
 ]
 
 ]
+
+???
+
+select() is often used with a special set of functions known as "selection helpers". These are useful when you want to select many columns based on their names, position, or some conditions. 
+
 
 ---
 background-image: url(`r url_tidyverse_logo("dplyr")`)
@@ -660,6 +679,9 @@ rename(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
 ]
 
 .panel[.panel-name[Extension]
+
+`rename_with()` is useful to rename many columns at once using a function.
+
 ```{r}
 rename_with(air_pol, tolower)
 ```
@@ -682,17 +704,17 @@ background-size: `r params$background_size`
 `filter(<DATA>, <COND1>, <COND2>, ...)`
 ]
 
-Important to keep in mind:
+<br/>
 
-- Conditions are operations that return `TRUE`
-- If the condition returns some missing values (`NA`), these are removed.
+- `filter()` returns a table with the rows where the condition returns `TRUE`
+
+- Rows where the condition returns missing values (`NA`) are removed.
+
 - The comma is equivalent to an AND (`&`) condition.
 
 ]
 
 .panel[.panel-name[Logical comparisons]
-
-<br/>
 
 | Condition | Reads |
 |----------|-------|
@@ -730,36 +752,71 @@ background-image: url(`r url_tidyverse_logo("dplyr")`)
 background-position: `r params$background_position`
 background-size: `r params$background_size`
 
-# `mutate()` and `summarise()`
+# `mutate()`
 
 .panelset.sideways[
 
-.panel[.panel-name[`mutate()`]
+.panel[.panel-name[Syntax]
 
 .center[
 `mutate(<DATA>, <NEW_OR_UPDATED_COLUMN> = <OPERATIONS ON OTHER COLUMNS>, ...)`
 ]
 
-Mutate can be used to update existing columns:
+<br/>
 
-```{r, eval = FALSE}
-mutate(air_pol, pm_rounded = round(as.numeric(ObsValue), 2))
-```
+- To update existing columns
 
-Or to create new ones:
-
-```{r, eval = FALSE}
-mutate(air_pol, ObsValue = round(as.numeric(ObsValue), 2))
-```
+- Create new ones
 
 ]
 
-.panel[.panel-name[`summarise()`]
+.panel[.panel-name[Example]
+
+```{r}
+mutate(
+  air_pol, 
+  ObsValue = as.numeric(ObsValue), # columns where originally character
+  pm_rounded = round(ObsValue, 2)  # new column, at the end
+  )
+```
+
+]
+]
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# `summarise()`
+
+.panelset.sideways[
+
+.panel[.panel-name[Syntax]
 
 .center[
 `summarise(<DATA>, <SUMMARISED_COLUMN> = <SUMMARY OPERATIONS ON OTHER COLUMNS>, ...)`
 ]
 
+<br/>
+
+- Summarise information from a column according to a function.
+
+]
+
+.panel[.panel-name[Example]
+
+```{r}
+summarise(
+  air_pol,
+  n_obs = n(),
+  n_regions = n_distinct(REG_ID),
+  min_value = min(ObsValue),
+  max_value = max(ObsValue),
+  min_year = min(TIME), 
+  max_year = max(TIME)
+  )
+```
 
 ]
 ]
@@ -769,8 +826,298 @@ background-image: url(`r url_tidyverse_logo("dplyr")`)
 background-position: `r params$background_position`
 background-size: `r params$background_size`
 
-# Main `dplyr` verbs
-### `summarise()`
+#  `group_by()`
+
+.panelset.sideways[
+
+.panel[.panel-name[Syntax]
+
+.center[
+`group_by(<DATA>, <COLUMN1>, <COLUMN2>, ...)`
+]
+
+<br/>
+
+`group_by()` is used to perform operations by groups. It alters the default behaviour of:
+
+- `filter()`
+- `mutate()`
+- `summarise()`
+]
+
+.panel[.panel-name[Example]
+
+```{r}
+air_pol_grouped <- group_by(air_pol, REG_ID, TL)
+air_pol_grouped
+```
+
+]
+
+.panel[.panel-name[with `filter()`]
+
+```{r}
+filter(air_pol_grouped, ObsValue == max(ObsValue))
+```
+
+]
+
+.panel[.panel-name[with `mutate()`]
+
+```{r}
+mutate(air_pol_grouped, ObsValue = max(ObsValue))
+```
+
+]
+
+.panel[.panel-name[with `summarise()`]
+
+```{r}
+summarise(air_pol_grouped, ObsValue = max(ObsValue))
+```
+
+]
+
+.panel[.panel-name[`ungroup()`]
+
+It's good practice to ungroup the data once you no longer need the grouping.
+
+```{r}
+ungroup(air_pol_grouped)
+```
+
+
+]
+
+]
+
+???
+
+When working with grouped data, it's important to keep an eye on those first two lines that are printed in the console.
+
+For historical reasons, summarise drops by default the last variable of the grouping. This behaviour can be changed with the .groups argument of summarise().
+
+---
+background-image: url(`r url_tidyverse_logo("magrittr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# _Piping_ operations with `%>%`
+
+_Piping_ helps chain together operations and improves code readability.
+
+.panelset[
+
+.panel[.panel-name[In theory]
+
+.pull-left[
+
+#### Not great
+
+```{r, eval = FALSE}
+g(f(x, y), z)
+```
+
+#### Better
+
+```{r, eval = FALSE}
+x_y <- f(x, y)
+g(x_y, z)
+```
+
+]
+
+.pull-right[
+
+#### Best
+
+```{r, eval = FALSE}
+x %>% 
+  f(y) %>% 
+  g(z)
+```
+
+]
+
+]
+
+.panel[.panel-name[In practice]
+
+`r emoji("woman_raising_hand")` What question do you think we are trying to answer with this code?
+
+.pull-left[
+
+```{r piped, eval = FALSE}
+air_pol %>% 
+  filter(TL == "1") %>% 
+  group_by(TIME) %>% 
+  filter(ObsValue == max(as.numeric(ObsValue))) %>% 
+  ungroup() %>% 
+  arrange(desc(TIME)) %>% 
+  select(REG_ID, TIME) %>% 
+  filter(row_number() < 10)
+```
+]
+
+.pull-right[
+
+```{r, ref.label="piped", eval=TRUE, echo = FALSE}
+```
+
+]
+
+]
+
+]
+
+
+---
+class: exercise
+
+# `r emoji("pencil")` Let's play with some data
+
+<br/>
+
+Go to the [RStudio Cloud project](`r params$url_project`), open and follow the instructions in the `wrangle.R` script.
+
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, top = 0)
+```
+
+Prepare yourself for some show-and-tell after the 5 minutes are over. Volunteers are welcome!
+
+---
+background-image: url(`r url_tidyverse_logo("dplyr")`)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+
+# Joining tables
+
+.panelset.sideways[
+
+.panel[.panel-name[Functions]
+
+__Mutating joins__, that add new variables to a table depending on the contents of another one.
+
+- `left_join()`
+- `right_join()`
+- `full_join()`
+- `inner_join()`
+
+__Filtering joins__, that filter rows in a table depending on the contents of another one.
+
+- `semi_join()`
+- `anti_join()`
+
+]
+
+.panel[.panel-name[Syntax]
+
+The syntax for all the join functions goes like:
+
+```
+<TYPE>_join(
+  <LEFT_HAND_TABLE>, <RIGHT_HAND_TABLE>,
+  by = c("<COMMON_VAR1>", "<COMMON_VAR2>", ...)
+)
+```
+
+For the next examples, let's assume we have two tables:
+
+.pull-left[
+```{r x_join}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3"
+)
+```
+]
+.pull-right[
+```{r y_join}
+y <- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     4, "y3"
+)
+```
+
+]
+
+]
+
+.panel[.panel-name[`left_join()`]
+
+.pull-left[
+```{r, ref.label="x_join", echo = TRUE, eval = FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="y_join", echo = TRUE, eval = FALSE}
+```
+]
+
+.left[
+```{r}
+left_join(x, y, by = "key")
+```
+]
+
+]
+
+.panel[.panel-name[`inner_join()`]
+
+.pull-left[
+```{r, ref.label="x_join", echo = TRUE, eval = FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="y_join", echo = TRUE, eval = FALSE}
+```
+
+]
+
+.left[
+```{r}
+inner_join(x, y, by = "key")
+```
+]
+
+]
+
+.panel[.panel-name[`anti_join()`]
+
+.pull-left[
+```{r, ref.label="x_join", echo = TRUE, eval = FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="y_join", echo = TRUE, eval = FALSE}
+```
+
+]
+.left[
+```{r}
+anti_join(x, y, by = "key")
+```
+]
+
+]
+
+]
+
+???
+
+Joins are how we merge or combine relational tables in R. i.e. tables that share common IDs, or keys.
+
+Left join is the most common mutating join. It preserves all the rows from the left-hand table, and adds new columns with information from the right-hand table.
+
+Inner join is also a very useful join. It returns an intersection: only the rows from the left-hand table that have a match in the right-hand table.
+
+Anti join is the most useful filtering join. It preserves all the rows from the left-hand table that do not have a match in the "right-hand" table.
 
 
 ---
@@ -778,18 +1125,70 @@ background-image: url(`r url_tidyverse_logo("dplyr")`)
 background-position: `r params$background_position`
 background-size: `r params$background_size`
 
-# Main `dplyr` verbs
-### `group_by()`
+# Binding tables
+
+.panelset[
+
+.panel[.panel-name[`r emoji("white_check_mark")` `bind_rows()`]
+
+.pull-left[
+```{r}
+u <- tribble(
+  ~num, ~val,
+     1, "u1",
+     2, "u2",
+     3, "u3"
+)
+
+w <- tribble(
+  ~num, ~val,
+     1, "w1",
+     2, "w2",
+     4, "w3"
+)
+```
+
+]
+
+.pull-right[
+```{r}
+bind_rows(u, w)
+```
+]
+
+
+]
+
+.panel[.panel-name[`r emoji("warning")` `bind_cols()`]
+
+
+```{r}
+bind_cols(u, w)
+```
+
+]
+
+]
+
+???
+
+Binding rows is equivalent to what Stata users call "append". We take two tables and stack them on top of each other.
+
+You should be careful with bind_cols(). There is barely ever a need for it. In general, what you would want in this case is an append.
 
 
 ---
-background-image: url(https://raw.githubusercontent.com/tidyverse/magrittr/master/man/figures/logo.png)
-background-position: `r params$background_position`
-background-size: `r params$background_size`
+class: exercise
 
-# _Piping_ operations
+# `r emoji("pencil")` Last round!
 
-Magrittr pipe, example DIME, advanced notation, base R pipe.
+<br/>
+
+Go to the [RStudio Cloud project](`r params$url_project`), open and follow the instructions in the `join-and-bind.R` script.
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, top = 0)
+```
 
 ---
 class: inverse, bottom, left
@@ -800,8 +1199,51 @@ background-size: cover
 
 ---
 
-# To read data from our internal data bases
+# To learn more
+
+.pull-left[
+
+<https://r4ds.had.co.nz/>
+
+
+[Chapter 5](https://r4ds.had.co.nz/transform.html) and [Part II - Wrangle](https://r4ds.had.co.nz/wrangle-intro.html)
+]
+
+.pull-right[
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png")
+```
+]
+
+
+---
+
+# More on reading data
+
+Information on how to connect to our internal tools is in the Algobank, provided by Claire Hoffmann (CFE/EDS):
 
 - [OECD Database](https://algobank.oecd.org:4430/territorial-stats-unit/technical-docs/-/blob/main/accessing-dotstat-data.md)
 - [Spatial data from the PostGIS Database](https://algobank.oecd.org:4430/gis-community-of-practise/oecd-gis-technical-docs/-/blob/master/r-and-postgis.md)
 
+Other import packages that we did not cover:
+
+- [`readsdmx`](https://github.com/mdequeljoe/readsdmx): Created by Matthew de Queljoe (ECO).
+- [`arrow`](https://arrow.apache.org/docs/r/): To save large data in `parquet` format. Highly compressed format optimised for out-of-memory queries. 
+- [`sf`](https://r-spatial.github.io/sf/) and [`stars`](https://r-spatial.github.io/stars/) for vector and raster data.
+
+---
+
+# More on data manipulation
+
+There are many useful `dplyr` functions that we did not cover today:
+
+- `count()`
+- `distinct()`
+- `across()`
+
+For some examples, see in their documentation or the vignettes. 
+
+- Online: <https://dplyr.tidyverse.org/>
+- In R: 
+    - For the documentation of a function, see `?function_name` or `help("function_name")`
+    - Use `vignette(package = "dplyr")` to see the available vignettes, and `vignette("name-of-the-vignette")` to navigate to a specific one.
