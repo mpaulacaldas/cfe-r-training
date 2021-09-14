@@ -1,6 +1,6 @@
 # CFE R Training
 
-### Sep-Oct 2021
+### September 2021
 
 by [María Paula Caldas](mailto:mariapaula.caldas@oecd.org) and [Jolien Noels](mailto:jolien.noels@oecd.org)
 
@@ -18,10 +18,10 @@ by [María Paula Caldas](mailto:mariapaula.caldas@oecd.org) and [Jolien Noels](m
 
 <!---
 
-| 2021-10-23 | [Data visualisation][02_dataviz]                         |
-| 2021-10-30 | [Programming with R][03_programming]                     |
-| 2021-11-07 | [Reproducible reports with RMarkdown][04_rmarkdown]      |
-| 2021-11-13 | [Good practice and workflow with R][05_goodpractice]     |
+| 2021-09-23 | [Data visualisation][02_dataviz]                         |
+| 2021-09-30 | [Programming with R][03_programming]                     |
+| 2021-10-07 | [Reproducible reports with RMarkdown][04_rmarkdown]      |
+| 2021-10-13 | [Good practice and workflow with R][05_goodpractice]     |
 
 --->
 
