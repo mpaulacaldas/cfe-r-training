@@ -153,7 +153,9 @@ class: exercise
 
 &lt;br/&gt;
 
-1. Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232) and __TODO: Need input from Jolien for the steps__.
+1. Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232). On the top-right corner you will see a red, flashing sign that reads "TEMPORARY COPY". Click on the button in the right that reads __"Save a Permanent Copy"__.
+
+    &lt;img src="img/save-permanent-copy.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 1. Try do some simple math operations in the __Console__. Press `Enter` to execute the code.
 
@@ -161,7 +163,7 @@ class: exercise
 the instructions that appear there.
 
 
-<div class="countdown" id="timer_614054f9" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_6140c074" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -232,14 +234,12 @@ background-size: 100px
 
 `readr` is useful to read (and write) rectangular data from (to) flat text files.
 
-.panelset[
+.panelset.sideways[
 
-.panel[
-.panel-name[Syntax]
-
+.panel[.panel-name[Tabular data]
 
 
-.pull-left[
+
 
 `defunciones.csv` in a text editor:
 
@@ -256,7 +256,8 @@ Lumaco,1,2021-09-08
 ```
 
 ]
-.pull-right[
+
+.panel[.panel-name[Syntax]
 
 In &lt;svg viewBox="0 0 581 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"&gt;&lt;/path&gt;&lt;/svg&gt; :
 
@@ -275,7 +276,6 @@ read_csv("defunciones.csv")
 #&gt; 6 Lumaco                  1 2021-09-08
 ```
 
-]
 ]
 
 .panel[.panel-name[Functions]
@@ -509,12 +509,22 @@ class: exercise
 Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232), open and follow the instructions in the `import.R` script.
 
 
-<div class="countdown" id="timer_61405534" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_6140c050" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
 Prepare yourself for some show-and-tell after the 5 minutes are over. Volunteers are welcome!
 
+---
+class: inverse, bottom, left
+background-image: url(https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80)
+background-size: cover
+
+# Break
+
+<div class="countdown" id="timer_6140c0eb" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 ---
 class: inverse, bottom, left
@@ -546,9 +556,9 @@ background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/m
 background-position: 1050px 20px
 background-size: 100px
 
-# Main `dplyr` verbs
+## Air pollution in PM2.5
 
-For the demonstrations, we will be using data from DOTSTAT, on air pollution:
+Average level in µg/m³ experienced by the population
 
 
 ```r
@@ -578,7 +588,7 @@ background-size: 100px
 
 # `select()` columns
 
-.panelset[
+.panelset.sideways[
 
 .panel[.panel-name[Syntax]
 
@@ -607,8 +617,7 @@ select(air_pol, REG_ID, TIME, ObsValue)
 
 .panel[.panel-name[Selection helpers]
 
-
-`select()` is often used with __selection helpers__, documented in `?tidyselect::language`.
+`select()` is most useful when used with __selection helpers__, as documented in `?tidyselect::language`.
 
 .pull-left[
 
@@ -634,7 +643,8 @@ select(air_pol, REG_ID:TL)
 .pull-right[
 
 ```r
-select(air_pol,  REG_ID, starts_with("T"))
+select(air_pol, REG_ID, 
+       starts_with("T"))
 #&gt; # A tibble: 9,480 x 3
 #&gt;    REG_ID TIME  TL   
 #&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
@@ -655,6 +665,9 @@ select(air_pol,  REG_ID, starts_with("T"))
 ]
 
 .panel[.panel-name[Extension]
+
+Columns can be renamed also during selection:
+
 
 ```r
 select(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
@@ -677,6 +690,11 @@ select(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
 
 ]
 
+???
+
+select() is often used with a special set of functions known as "selection helpers". These are useful when you want to select many columns based on their names, position, or some conditions. 
+
+
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
 background-position: 1050px 20px
@@ -684,7 +702,7 @@ background-size: 100px
 
 # `rename()` columns
 
-.panelset[
+.panelset.sideways[
 .panel[.panel-name[Syntax]
 
 .center[`rename(&lt;DATA&gt;, &lt;NEWNAME&gt; = &lt;0LDNAME&gt;, ...)`]
@@ -710,6 +728,9 @@ rename(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
 ]
 
 .panel[.panel-name[Extension]
+
+`rename_with()` is useful to rename many columns at once using a function.
+
 
 ```r
 rename_with(air_pol, tolower)
@@ -739,7 +760,7 @@ background-size: 100px
 
 # `filter()` rows
 
-.panelset[
+.panelset.sideways[
 
 .panel[.panel-name[Syntax]
 
@@ -747,17 +768,17 @@ background-size: 100px
 `filter(&lt;DATA&gt;, &lt;COND1&gt;, &lt;COND2&gt;, ...)`
 ]
 
-Important to keep in mind:
+&lt;br/&gt;
 
-- Conditions are operations that return `TRUE`
-- If the condition returns some missing values (`NA`), these are removed.
+- `filter()` returns a table with the rows where the condition returns `TRUE`
+
+- Rows where the condition returns missing values (`NA`) are removed.
+
 - The comma is equivalent to an AND (`&amp;`) condition.
 
 ]
 
 .panel[.panel-name[Logical comparisons]
-
-&lt;br/&gt;
 
 | Condition | Reads |
 |----------|-------|
@@ -796,38 +817,91 @@ background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/m
 background-position: 1050px 20px
 background-size: 100px
 
-# `mutate()` and `summarise()`
+# `mutate()`
 
-.panelset[
+.panelset.sideways[
 
-.panel[.panel-name[`mutate()`]
+.panel[.panel-name[Syntax]
 
 .center[
 `mutate(&lt;DATA&gt;, &lt;NEW_OR_UPDATED_COLUMN&gt; = &lt;OPERATIONS ON OTHER COLUMNS&gt;, ...)`
 ]
 
-Mutate can be used to update existing columns:
+&lt;br/&gt;
 
+- To update existing columns
 
-```r
-mutate(air_pol, pm_rounded = round(as.numeric(ObsValue), 2))
-```
-
-Or to create new ones:
-
-
-```r
-mutate(air_pol, ObsValue = round(as.numeric(ObsValue), 2))
-```
+- Create new ones
 
 ]
 
-.panel[.panel-name[`summarise()`]
+.panel[.panel-name[Example]
+
+
+```r
+mutate(
+  air_pol, 
+  ObsValue = as.numeric(ObsValue), # columns where originally character
+  pm_rounded = round(ObsValue, 2)  # new column, at the end
+  )
+#&gt; # A tibble: 9,480 x 9
+#&gt;    OBS_STATUS ObsValue POS   POWERCODE REG_ID TIME  TL    VAR     pm_rounded
+#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;
+#&gt;  1 &lt;NA&gt;           3.88 ALL   0         AUS    2003  1     AIR_POL       3.88
+#&gt;  2 &lt;NA&gt;           3.30 ALL   0         AUS    2006  1     AIR_POL       3.3 
+#&gt;  3 &lt;NA&gt;           3.59 ALL   0         AUS    2009  1     AIR_POL       3.59
+#&gt;  4 &lt;NA&gt;           7    ALL   0         AUS    2012  1     AIR_POL       7   
+#&gt;  5 &lt;NA&gt;           4.74 ALL   0         AU1    2003  2     AIR_POL       4.74
+#&gt;  6 &lt;NA&gt;           3.28 ALL   0         AU1    2006  2     AIR_POL       3.28
+#&gt;  7 &lt;NA&gt;           3.44 ALL   0         AU1    2009  2     AIR_POL       3.44
+#&gt;  8 &lt;NA&gt;           7.08 ALL   0         AU1    2012  2     AIR_POL       7.08
+#&gt;  9 &lt;NA&gt;           4.32 ALL   0         AU2    2003  2     AIR_POL       4.32
+#&gt; 10 &lt;NA&gt;           4.14 ALL   0         AU2    2006  2     AIR_POL       4.14
+#&gt; # ... with 9,470 more rows
+```
+
+]
+]
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# `summarise()`
+
+.panelset.sideways[
+
+.panel[.panel-name[Syntax]
 
 .center[
 `summarise(&lt;DATA&gt;, &lt;SUMMARISED_COLUMN&gt; = &lt;SUMMARY OPERATIONS ON OTHER COLUMNS&gt;, ...)`
 ]
 
+&lt;br/&gt;
+
+- Summarise information from a column according to a function.
+
+]
+
+.panel[.panel-name[Example]
+
+
+```r
+summarise(
+  air_pol,
+  n_obs = n(),
+  n_regions = n_distinct(REG_ID),
+  min_value = min(ObsValue),
+  max_value = max(ObsValue),
+  min_year = min(TIME), 
+  max_year = max(TIME)
+  )
+#&gt; # A tibble: 1 x 6
+#&gt;   n_obs n_regions min_value max_value min_year max_year
+#&gt;   &lt;int&gt;     &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   
+#&gt; 1  9480       710 1.01      95.751    1990     2019
+```
 
 ]
 ]
@@ -837,27 +911,551 @@ background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/m
 background-position: 1050px 20px
 background-size: 100px
 
-# Main `dplyr` verbs
-### `summarise()`
+#  `group_by()`
+
+.panelset.sideways[
+
+.panel[.panel-name[Syntax]
+
+.center[
+`group_by(&lt;DATA&gt;, &lt;COLUMN1&gt;, &lt;COLUMN2&gt;, ...)`
+]
+
+&lt;br/&gt;
+
+`group_by()` is used to perform operations by groups. It alters the default behaviour of:
+
+- `filter()`
+- `mutate()`
+- `summarise()`
+]
+
+.panel[.panel-name[Example]
 
 
----
-background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
-background-position: 1050px 20px
-background-size: 100px
+```r
+air_pol_grouped &lt;- group_by(air_pol, REG_ID, TL)
+air_pol_grouped
+#&gt; # A tibble: 9,480 x 8
+#&gt; # Groups:   REG_ID, TL [710]
+#&gt;    OBS_STATUS ObsValue POS   POWERCODE REG_ID TIME  TL    VAR    
+#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       3.88     ALL   0         AUS    2003  1     AIR_POL
+#&gt;  2 &lt;NA&gt;       3.301    ALL   0         AUS    2006  1     AIR_POL
+#&gt;  3 &lt;NA&gt;       3.594    ALL   0         AUS    2009  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7        ALL   0         AUS    2012  1     AIR_POL
+#&gt;  5 &lt;NA&gt;       4.744    ALL   0         AU1    2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       3.277    ALL   0         AU1    2006  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       3.443    ALL   0         AU1    2009  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       7.08     ALL   0         AU1    2012  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       4.315    ALL   0         AU2    2003  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       4.142    ALL   0         AU2    2006  2     AIR_POL
+#&gt; # ... with 9,470 more rows
+```
 
-# Main `dplyr` verbs
-### `group_by()`
+]
 
+.panel[.panel-name[with `filter()`]
+
+
+```r
+filter(air_pol_grouped, ObsValue == max(ObsValue))
+#&gt; # A tibble: 719 x 8
+#&gt; # Groups:   REG_ID, TL [710]
+#&gt;    OBS_STATUS ObsValue POS   POWERCODE REG_ID TIME  TL    VAR    
+#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       22.492   ALL   0         AT11   2003  2     AIR_POL
+#&gt;  2 &lt;NA&gt;       20.003   ALL   0         AT21   2006  2     AIR_POL
+#&gt;  3 &lt;NA&gt;       9.91     ALL   0         CAN    2003  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7.772    ALL   0         ME18   2006  2     AIR_POL
+#&gt;  5 &lt;NA&gt;       9.061    ALL   0         ME20   2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       5.591    ALL   0         ME23   2003  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       7.386    ALL   0         ME25   2006  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       6.968    ALL   0         ME26   2009  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       9.459    ALL   0         ME27   2009  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       9.695    ALL   0         ME28   2006  2     AIR_POL
+#&gt; # ... with 709 more rows
+```
+
+]
+
+.panel[.panel-name[with `mutate()`]
+
+
+```r
+mutate(air_pol_grouped, ObsValue = max(ObsValue))
+#&gt; # A tibble: 9,480 x 8
+#&gt; # Groups:   REG_ID, TL [710]
+#&gt;    OBS_STATUS ObsValue POS   POWERCODE REG_ID TIME  TL    VAR    
+#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       7.62     ALL   0         AUS    2003  1     AIR_POL
+#&gt;  2 &lt;NA&gt;       7.62     ALL   0         AUS    2006  1     AIR_POL
+#&gt;  3 &lt;NA&gt;       7.62     ALL   0         AUS    2009  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7.62     ALL   0         AUS    2012  1     AIR_POL
+#&gt;  5 &lt;NA&gt;       7.5      ALL   0         AU1    2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       7.5      ALL   0         AU1    2006  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       7.5      ALL   0         AU1    2009  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       7.5      ALL   0         AU1    2012  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       8.52     ALL   0         AU2    2003  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       8.52     ALL   0         AU2    2006  2     AIR_POL
+#&gt; # ... with 9,470 more rows
+```
+
+]
+
+.panel[.panel-name[with `summarise()`]
+
+
+```r
+summarise(air_pol_grouped, ObsValue = max(ObsValue))
+#&gt; `summarise()` has grouped output by 'REG_ID'. You can override using the `.groups` argument.
+#&gt; # A tibble: 710 x 3
+#&gt; # Groups:   REG_ID [710]
+#&gt;    REG_ID TL    ObsValue
+#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   
+#&gt;  1 AT11   2     22.492  
+#&gt;  2 AT12   2     21.71   
+#&gt;  3 AT13   2     25.36   
+#&gt;  4 AT21   2     20.003  
+#&gt;  5 AT22   2     22.55   
+#&gt;  6 AT31   2     21.36   
+#&gt;  7 AT32   2     19.31   
+#&gt;  8 AT33   2     9.67    
+#&gt;  9 AT34   2     9.84    
+#&gt; 10 AU1    2     7.5     
+#&gt; # ... with 700 more rows
+```
+
+]
+
+.panel[.panel-name[`ungroup()`]
+
+It's good practice to ungroup the data once you no longer need the grouping.
+
+
+```r
+ungroup(air_pol_grouped)
+#&gt; # A tibble: 9,480 x 8
+#&gt;    OBS_STATUS ObsValue POS   POWERCODE REG_ID TIME  TL    VAR    
+#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       3.88     ALL   0         AUS    2003  1     AIR_POL
+#&gt;  2 &lt;NA&gt;       3.301    ALL   0         AUS    2006  1     AIR_POL
+#&gt;  3 &lt;NA&gt;       3.594    ALL   0         AUS    2009  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7        ALL   0         AUS    2012  1     AIR_POL
+#&gt;  5 &lt;NA&gt;       4.744    ALL   0         AU1    2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       3.277    ALL   0         AU1    2006  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       3.443    ALL   0         AU1    2009  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       7.08     ALL   0         AU1    2012  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       4.315    ALL   0         AU2    2003  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       4.142    ALL   0         AU2    2006  2     AIR_POL
+#&gt; # ... with 9,470 more rows
+```
+
+
+]
+
+]
+
+???
+
+When working with grouped data, it's important to keep an eye on those first two lines that are printed in the console.
+
+For historical reasons, summarise drops by default the last variable of the grouping. This behaviour can be changed with the .groups argument of summarise().
 
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/magrittr/master/man/figures/logo.png)
 background-position: 1050px 20px
 background-size: 100px
 
-# _Piping_ operations
+# _Piping_ operations with `%&gt;%`
 
-Magrittr pipe, example DIME, advanced notation, base R pipe.
+_Piping_ helps chain together operations and improves code readability.
+
+.panelset[
+
+.panel[.panel-name[In theory]
+
+.pull-left[
+
+#### Not great
+
+
+```r
+g(f(x, y), z)
+```
+
+#### Better
+
+
+```r
+x_y &lt;- f(x, y)
+g(x_y, z)
+```
+
+]
+
+.pull-right[
+
+#### Best
+
+
+```r
+x %&gt;% 
+  f(y) %&gt;% 
+  g(z)
+```
+
+]
+
+]
+
+.panel[.panel-name[In practice]
+
+🙋‍♀️&amp;nbsp; What question do you think we are trying to answer with this code?
+
+.pull-left[
+
+
+```r
+air_pol %&gt;% 
+  filter(TL == "1") %&gt;% 
+  group_by(TIME) %&gt;% 
+  filter(ObsValue == max(as.numeric(ObsValue))) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(desc(TIME)) %&gt;% 
+  select(REG_ID, TIME) %&gt;% 
+  filter(row_number() &lt; 10)
+```
+]
+
+.pull-right[
+
+
+```
+#&gt; # A tibble: 9 x 2
+#&gt;   REG_ID TIME 
+#&gt;   &lt;chr&gt;  &lt;chr&gt;
+#&gt; 1 KOR    2019 
+#&gt; 2 KOR    2018 
+#&gt; 3 TUR    2017 
+#&gt; 4 TUR    2016 
+#&gt; 5 IND    2015 
+#&gt; 6 TUR    2014 
+#&gt; 7 CHN    2013 
+#&gt; 8 CHN    2012 
+#&gt; 9 TUR    2011
+```
+
+]
+
+]
+
+]
+
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Let's play with some data
+
+&lt;br/&gt;
+
+Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232), open and follow the instructions in the `wrangle.R` script.
+
+
+<div class="countdown" id="timer_6140c107" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+Prepare yourself for some show-and-tell after the 5 minutes are over. Volunteers are welcome!
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Joining tables
+
+.panelset.sideways[
+
+.panel[.panel-name[Functions]
+
+__Mutating joins__, that add new variables to a table depending on the contents of another one.
+
+- `left_join()`
+- `right_join()`
+- `full_join()`
+- `inner_join()`
+
+__Filtering joins__, that filter rows in a table depending on the contents of another one.
+
+- `semi_join()`
+- `anti_join()`
+
+]
+
+.panel[.panel-name[Syntax]
+
+The syntax for all the join functions goes like:
+
+```
+&lt;TYPE&gt;_join(
+  &lt;LEFT_HAND_TABLE&gt;, &lt;RIGHT_HAND_TABLE&gt;,
+  by = c("&lt;COMMON_VAR1&gt;", "&lt;COMMON_VAR2&gt;", ...)
+)
+```
+
+For the next examples, let's assume we have two tables:
+
+.pull-left[
+
+```r
+x &lt;- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3"
+)
+```
+]
+.pull-right[
+
+```r
+y &lt;- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     4, "y3"
+)
+```
+
+]
+
+]
+
+.panel[.panel-name[`left_join()`]
+
+.pull-left[
+
+```r
+x &lt;- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3"
+)
+```
+]
+.pull-right[
+
+```r
+y &lt;- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     4, "y3"
+)
+```
+]
+
+.left[
+
+```r
+left_join(x, y, by = "key")
+#&gt; # A tibble: 3 x 3
+#&gt;     key val_x val_y
+#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+#&gt; 1     1 x1    y1   
+#&gt; 2     2 x2    y2   
+#&gt; 3     3 x3    &lt;NA&gt;
+```
+]
+
+]
+
+.panel[.panel-name[`inner_join()`]
+
+.pull-left[
+
+```r
+x &lt;- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3"
+)
+```
+]
+.pull-right[
+
+```r
+y &lt;- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     4, "y3"
+)
+```
+
+]
+
+.left[
+
+```r
+inner_join(x, y, by = "key")
+#&gt; # A tibble: 2 x 3
+#&gt;     key val_x val_y
+#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+#&gt; 1     1 x1    y1   
+#&gt; 2     2 x2    y2
+```
+]
+
+]
+
+.panel[.panel-name[`anti_join()`]
+
+.pull-left[
+
+```r
+x &lt;- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3"
+)
+```
+]
+.pull-right[
+
+```r
+y &lt;- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     4, "y3"
+)
+```
+
+]
+.left[
+
+```r
+anti_join(x, y, by = "key")
+#&gt; # A tibble: 1 x 2
+#&gt;     key val_x
+#&gt;   &lt;dbl&gt; &lt;chr&gt;
+#&gt; 1     3 x3
+```
+]
+
+]
+
+]
+
+???
+
+Joins are how we merge or combine relational tables in R. i.e. tables that share common IDs, or keys.
+
+Left join is the most common mutating join. It preserves all the rows from the left-hand table, and adds new columns with information from the right-hand table.
+
+Inner join is also a very useful join. It returns an intersection: only the rows from the left-hand table that have a match in the right-hand table.
+
+Anti join is the most useful filtering join. It preserves all the rows from the left-hand table that do not have a match in the "right-hand" table.
+
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Binding tables
+
+.panelset[
+
+.panel[.panel-name[✅&amp;nbsp; `bind_rows()`]
+
+.pull-left[
+
+```r
+u &lt;- tribble(
+  ~num, ~val,
+     1, "u1",
+     2, "u2",
+     3, "u3"
+)
+
+w &lt;- tribble(
+  ~num, ~val,
+     1, "w1",
+     2, "w2",
+     4, "w3"
+)
+```
+
+]
+
+.pull-right[
+
+```r
+bind_rows(u, w)
+#&gt; # A tibble: 6 x 2
+#&gt;     num val  
+#&gt;   &lt;dbl&gt; &lt;chr&gt;
+#&gt; 1     1 u1   
+#&gt; 2     2 u2   
+#&gt; 3     3 u3   
+#&gt; 4     1 w1   
+#&gt; 5     2 w2   
+#&gt; 6     4 w3
+```
+]
+
+
+]
+
+.panel[.panel-name[⚠️&amp;nbsp; `bind_cols()`]
+
+
+
+```r
+bind_cols(u, w)
+#&gt; New names:
+#&gt; * num -&gt; num...1
+#&gt; * val -&gt; val...2
+#&gt; * num -&gt; num...3
+#&gt; * val -&gt; val...4
+#&gt; # A tibble: 3 x 4
+#&gt;   num...1 val...2 num...3 val...4
+#&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt; 1       1 u1            1 w1     
+#&gt; 2       2 u2            2 w2     
+#&gt; 3       3 u3            4 w3
+```
+
+]
+
+]
+
+???
+
+Binding rows is equivalent to what Stata users call "append". We take two tables and stack them on top of each other.
+
+You should be careful with bind_cols(). There is barely ever a need for it. In general, what you would want in this case is an append.
+
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Last round!
+
+&lt;br/&gt;
+
+Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232), open and follow the instructions in the `join-and-bind.R` script.
+
+<div class="countdown" id="timer_6140bec0" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 ---
 class: inverse, bottom, left
@@ -868,11 +1466,52 @@ background-size: cover
 
 ---
 
-# To read data from our internal data bases
+# To learn more
+
+.pull-left[
+
+&lt;https://r4ds.had.co.nz/&gt;
+
+
+[Chapter 5](https://r4ds.had.co.nz/transform.html) and [Part II - Wrangle](https://r4ds.had.co.nz/wrangle-intro.html)
+]
+
+.pull-right[
+&lt;img src="https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png" width="60%" /&gt;
+]
+
+
+---
+
+# More on reading data
+
+Information on how to connect to our internal tools is in the Algobank, provided by Claire Hoffmann (CFE/EDS):
 
 - [OECD Database](https://algobank.oecd.org:4430/territorial-stats-unit/technical-docs/-/blob/main/accessing-dotstat-data.md)
 - [Spatial data from the PostGIS Database](https://algobank.oecd.org:4430/gis-community-of-practise/oecd-gis-technical-docs/-/blob/master/r-and-postgis.md)
 
+Other import packages that we did not cover:
+
+- [`readsdmx`](https://github.com/mdequeljoe/readsdmx): Created by Matthew de Queljoe (ECO).
+- [`arrow`](https://arrow.apache.org/docs/r/): To save large data in `parquet` format. Highly compressed format optimised for out-of-memory queries. 
+- [`sf`](https://r-spatial.github.io/sf/) and [`stars`](https://r-spatial.github.io/stars/) for vector and raster data.
+
+---
+
+# More on data manipulation
+
+There are many useful `dplyr` functions that we did not cover today:
+
+- `count()`
+- `distinct()`
+- `across()`
+
+For some examples, see in their documentation or the vignettes. 
+
+- Online: &lt;https://dplyr.tidyverse.org/&gt;
+- In R: 
+    - For the documentation of a function, see `?function_name` or `help("function_name")`
+    - Use `vignette(package = "dplyr")` to see the available vignettes, and `vignette("name-of-the-vignette")` to navigate to a specific one.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
