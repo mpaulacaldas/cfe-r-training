@@ -14,8 +14,8 @@ air_pol_raw <- tibble(readsdmx::read_sdmx(
 # friendly one. Here is a list of things we would like to change:
 #
 # - [x] Put all the variable names in lower case
-# - [ ] Create a 'year' column that takes the value of 'TIME', but in numeric, not
-# character format
+# - [ ] Create a 'year' column that takes the value of 'TIME', but in numeric,
+#       not character format
 # - [ ] Remove the 'OBS_STATUS' variable, if it has no information
 # - [ ] Remove the 'POWERCODE', 'POS' and 'VAR' columns
 
@@ -106,4 +106,3 @@ air_pol_ij <- air_pol_subset %>%
 # air_pol_lj and air_pol_ij are not exactly the same. Use anti_join() to do a
 # little exploration. What's the reason for the different number of rows?
 anti_join(..., ...)
-

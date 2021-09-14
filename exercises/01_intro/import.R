@@ -1,5 +1,5 @@
 # Before we start, re-start the R session! This will clear any data from memory
-# and detach any packages. Try with the shortcut is Ctrl + Shift + F10.
+# and detach any packages. The shortcut is Ctrl + Shift + F10.
 
 # These are the libraries we will use today. You need to load them to have
 # access to their functions. It's a convention to list them at the beginning of
