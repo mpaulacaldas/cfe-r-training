@@ -181,7 +181,11 @@ class: exercise
 
 <br/>
 
-1. Go to the [RStudio Cloud project](`r params$url_project`) and __TODO: Need input from Jolien for the steps__.
+1. Go to the [RStudio Cloud project](`r params$url_project`). On the top-right corner you will see a red, flashing sign that reads "TEMPORARY COPY". Click on the button in the right that reads __"Save a Permanent Copy"__.
+
+    ```{r, echo = FALSE, out.width="60%", fig.align = "center"}
+    knitr::include_graphics("img/save-permanent-copy.png")
+    ```
 
 1. Try do some simple math operations in the __Console__. Press `Enter` to execute the code.
 
