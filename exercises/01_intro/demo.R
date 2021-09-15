@@ -67,8 +67,7 @@ data_average <- data_checked %>%
 
 
 data_final <- data_average %>%
-  select(country, min, average, max) %>%
-  unique()
+  distinct(country, min, average, max)
 
 write_xlsx(data_final, "worker_productivity.xlsx")
 
