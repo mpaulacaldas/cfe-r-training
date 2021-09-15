@@ -3,9 +3,7 @@
 library(tidyverse)
 library(readsdmx)
 
-air_pol_raw <- tibble(readsdmx::read_sdmx(
-  "http://dotstat.oecd.org/restsdmx/sdmx.ashx/GetData/REGION_SOCIAL/1+2..AIR_POL.ALL./all?"
-  ))
+air_pol_raw <- read_rds("air_pol.rds")
 
 
 # Part 1 ------------------------------------------------------------------
