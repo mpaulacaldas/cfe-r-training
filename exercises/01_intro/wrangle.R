@@ -72,7 +72,7 @@ air_pol_subset <- air_pol_raw %>%
     )
 
 # Take a quick look at the columns in this table. You can use View(), print the
-# table from the Console or the Souce pane, or explore from the Environment
+# table from the Console or the Source pane, or explore from the Environment
 # pane.
 tl2 <- read_rds("tl2.rds")
 
