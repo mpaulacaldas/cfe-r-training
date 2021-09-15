@@ -14,30 +14,30 @@ library(writexl) # writing Excel files
 ## 1 Data ----------------------------------------------------------------------------------------------------------
 ## 2.1 Import ----------------------------------------------------------------------------------------------------------
 
-data <- read_csv("gva_per_worker.csv")
+data_raw <- read_csv("gva_per_worker.csv")
 
 # Alternative:
 # data <- readsdmx::read_sdmx("https://stats.oecd.org/restsdmx/sdmx.ashx/GetDataStructure/REGION_ECONOM")
 
 
 # Inspecting the data
-names(data) # overview of all variables in dataset
-head(data)
+names(data_raw) # overview of all variables in dataset
+head(data_raw)
 # Inspecting variables
-unique(data$MEAS)
+unique(data_raw$MEAS)
 
 
 ## 2.2 Manipulation ----------------------------------------------------------------------------------------------------------
 # It is more convenient to work with all lower cap variable names
-data <- data %>% 
+data_lower <- data_raw %>%
   rename_with(tolower)
 
 # Select variables we need - optional - makes it less cluttered when you view the data
-data <- data %>% 
+data_selected <- data_lower %>%
   select(reg_id, region, tl, var, meas, year, value)
 
 # Filter observations we want within variables
-data <- data %>% 
+data_filtered <- data_selected %>%
   filter(var == "GVA_IND_TOTAL",
          meas == "PW_REAL_PPP",
          year == "2018",
@@ -46,17 +46,17 @@ data <- data %>%
 # Create group variable for countries using reg_id
 # Once we learn how to join data, we can also use a file that has all descriptive stats about TL2 regions,
 # including the regional TL code, name, which country they belong to, etc.
-data <- data %>% 
+data_iso2 <- data_filtered %>%
   mutate(country = substr(reg_id, 1, 2))
 
 # Small data cleaning extra: take out "not regionalised" observations
-data <- data %>% 
-  mutate(check = substr(reg_id, 3, 4)) %>% 
+data_checked <- data_iso2 %>%
+  mutate(check = substr(reg_id, 3, 4)) %>%
   filter(check != "ZZ")
 
 # Calculate national average
-data <- data %>% 
-  group_by(country) %>% 
+data_average <- data_checked %>%
+  group_by(country) %>%
   mutate(average = mean(value),  # This is an unweighted mean. Later in the workshop we will learn how to merge data files and we can calculate a weighted mean using additional data on total employment
          max = max(value), 
          min = min(value)) %>% 
@@ -66,11 +66,11 @@ data <- data %>%
 ## 2.3 Saving the relevant data ----------------------------------------------------------------------------------------------------------
 
 
-data <- data %>% 
-  select(country, min, average, max) %>% 
+data_final <- data_average %>%
+  select(country, min, average, max) %>%
   unique()
 
-write_xlsx(data, "worker_productivity.xlsx")
+write_xlsx(data_final, "worker_productivity.xlsx")
 
 
 
