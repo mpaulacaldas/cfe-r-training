@@ -14,7 +14,17 @@ library(writexl) # writing Excel files
 ## 1 Data ----------------------------------------------------------------------------------------------------------
 ## 2.1 Import ----------------------------------------------------------------------------------------------------------
 
-data_raw <- read_csv("gva_per_worker.csv")
+data_raw <- read_csv(
+  "gva_per_worker.csv",
+  col_types = cols(
+    .default = col_character(),
+    TL = col_double(),
+    TIME = col_double(),
+    Year = col_double(),
+    `Reference Period` = col_double(),
+    Value = col_double()
+  )
+)
 
 # Alternative:
 # data <- readsdmx::read_sdmx("https://stats.oecd.org/restsdmx/sdmx.ashx/GetDataStructure/REGION_ECONOM")
