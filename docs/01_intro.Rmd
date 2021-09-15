@@ -971,7 +971,9 @@ air_pol %>%
 ]
 
 ---
-# Demo: Preparing data for an OECD report
+class: exercise
+
+## `r emoji("woman_technologist")` Demo: Preparing data for an OECD report
 
 .center[
 ```{r, echo = FALSE, out.width="80%"}
@@ -979,7 +981,8 @@ knitr::include_graphics("https://www.oecd-ilibrary.org/sites/959d5ba0-en/images/
 ```
 ]
 
-`r emoji("pencil")` Go to the [RStudio Cloud project](`r params$url_project`) and open the `demo.R` script to follow the code on how to prepare the data to make this figure.
+The code used in this demonstration is in the [RStudio Cloud project](`r params$url_project`).
+
 ---
 class: exercise
 
