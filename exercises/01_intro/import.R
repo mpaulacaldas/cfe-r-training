@@ -3,24 +3,20 @@
 
 # These are the libraries we will use today. You need to load them to have
 # access to their functions. It's a convention to list them at the beginning of
-# scripts. To run (i.e. execute) the lines, you can use the shortcut Ctrl +
-# Enter.
+# scripts. To execute the lines, you can use the shortcut Ctrl + Enter
 library(readr)
 library(readxl)
 
 
 # Read and view a dta file ------------------------------------------------
 
-# Oh no, why does this fail? Read the error message. What did we forget? How do
-# we fix it? (If you're stuck, scroll to the bottom of the script and see Hint
-# 1)
+# Why does this fail? Read the error message. What did we forget? If you're
+# stuck, scroll to the bottom of the script and see Hint 1
 colombia <- read_dta("births-colombia.dta")
 
 
 # Read a CSV from the web -------------------------------------------------
 
-# The Chilean Ministry of Science publishes scraped data from registered deaths.
-# The data is updated every hour. Let's store that URL in memory
 url_chile <- "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto32/Defunciones_std.csv"
 
 # Let's read the first few rows of the data
@@ -59,33 +55,30 @@ chile <- read_csv(
 
 # Read sheets from an Excel spreadsheet -----------------------------------
 
-# Germany publishes provisional vital statistics data in Excel spreadsheets.
-
 # Why does this fail?
 germany_fail <- read_excel("deaths-deu.xlsx")
 
-# Try reading the second sheet. Fill the path to the file. Here's a neat trick:
-# put the cursor inside the parentheses and press tab, navigate to the German
-# file with the up-and-down arrow keys, then press tab again.
+# Try reading the second sheet. Fill the path to the file between the "".
+#
+# Protip: place the cursor inside the "" and press tab, navigate to the
+# German file with the up-and-down arrow keys, then press tab again
 germany_sheet2 <- read_excel("", sheet = 2)
 
-# Inspect all the data with View() or by printing it to the Console. After you
-# are done inspecting, what argument would you have added to the code above to
-# get rid of the lines without a lot of information?
-...
+# Inspect the data with View() or by printing it to the Console. What argument
+# would you have added to the code above to get rid of the lines at the
+# beginning without a lot of information?
 
 # Let's see how many sheets the German spreasheet has.
 excel_sheets("")
 
 # Read the BL_2016_2021_Monate_AG_Ins sheet on your own. How many lines would
-# you skip? How would you inspect the final result?
+# you skip?
 ... <- ...(...)
 
 
 # Cheat with the IDE: tricky encodings ------------------------------------
 
-# Now we get to the Japanese data. Let's attempt a first read. Have a look at
-# the second column
+# Let's attempt a first read of the data. Have a look at the second column
 japan_gibberish <- read_csv("deaths-japan.csv", skip = 6)
 japan_gibberish
 View(japan_gibberish)
@@ -100,7 +93,7 @@ View(japan_gibberish)
 # Finish configuring the import, and copy the code preview below
 
 
-# Save some data ----------------------------------------------------------
+# Save data ---------------------------------------------------------------
 
 # Choose one of the datasets we saw today and save it to an RDS file
 ...(...)
