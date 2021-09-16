@@ -79,7 +79,7 @@ excel_sheets("")
 # Cheat with the IDE: tricky encodings ------------------------------------
 
 # Let's attempt a first read of the data. Have a look at the second column
-japan_gibberish <- read_csv("deaths-japan.csv", skip = 6)
+japan_gibberish <- read_csv("deaths-japan.csv", skip = 2)
 japan_gibberish
 View(japan_gibberish)
 

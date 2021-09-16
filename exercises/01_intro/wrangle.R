@@ -1,7 +1,6 @@
 # Let's tackle another exercise! As always, start by re-starting your R session
 
 library(tidyverse)
-library(readsdmx)
 
 air_pol_raw <- read_rds("air_pol.rds")
 
@@ -12,10 +11,10 @@ air_pol_raw <- read_rds("air_pol.rds")
 # friendly one. Here is a list of things we would like to change:
 #
 # - [x] Put all the variable names in lower case
+# - [ ] Remove the 'POWERCODE', 'POS' and 'VAR' columns
 # - [ ] Create a 'year' column that takes the value of 'TIME', but in numeric,
 #       not character format
 # - [ ] Remove the 'OBS_STATUS' variable, if it has no information
-# - [ ] Remove the 'POWERCODE', 'POS' and 'VAR' columns
 
 
 # Let me help you out with the first one
@@ -52,7 +51,6 @@ air_pol_final <- air_pol_raw %>%
   rename_with(tolower)
   select(...)
   ...(year = ...)
-  ...(...)
   ...(...)
 
 # This is the end of Part 1. Let's go back to the slides.
