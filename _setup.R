@@ -11,6 +11,8 @@ if (FALSE) {
 # what I installed in each RStudio Cloud project
 if (FALSE) {
   install.packages("tidyverse")
+  install.packages("writexl")
+  install.packages("readsdmx")
 }
 
 
