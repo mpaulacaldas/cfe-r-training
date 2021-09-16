@@ -4,3 +4,7 @@
 .Ruserdata
 README.html
 *_cache/
+*.rds
+*.xlsx
+*.csv
+*.dta
