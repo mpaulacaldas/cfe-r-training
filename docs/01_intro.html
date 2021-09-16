@@ -163,7 +163,7 @@ class: exercise
 the instructions that appear there.
 
 
-<div class="countdown" id="timer_61422f75" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_6142faf5" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -509,7 +509,7 @@ class: exercise
 Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232), open and follow the instructions in the `import.R` script.
 
 
-<div class="countdown" id="timer_61423136" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_6142f8f7" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -522,7 +522,7 @@ background-size: cover
 
 # Break
 
-<div class="countdown" id="timer_614230e9" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_6142f86c" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -540,8 +540,8 @@ background-size: 100px
 
 The main functions, or _verbs_ from `dplyr` are:
 
-- `select()`, to select columns.
 - `rename()`, to rename columns.
+- `select()`, to select columns.
 - `filter()`, to select rows.
 - `mutate()`, to create or modify columns.
 - `summarise()`, to summarise information from columns.
@@ -549,7 +549,11 @@ The main functions, or _verbs_ from `dplyr` are:
 The last three of these can be used with `group_by()` to do operations by groups of rows.
 
 ???
-dplyr is a package focused on data manipulation. In R circles, more often people use the term data _wrangling_.
+dplyr is a package focused on data manipulation. In R circles, more often people use the term "data wrangling".
+
+dplyr functions are often referred to as "dplyr verbs". They are verbs because they perform an action on a table. 
+
+All dplyr verbs take a table as input and return a table as output. In the next slides, we explore the syntax of each verb one by one.
 
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
@@ -581,12 +585,80 @@ Average level in µg/m³ experienced by the population
 #&gt; # ... with 9,470 more rows
 ```
 
+???
+This is the data that we will use in our next examples. It comes from DOTSTAT.
+
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
 background-position: 1050px 20px
 background-size: 100px
 
-# `select()` columns
+# `rename()`
+
+.panelset.sideways[
+.panel[.panel-name[Syntax]
+
+.center[`rename(&lt;DATA&gt;, &lt;NEWNAME&gt; = &lt;0LDNAME&gt;, ...)`]
+
+
+```r
+rename(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
+#&gt; # A tibble: 9,480 x 8
+#&gt;    OBS_STATUS pm2_5 POS   POWERCODE reg_id year  TL    VAR    
+#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       3.88  ALL   0         AUS    2003  1     AIR_POL
+#&gt;  2 &lt;NA&gt;       3.301 ALL   0         AUS    2006  1     AIR_POL
+#&gt;  3 &lt;NA&gt;       3.594 ALL   0         AUS    2009  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7     ALL   0         AUS    2012  1     AIR_POL
+#&gt;  5 &lt;NA&gt;       4.744 ALL   0         AU1    2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       3.277 ALL   0         AU1    2006  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       3.443 ALL   0         AU1    2009  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       7.08  ALL   0         AU1    2012  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       4.315 ALL   0         AU2    2003  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       4.142 ALL   0         AU2    2006  2     AIR_POL
+#&gt; # ... with 9,470 more rows
+```
+]
+
+.panel[.panel-name[Extension]
+
+`rename_with()` is useful to rename many columns at once using a function.
+
+
+```r
+rename_with(air_pol, tolower)
+#&gt; # A tibble: 9,480 x 8
+#&gt;    obs_status obsvalue pos   powercode reg_id time  tl    var    
+#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+#&gt;  1 &lt;NA&gt;       3.88     ALL   0         AUS    2003  1     AIR_POL
+#&gt;  2 &lt;NA&gt;       3.301    ALL   0         AUS    2006  1     AIR_POL
+#&gt;  3 &lt;NA&gt;       3.594    ALL   0         AUS    2009  1     AIR_POL
+#&gt;  4 &lt;NA&gt;       7        ALL   0         AUS    2012  1     AIR_POL
+#&gt;  5 &lt;NA&gt;       4.744    ALL   0         AU1    2003  2     AIR_POL
+#&gt;  6 &lt;NA&gt;       3.277    ALL   0         AU1    2006  2     AIR_POL
+#&gt;  7 &lt;NA&gt;       3.443    ALL   0         AU1    2009  2     AIR_POL
+#&gt;  8 &lt;NA&gt;       7.08     ALL   0         AU1    2012  2     AIR_POL
+#&gt;  9 &lt;NA&gt;       4.315    ALL   0         AU2    2003  2     AIR_POL
+#&gt; 10 &lt;NA&gt;       4.142    ALL   0         AU2    2006  2     AIR_POL
+#&gt; # ... with 9,470 more rows
+```
+]
+
+]
+
+???
+rename() is used to change the column names in a table. 
+
+Take a look at the syntax. Although it may seem a bit counter-intuitive, the new name is goes on the left-hand side of the equal (=) sign. This is for consistency with the mutate() function, that we will see in a little while.
+
+rename_with() is an extension to rename() that allows to rename many columns at once by applying a function to the names of a table. In this example we use it to rename all columns, but know that it is a very flexible function that can implement more complex rules.
+
+---
+background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# `select()`
 
 .panelset.sideways[
 
@@ -692,73 +764,20 @@ select(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
 
 ???
 
-select() is often used with a special set of functions known as "selection helpers". These are useful when you want to select many columns based on their names, position, or some conditions. 
+select() is used to subset a table to keep only certain columns.
 
+It is most often used with a special set of functions known as "selection helpers". These are useful when you want to select many columns based on their names, position, or some conditions.
 
----
-background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
-background-position: 1050px 20px
-background-size: 100px
+Because it is such a common pattern, select() can be used to select and rename columns on the fly. 
 
-# `rename()` columns
-
-.panelset.sideways[
-.panel[.panel-name[Syntax]
-
-.center[`rename(&lt;DATA&gt;, &lt;NEWNAME&gt; = &lt;0LDNAME&gt;, ...)`]
-
-
-```r
-rename(air_pol, reg_id = REG_ID, year = TIME, pm2_5 = ObsValue)
-#&gt; # A tibble: 9,480 x 8
-#&gt;    OBS_STATUS pm2_5 POS   POWERCODE reg_id year  TL    VAR    
-#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
-#&gt;  1 &lt;NA&gt;       3.88  ALL   0         AUS    2003  1     AIR_POL
-#&gt;  2 &lt;NA&gt;       3.301 ALL   0         AUS    2006  1     AIR_POL
-#&gt;  3 &lt;NA&gt;       3.594 ALL   0         AUS    2009  1     AIR_POL
-#&gt;  4 &lt;NA&gt;       7     ALL   0         AUS    2012  1     AIR_POL
-#&gt;  5 &lt;NA&gt;       4.744 ALL   0         AU1    2003  2     AIR_POL
-#&gt;  6 &lt;NA&gt;       3.277 ALL   0         AU1    2006  2     AIR_POL
-#&gt;  7 &lt;NA&gt;       3.443 ALL   0         AU1    2009  2     AIR_POL
-#&gt;  8 &lt;NA&gt;       7.08  ALL   0         AU1    2012  2     AIR_POL
-#&gt;  9 &lt;NA&gt;       4.315 ALL   0         AU2    2003  2     AIR_POL
-#&gt; 10 &lt;NA&gt;       4.142 ALL   0         AU2    2006  2     AIR_POL
-#&gt; # ... with 9,470 more rows
-```
-]
-
-.panel[.panel-name[Extension]
-
-`rename_with()` is useful to rename many columns at once using a function.
-
-
-```r
-rename_with(air_pol, tolower)
-#&gt; # A tibble: 9,480 x 8
-#&gt;    obs_status obsvalue pos   powercode reg_id time  tl    var    
-#&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
-#&gt;  1 &lt;NA&gt;       3.88     ALL   0         AUS    2003  1     AIR_POL
-#&gt;  2 &lt;NA&gt;       3.301    ALL   0         AUS    2006  1     AIR_POL
-#&gt;  3 &lt;NA&gt;       3.594    ALL   0         AUS    2009  1     AIR_POL
-#&gt;  4 &lt;NA&gt;       7        ALL   0         AUS    2012  1     AIR_POL
-#&gt;  5 &lt;NA&gt;       4.744    ALL   0         AU1    2003  2     AIR_POL
-#&gt;  6 &lt;NA&gt;       3.277    ALL   0         AU1    2006  2     AIR_POL
-#&gt;  7 &lt;NA&gt;       3.443    ALL   0         AU1    2009  2     AIR_POL
-#&gt;  8 &lt;NA&gt;       7.08     ALL   0         AU1    2012  2     AIR_POL
-#&gt;  9 &lt;NA&gt;       4.315    ALL   0         AU2    2003  2     AIR_POL
-#&gt; 10 &lt;NA&gt;       4.142    ALL   0         AU2    2006  2     AIR_POL
-#&gt; # ... with 9,470 more rows
-```
-]
-
-]
+Stata users: "select" is the equivalent of "keep"
 
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
 background-position: 1050px 20px
 background-size: 100px
 
-# `filter()` rows
+# `filter()` __rows__
 
 .panelset.sideways[
 
@@ -812,6 +831,14 @@ filter(air_pol, TIME == "2000", REG_ID == "COL") # mind the comma!
 ]
 ]
 
+???
+
+Like select(), filter() also allows us to subset a table. The key difference is that filter() acts on the rows, whereas select acts on the columns.
+
+Whenever you see a "comma" inside filter() you should interpret is as an "AND" condition, not an "OR". If you want an "OR" you need to use a vertical bar.
+
+Stata users: "filter" is the equivalent of "keep if"
+
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
 background-position: 1050px 20px
@@ -841,7 +868,7 @@ background-size: 100px
 ```r
 mutate(
   air_pol, 
-  ObsValue = as.numeric(ObsValue), # columns where originally character
+  ObsValue = as.numeric(ObsValue), # original columns where character
   pm_rounded = round(ObsValue, 2)  # new column, at the end
   )
 #&gt; # A tibble: 9,480 x 9
@@ -862,6 +889,9 @@ mutate(
 
 ]
 ]
+
+???
+Mutate is used to create or update existing columns. All original columns are kept in the final table.
 
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
@@ -905,6 +935,13 @@ summarise(
 
 ]
 ]
+
+???
+summarise() is useful to calculate summary statistics on a table.
+
+It will return one row summarising all observations in the original table, unless it is paired with group_by()
+
+Stata users: "summarise" is the equivalent of "collapse"
 
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png)
@@ -1060,7 +1097,7 @@ ungroup(air_pol_grouped)
 
 When working with grouped data, it's important to keep an eye on those first two lines that are printed in the console.
 
-For historical reasons, summarise drops by default the last variable of the grouping. This behaviour can be changed with the .groups argument of summarise().
+For historical reasons, summarise() drops by default the last variable of the grouping. This behaviour can be changed with the .groups argument of summarise().
 
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/magrittr/master/man/figures/logo.png)
@@ -1173,7 +1210,7 @@ class: exercise
 Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232), open and follow the instructions in **Part 1** of the `wrangle.R` script.
 
 
-<div class="countdown" id="timer_61422dfb" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_6142fa6a" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1463,7 +1500,7 @@ class: exercise
 
 Go to the [RStudio Cloud project](https://rstudio.cloud/project/2864232), open and follow the instructions in **Part 2** of the `wrangle.R` script.
 
-<div class="countdown" id="timer_61423042" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_6142fb0b" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
