@@ -6,7 +6,7 @@ date: "2021-09-13"
 description: ""
 params:
   module: "1"
-  url_slides:  "https://mpaulacaldas.github.io/cfe-r-training/" # TODO
+  url_slides:  ""
   url_project: ""
   url_teams: "https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c"
   url_github: "https://github.com/mpaulacaldas/cfe-r-training"
@@ -128,17 +128,6 @@ Prompt.
 
 ```{r, echo = FALSE}
 countdown::countdown(minutes = 0, seconds = 2, top = 0)
-```
-
----
-class: inverse, bottom, left
-background-image: url(`r params$png_break`)
-background-size: cover
-
-# Break
-
-```{r, echo = FALSE}
-countdown::countdown(minutes = 10, top = 0)
 ```
 
 ---

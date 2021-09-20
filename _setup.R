@@ -21,20 +21,27 @@ if (FALSE) {
 library(purrr)
 
 rmds <- c(
-  "01_intro.Rmd"
-  # "02_dataviz.Rmd",
+  "01_intro.Rmd",
+  "02_dataviz.Rmd"
   # "03_programming.Rmd",
   # "04_rmarkdown.Rmd",
   # "05_goodpractice.Rmd"
   )
 
+file_copy2 <- safely(fs::file_copy, otherwise = NULL)
+
 rmds %>%
   fs::path("docs/", .) %>%
-  walk(~ fs::file_copy("docs/00_template.Rmd", .x))
+  walk(~ file_copy2("docs/00_template.Rmd", .x, overwrite = FALSE))
 
 rmds %>%
   fs::path_ext_remove() %>%
   fs::path("exercises/", .) %>%
+  fs::dir_create()
+
+rmds %>%
+  fs::path_ext_remove() %>%
+  fs::path("exercises/", ., "solutions") %>%
   fs::dir_create()
 
 
