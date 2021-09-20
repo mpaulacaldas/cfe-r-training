@@ -1,13 +1,13 @@
 ---
-title: "Our titles are not as long"
+title: "Data visualisation with ggplot2"
 author: "María Paula Caldas"
 ta: "Jolien Noels"
 date: "2021-09-13"
 description: ""
 params:
-  module: "1"
-  url_slides:  ""
-  url_project: ""
+  module: "2"
+  url_slides:  "https://mpaulacaldas.github.io/cfe-r-training/02_dataviz.html"
+  url_project: "https://rstudio.cloud/project/2907237"
   url_teams: "https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c"
   url_github: "https://github.com/mpaulacaldas/cfe-r-training"
   png_background: "img/gradient-background.png"
@@ -92,20 +92,9 @@ The presenter notes are where you might also find OECD or CFE specific
 information.
 
 ---
-# A regular slide
-
-With text. Let's see the text.
-
-```{r}
-1 + 1
-2 + 2 #<<
-```
-
-
----
 class:inverse, bottom, left
 
-# Section division
+# Introduction to data visualisation in R
 
 ---
 # Another simple slide
@@ -115,6 +104,11 @@ With text. Let's see the text.
 ```{r}
 summary(iris)
 ```
+
+---
+class:inverse, bottom, left
+
+# The layered grammar of graphics
 
 ---
 class: exercise
@@ -129,6 +123,22 @@ Prompt.
 ```{r, echo = FALSE}
 countdown::countdown(minutes = 0, seconds = 2, top = 0)
 ```
+
+---
+class: inverse, bottom, left
+background-image: url(`r params$png_break`)
+background-size: cover
+
+# Break
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 10, top = 0)
+```
+
+---
+class:inverse, bottom, left
+
+# Common charts
 
 ---
 class: inverse, bottom, left
