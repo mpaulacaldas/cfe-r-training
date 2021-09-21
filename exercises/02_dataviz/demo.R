@@ -45,8 +45,7 @@ data_figure <- data_raw %>%
 
 data_figure %>%
   ggplot(aes(x = country, y = value)) +
-   # in aes ...
-  geom_line(aes(group = country), colour = "#00A9CB", size = 3) +
+  geom_line(colour = "#00A9CB", size = 3) +
   # order matters: geom_point should come after geom_line otherwise the line
   # would be on top of the points
   geom_point(aes(colour = category, shape = category), size = 3) +
@@ -102,7 +101,7 @@ ggsave("labour_productivity.png")
 
 data_figure %>%
   ggplot(aes(x = country, y = value)) +
-  geom_line(aes(group = country), colour = "#4F81BD", size = 3) +
+  geom_line(colour = "#4F81BD", size = 3) +
   geom_point(aes(fill = category), size = 3, shape = 21) +
   geom_point(
     data = filter(data_figure, category == "average"),
