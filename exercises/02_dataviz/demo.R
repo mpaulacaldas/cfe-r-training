@@ -7,9 +7,7 @@
 
 # 0 Packages --------------------------------------------------------------
 
-# install.packages('tidyverse')
 library(tidyverse) # includes dplyr, tidyr, readr, ...
-# install.packages('readxl')
 library(readxl)
 
 
