@@ -20,8 +20,10 @@ data_figure <- data_raw %>%
   # Create ordering variable to set the order in which countries appear in the
   # figure
   mutate(order = max) %>% 
-  # R reads data differently from Excel: Often column names are not names of
-  # variables, but categories of a variable. We need to pivot it into tidy data.
+  # for plotting, Excel requires a different table structure than ggplot2, which
+  # uses "tidy data". Here we pivot the table into the longer, "tidy data"
+  # format, i.e. the names of the original columns now populate the "category"
+  # variable
   pivot_longer(
     c(average, min, max),
     names_to = "category",
