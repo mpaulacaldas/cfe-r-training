@@ -17,9 +17,10 @@ library(readxl)
 data_raw <- read_xlsx("worker_productivity.xlsx")
 
 data_figure <- data_raw %>%
-  # Create ordering variable to set the order in which countries appear in the
-  # figure
-  mutate(order = max) %>% 
+  # Change the type of the "country" variable to factor, and order the factor
+  # with respect to the max value observed. This will make sure countries are
+  # plotted in descending order with respect to the max value
+  mutate(country = fct_reorder(country, -max)) %>% 
   # for plotting, Excel requires a different table structure than ggplot2, which
   # uses "tidy data". Here we pivot the table into the longer, "tidy data"
   # format, i.e. the names of the original columns now populate the "category"
@@ -43,8 +44,7 @@ data_figure <- data_raw %>%
 # 2.1 RCaG theme --------------------------------------------------------
 
 data_figure %>%
-  # reorder categorical variable for order in legend
-  ggplot(aes(x = reorder(country, -order), y = value)) +
+  ggplot(aes(x = country, y = value)) +
    # in aes ...
   geom_line(aes(group = country), colour = "#00A9CB", size = 3) +
   # order matters: geom_point should come after geom_line otherwise the line
@@ -106,7 +106,7 @@ ggsave("labour_productivity.png")
 # 2.2 Other OCED theme ---------------------------------------------------------
 
 data_figure %>%
-  ggplot(aes(x = reorder(country, -order), y = value)) +
+  ggplot(aes(x = country, y = value)) +
   geom_line(aes(group = country), colour = "#4F81BD", size = 3) +
   geom_point(aes(fill = category), size = 3, shape = 21) +
   geom_point(
