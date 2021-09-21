@@ -14,28 +14,34 @@ library(readxl)
 # 1 Data ------------------------------------------------------------------
 
 # Import data we created last week
-data <- read_xlsx("worker_productivity.xlsx")
+data_raw <- read_xlsx("worker_productivity.xlsx")
 
-# Create ordering variable to set the order in which countries appear in the
-# figure
-data_prep <- data %>%
-  mutate(order = max)
-
-# R reads data differently from Excel: Often column names are not names of
-# variables, but categories of a variable. We need to pivot it into tidy data.
-data_long <- data_prep %>%
-  pivot_longer(c(average, min, max), names_to = "category", values_to = "value")
+data_figure <- data_raw %>%
+  # Create ordering variable to set the order in which countries appear in the
+  # figure
+  mutate(order = max) %>% 
+  # R reads data differently from Excel: Often column names are not names of
+  # variables, but categories of a variable. We need to pivot it into tidy data.
+  pivot_longer(
+    c(average, min, max),
+    names_to = "category",
+    values_to = "value"
+    ) %>% 
+  # transform data to more readable in the figure
+  mutate(
+    value = value / 1000,
+    category = factor(
+      category,
+      levels = c("min", "average", "max"),
+      labels = c("Minimum region", "National average", "Maximum region")
+  ))
 
 
 # 2 Graph -----------------------------------------------------------------
 # 2.1 RCaG theme --------------------------------------------------------
 
-data_long %>%
-  mutate(value = value / 1000) %>% # transform data to more readable in the figure
-  mutate(category = factor(category,
-    levels = c("min", "average", "max"),
-    labels = c("Minimum region", "National average", "Maximum region")
-  )) %>% # reorder categorical variable for order in legend
+data_figure %>%
+  # reorder categorical variable for order in legend
   ggplot(aes(x = reorder(country, -order), y = value)) +
    # in aes ...
   geom_line(aes(group = country), colour = "#00A9CB", size = 3) +
@@ -97,9 +103,7 @@ ggsave("labour_productivity.png")
 
 # 2.2 Other OCED theme ---------------------------------------------------------
 
-data_long %>%
-  mutate(value = value / 1000) %>%
-  mutate(category = factor(category, levels = c("min", "average", "max"))) %>%
+data_figure %>%
   ggplot(aes(x = reorder(country, -order), y = value)) +
   geom_line(aes(group = country), colour = "#4F81BD", size = 3) +
   geom_point(aes(fill = category), size = 3, shape = 21) +
