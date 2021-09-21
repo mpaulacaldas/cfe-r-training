@@ -95,11 +95,6 @@ data_figure %>%
     legend.box = "horizontal"
   )
 
-# Labels can be added using geom_text().
-#
-# We are not doing it here because we didn't include the labels in the data
-# preparation last week.
-
 ggsave("labour_productivity.png")
 
 
