@@ -18,12 +18,13 @@ library(readxl)
 # Import data we created last week
 data <- read_xlsx("worker_productivity.xlsx")
 
-# Create ordering variable to set the order in which countries appear in the figure
+# Create ordering variable to set the order in which countries appear in the
+# figure
 data_prep <- data %>%
   mutate(order = max)
 
-# R reads data differently from Excel: Often column names are not names of variables,
-# but categories of a variable. We need to pivot it into tidy data.
+# R reads data differently from Excel: Often column names are not names of
+# variables, but categories of a variable. We need to pivot it into tidy data.
 data_long <- data_prep %>%
   pivot_longer(c(average, min, max), names_to = "category", values_to = "value")
 
@@ -38,20 +39,32 @@ data_long %>%
     labels = c("Minimum region", "National average", "Maximum region")
   )) %>% # reorder categorical variable for order in legend
   ggplot(aes(x = reorder(country, -order), y = value)) +
-  geom_line(aes(group = country), colour = "#00A9CB", size = 3) + # in aes ...
-  geom_point(aes(colour = category, shape = category), size = 3) + # order matters: geom_point should come after geom_line otherwise the line would be on top of the points
+   # in aes ...
+  geom_line(aes(group = country), colour = "#00A9CB", size = 3) +
+  # order matters: geom_point should come after geom_line otherwise the line
+  # would be on top of the points
+  geom_point(aes(colour = category, shape = category), size = 3) +
   geom_point(
-    data = . %>% filter(category == "National average"), # data can be transformed within geoms
+    # data can be transformed within geoms
+    data = . %>% filter(category == "National average"),
+    # add this layer which is identical to previous geom_point but for average
+    # only to ensure that average category is on top for countries with only 1
+    # region
     colour = "black", size = 3, shape = 18
-  ) + # add this layer which is identical to previous geom_point but for average only to ensure that average category is on top for countries with only 1 region
-  geom_hline(aes(yintercept = 57.74, linetype = "OECD average"), colour = "#1461B3") + # linetype in aes() to create new legend entry
+  ) +
+  geom_hline(
+    # linetype in aes() to create new legend entry
+    aes(yintercept = 57.74, linetype = "OECD average"),
+    colour = "#1461B3"
+    ) +
   labs(subtitle = "'000 USD per worker") +
   scale_colour_manual(values = c("white", "black", "#0060B3")) +
   scale_shape_manual(values = c(16, 18, 16)) +
+  # Customize interval on y-axis
   scale_y_continuous(
     limits = c(0, 220), expand = c(0, 0),
     breaks = seq(0, 220, by = 20)
-  ) + # Customize interval on y-axis
+  ) +
   theme(
     axis.title = element_blank(),
     axis.text.x = element_text(size = 10, colour = "black", angle = 45, hjust = 1),
@@ -77,7 +90,9 @@ data_long %>%
   )
 
 # Labels can be added using geom_text().
-# We are not doing it here because we didn't include the labels in the data preparation last week.
+#
+# We are not doing it here because we didn't include the labels in the data
+# preparation last week.
 
 ggsave("labour_productivity.png")
 
