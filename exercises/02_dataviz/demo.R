@@ -49,8 +49,8 @@ data_figure %>%
   # would be on top of the points
   geom_point(aes(colour = category, shape = category), size = 3) +
   geom_point(
-    # data can be transformed within geoms
-    data = . %>% filter(category == "National average"),
+    # data can be replaced for some geoms
+    data = filter(data_figure, category == "National average"),
     # add this layer which is identical to previous geom_point but for average
     # only to ensure that average category is on top for countries with only 1
     # region
@@ -108,7 +108,7 @@ data_figure %>%
   geom_line(aes(group = country), colour = "#4F81BD", size = 3) +
   geom_point(aes(fill = category), size = 3, shape = 21) +
   geom_point(
-    data = . %>% filter(category == "average"),
+    data = filter(data_figure, category == "average"),
     fill = "black", size = 3, shape = 21
   ) +
   geom_hline(aes(yintercept = 57.74, linetype = "OECD average"), colour = "#1461B3") +
