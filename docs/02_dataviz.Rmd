@@ -125,7 +125,7 @@ class:inverse, bottom, left
 ---
 # Data visualisation in R
 
-```{r, echo = FALSE, fig.align='center'}
+```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=4, out.width="80%"}
 library(ggplot2)
 ggplot(mpg) +
   geom_point(aes(displ, hwy, colour = class))
