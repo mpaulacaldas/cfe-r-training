@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data visualisation with ggplot2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="María Paula Caldas" />
+    <meta name="date" content="2021-09-13" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <script src="libs/proj4js/proj4.js"></script>
+    <link href="libs/highcharts/css/motion.css" rel="stylesheet" />
+    <script src="libs/highcharts/highcharts.js"></script>
+    <script src="libs/highcharts/highcharts-3d.js"></script>
+    <script src="libs/highcharts/highcharts-more.js"></script>
+    <script src="libs/highcharts/modules/stock.js"></script>
+    <script src="libs/highcharts/modules/map.js"></script>
+    <script src="libs/highcharts/modules/annotations.js"></script>
+    <script src="libs/highcharts/modules/data.js"></script>
+    <script src="libs/highcharts/modules/drilldown.js"></script>
+    <script src="libs/highcharts/modules/item-series.js"></script>
+    <script src="libs/highcharts/modules/offline-exporting.js"></script>
+    <script src="libs/highcharts/modules/overlapping-datalabels.js"></script>
+    <script src="libs/highcharts/modules/exporting.js"></script>
+    <script src="libs/highcharts/modules/export-data.js"></script>
+    <script src="libs/highcharts/modules/funnel.js"></script>
+    <script src="libs/highcharts/modules/heatmap.js"></script>
+    <script src="libs/highcharts/modules/treemap.js"></script>
+    <script src="libs/highcharts/modules/sankey.js"></script>
+    <script src="libs/highcharts/modules/dependency-wheel.js"></script>
+    <script src="libs/highcharts/modules/organization.js"></script>
+    <script src="libs/highcharts/modules/solid-gauge.js"></script>
+    <script src="libs/highcharts/modules/streamgraph.js"></script>
+    <script src="libs/highcharts/modules/sunburst.js"></script>
+    <script src="libs/highcharts/modules/vector.js"></script>
+    <script src="libs/highcharts/modules/wordcloud.js"></script>
+    <script src="libs/highcharts/modules/xrange.js"></script>
+    <script src="libs/highcharts/modules/tilemap.js"></script>
+    <script src="libs/highcharts/modules/venn.js"></script>
+    <script src="libs/highcharts/modules/gantt.js"></script>
+    <script src="libs/highcharts/modules/timeline.js"></script>
+    <script src="libs/highcharts/modules/parallel-coordinates.js"></script>
+    <script src="libs/highcharts/modules/bullet.js"></script>
+    <script src="libs/highcharts/modules/coloraxis.js"></script>
+    <script src="libs/highcharts/modules/dumbbell.js"></script>
+    <script src="libs/highcharts/modules/lollipop.js"></script>
+    <script src="libs/highcharts/modules/series-label.js"></script>
+    <script src="libs/highcharts/plugins/motion.js"></script>
+    <script src="libs/highcharts/custom/reset.js"></script>
+    <script src="libs/highcharts/modules/boost.js"></script>
+    <script src="libs/highchart-binding/highchart.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="cfe-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="cfe.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide, inverse, bottom
+background-image: url(img/gradient-background.png)
+background-size: cover
+
+# Data visualisation with ggplot2
+### CFE R Training - Module 2
+
+&lt;br/&gt;
+
+María Paula Caldas and Jolien Noels
+
+---
+class: middle
+
+# Useful links
+
+[Slides](https://mpaulacaldas.github.io/cfe-r-training/02_dataviz.html), if you want to navigate on your own
+
+[RStudio Project](https://rstudio.cloud/project/2907237), to try out the exercises
+
+[Teams Space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c), for discussions
+
+[Github repository](https://github.com/mpaulacaldas/cfe-r-training), for later reference
+
+---
+class: middle
+
+# Housekeeping matters
+
+🙋‍♀️&amp;nbsp; During the session, ask questions in the chat 
+or raise your hand
+
+📷&amp;nbsp; Sessions are recorded. Remember to turn off your camera if 
+its your preference
+
+💬&amp;nbsp; After the session, post follow-up questions, 
+comments or reactions in the [Teams space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c)
+
+📝&amp;nbsp; If you are going through these slides on your own, type `p` 
+to see the presenter notes
+
+???
+
+The presenter notes are where you might also find OECD or CFE specific 
+information.
+
+---
+class: middle
+
+# Learning objectives for today
+
+1. Understand the main ideas behind the "layered grammar of graphics" and "tidy data"
+
+1. Learn how to create basic charts with ggplot2
+
+1. Learn to reshape data between wide and long format
+
+---
+class:inverse, bottom, left
+
+# Introduction to data visualisation in R
+
+---
+# Data visualisation in R
+
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+
+???
+
+There are many possible ways to visualise data with R. In general, libraries are divided into two camps: static visualisations and dynamic visualisations. 
+
+Today we will concentrate on ggplot2, a package for highly customisable static visualisations and that facilitates quick iteration and data exploration.
+
+---
+# Data visualisation in R
+
+
+```
+#&gt; Warning: package 'highcharter' was built under R version 4.1.1
+#&gt; Registered S3 method overwritten by 'quantmod':
+#&gt;   method            from
+#&gt;   as.zoo.data.frame zoo
+#&gt; Highcharts (www.highcharts.com) is a Highsoft software product which is
+#&gt; not free for commercial and Governmental use
+```
+
+<div id="htmlwidget-3e22831911f7dcf290c1" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3e22831911f7dcf290c1">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":null},"yAxis":{"title":{"text":"hwy"},"type":"linear"},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"2seater","data":[{"manufacturer":"chevrolet","model":"corvette","displ":5.7,"year":1999,"cyl":8,"trans":"manual(m6)","drv":"r","cty":16,"hwy":26,"fl":"p","class":"2seater","x":5.7,"y":26},{"manufacturer":"chevrolet","model":"corvette","displ":5.7,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"r","cty":15,"hwy":23,"fl":"p","class":"2seater","x":5.7,"y":23},{"manufacturer":"chevrolet","model":"corvette","displ":6.2,"year":2008,"cyl":8,"trans":"manual(m6)","drv":"r","cty":16,"hwy":26,"fl":"p","class":"2seater","x":6.2,"y":26},{"manufacturer":"chevrolet","model":"corvette","displ":6.2,"year":2008,"cyl":8,"trans":"auto(s6)","drv":"r","cty":15,"hwy":25,"fl":"p","class":"2seater","x":6.2,"y":25},{"manufacturer":"chevrolet","model":"corvette","displ":7,"year":2008,"cyl":8,"trans":"manual(m6)","drv":"r","cty":15,"hwy":24,"fl":"p","class":"2seater","x":7,"y":24}],"type":"scatter"},{"name":"compact","data":[{"manufacturer":"audi","model":"a4","displ":1.8,"year":1999,"cyl":4,"trans":"auto(l5)","drv":"f","cty":18,"hwy":29,"fl":"p","class":"compact","x":1.8,"y":29},{"manufacturer":"audi","model":"a4","displ":1.8,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"p","class":"compact","x":1.8,"y":29},{"manufacturer":"audi","model":"a4","displ":2,"year":2008,"cyl":4,"trans":"manual(m6)","drv":"f","cty":20,"hwy":31,"fl":"p","class":"compact","x":2,"y":31},{"manufacturer":"audi","model":"a4","displ":2,"year":2008,"cyl":4,"trans":"auto(av)","drv":"f","cty":21,"hwy":30,"fl":"p","class":"compact","x":2,"y":30},{"manufacturer":"audi","model":"a4","displ":2.8,"year":1999,"cyl":6,"trans":"auto(l5)","drv":"f","cty":16,"hwy":26,"fl":"p","class":"compact","x":2.8,"y":26},{"manufacturer":"audi","model":"a4","displ":2.8,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"f","cty":18,"hwy":26,"fl":"p","class":"compact","x":2.8,"y":26},{"manufacturer":"audi","model":"a4","displ":3.1,"year":2008,"cyl":6,"trans":"auto(av)","drv":"f","cty":18,"hwy":27,"fl":"p","class":"compact","x":3.1,"y":27},{"manufacturer":"audi","model":"a4 quattro","displ":1.8,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"4","cty":18,"hwy":26,"fl":"p","class":"compact","x":1.8,"y":26},{"manufacturer":"audi","model":"a4 quattro","displ":1.8,"year":1999,"cyl":4,"trans":"auto(l5)","drv":"4","cty":16,"hwy":25,"fl":"p","class":"compact","x":1.8,"y":25},{"manufacturer":"audi","model":"a4 quattro","displ":2,"year":2008,"cyl":4,"trans":"manual(m6)","drv":"4","cty":20,"hwy":28,"fl":"p","class":"compact","x":2,"y":28},{"manufacturer":"audi","model":"a4 quattro","displ":2,"year":2008,"cyl":4,"trans":"auto(s6)","drv":"4","cty":19,"hwy":27,"fl":"p","class":"compact","x":2,"y":27},{"manufacturer":"audi","model":"a4 quattro","displ":2.8,"year":1999,"cyl":6,"trans":"auto(l5)","drv":"4","cty":15,"hwy":25,"fl":"p","class":"compact","x":2.8,"y":25},{"manufacturer":"audi","model":"a4 quattro","displ":2.8,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"4","cty":17,"hwy":25,"fl":"p","class":"compact","x":2.8,"y":25},{"manufacturer":"audi","model":"a4 quattro","displ":3.1,"year":2008,"cyl":6,"trans":"auto(s6)","drv":"4","cty":17,"hwy":25,"fl":"p","class":"compact","x":3.1,"y":25},{"manufacturer":"audi","model":"a4 quattro","displ":3.1,"year":2008,"cyl":6,"trans":"manual(m6)","drv":"4","cty":15,"hwy":25,"fl":"p","class":"compact","x":3.1,"y":25},{"manufacturer":"nissan","model":"altima","displ":2.4,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"r","class":"compact","x":2.4,"y":29},{"manufacturer":"nissan","model":"altima","displ":2.4,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":19,"hwy":27,"fl":"r","class":"compact","x":2.4,"y":27},{"manufacturer":"subaru","model":"impreza awd","displ":2.5,"year":2008,"cyl":4,"trans":"auto(s4)","drv":"4","cty":20,"hwy":25,"fl":"p","class":"compact","x":2.5,"y":25},{"manufacturer":"subaru","model":"impreza awd","displ":2.5,"year":2008,"cyl":4,"trans":"auto(s4)","drv":"4","cty":20,"hwy":27,"fl":"r","class":"compact","x":2.5,"y":27},{"manufacturer":"subaru","model":"impreza awd","displ":2.5,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"4","cty":19,"hwy":25,"fl":"p","class":"compact","x":2.5,"y":25},{"manufacturer":"subaru","model":"impreza awd","displ":2.5,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"4","cty":20,"hwy":27,"fl":"r","class":"compact","x":2.5,"y":27},{"manufacturer":"toyota","model":"camry solara","displ":2.2,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":21,"hwy":27,"fl":"r","class":"compact","x":2.2,"y":27},{"manufacturer":"toyota","model":"camry solara","displ":2.2,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"r","class":"compact","x":2.2,"y":29},{"manufacturer":"toyota","model":"camry solara","displ":2.4,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":31,"fl":"r","class":"compact","x":2.4,"y":31},{"manufacturer":"toyota","model":"camry solara","displ":2.4,"year":2008,"cyl":4,"trans":"auto(s5)","drv":"f","cty":22,"hwy":31,"fl":"r","class":"compact","x":2.4,"y":31},{"manufacturer":"toyota","model":"camry solara","displ":3,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"compact","x":3,"y":26},{"manufacturer":"toyota","model":"camry solara","displ":3,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"compact","x":3,"y":26},{"manufacturer":"toyota","model":"camry solara","displ":3.3,"year":2008,"cyl":6,"trans":"auto(s5)","drv":"f","cty":18,"hwy":27,"fl":"r","class":"compact","x":3.3,"y":27},{"manufacturer":"toyota","model":"corolla","displ":1.8,"year":1999,"cyl":4,"trans":"auto(l3)","drv":"f","cty":24,"hwy":30,"fl":"r","class":"compact","x":1.8,"y":30},{"manufacturer":"toyota","model":"corolla","displ":1.8,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":24,"hwy":33,"fl":"r","class":"compact","x":1.8,"y":33},{"manufacturer":"toyota","model":"corolla","displ":1.8,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":26,"hwy":35,"fl":"r","class":"compact","x":1.8,"y":35},{"manufacturer":"toyota","model":"corolla","displ":1.8,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"f","cty":28,"hwy":37,"fl":"r","class":"compact","x":1.8,"y":37},{"manufacturer":"toyota","model":"corolla","displ":1.8,"year":2008,"cyl":4,"trans":"auto(l4)","drv":"f","cty":26,"hwy":35,"fl":"r","class":"compact","x":1.8,"y":35},{"manufacturer":"volkswagen","model":"gti","displ":2,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"r","class":"compact","x":2,"y":29},{"manufacturer":"volkswagen","model":"gti","displ":2,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":19,"hwy":26,"fl":"r","class":"compact","x":2,"y":26},{"manufacturer":"volkswagen","model":"gti","displ":2,"year":2008,"cyl":4,"trans":"manual(m6)","drv":"f","cty":21,"hwy":29,"fl":"p","class":"compact","x":2,"y":29},{"manufacturer":"volkswagen","model":"gti","displ":2,"year":2008,"cyl":4,"trans":"auto(s6)","drv":"f","cty":22,"hwy":29,"fl":"p","class":"compact","x":2,"y":29},{"manufacturer":"volkswagen","model":"gti","displ":2.8,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"f","cty":17,"hwy":24,"fl":"r","class":"compact","x":2.8,"y":24},{"manufacturer":"volkswagen","model":"jetta","displ":1.9,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":33,"hwy":44,"fl":"d","class":"compact","x":1.9,"y":44},{"manufacturer":"volkswagen","model":"jetta","displ":2,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"r","class":"compact","x":2,"y":29},{"manufacturer":"volkswagen","model":"jetta","displ":2,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":19,"hwy":26,"fl":"r","class":"compact","x":2,"y":26},{"manufacturer":"volkswagen","model":"jetta","displ":2,"year":2008,"cyl":4,"trans":"auto(s6)","drv":"f","cty":22,"hwy":29,"fl":"p","class":"compact","x":2,"y":29},{"manufacturer":"volkswagen","model":"jetta","displ":2,"year":2008,"cyl":4,"trans":"manual(m6)","drv":"f","cty":21,"hwy":29,"fl":"p","class":"compact","x":2,"y":29},{"manufacturer":"volkswagen","model":"jetta","displ":2.5,"year":2008,"cyl":5,"trans":"auto(s6)","drv":"f","cty":21,"hwy":29,"fl":"r","class":"compact","x":2.5,"y":29},{"manufacturer":"volkswagen","model":"jetta","displ":2.5,"year":2008,"cyl":5,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"r","class":"compact","x":2.5,"y":29},{"manufacturer":"volkswagen","model":"jetta","displ":2.8,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":16,"hwy":23,"fl":"r","class":"compact","x":2.8,"y":23},{"manufacturer":"volkswagen","model":"jetta","displ":2.8,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"f","cty":17,"hwy":24,"fl":"r","class":"compact","x":2.8,"y":24}],"type":"scatter"},{"name":"midsize","data":[{"manufacturer":"audi","model":"a6 quattro","displ":2.8,"year":1999,"cyl":6,"trans":"auto(l5)","drv":"4","cty":15,"hwy":24,"fl":"p","class":"midsize","x":2.8,"y":24},{"manufacturer":"audi","model":"a6 quattro","displ":3.1,"year":2008,"cyl":6,"trans":"auto(s6)","drv":"4","cty":17,"hwy":25,"fl":"p","class":"midsize","x":3.1,"y":25},{"manufacturer":"audi","model":"a6 quattro","displ":4.2,"year":2008,"cyl":8,"trans":"auto(s6)","drv":"4","cty":16,"hwy":23,"fl":"p","class":"midsize","x":4.2,"y":23},{"manufacturer":"chevrolet","model":"malibu","displ":2.4,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":19,"hwy":27,"fl":"r","class":"midsize","x":2.4,"y":27},{"manufacturer":"chevrolet","model":"malibu","displ":2.4,"year":2008,"cyl":4,"trans":"auto(l4)","drv":"f","cty":22,"hwy":30,"fl":"r","class":"midsize","x":2.4,"y":30},{"manufacturer":"chevrolet","model":"malibu","displ":3.1,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"midsize","x":3.1,"y":26},{"manufacturer":"chevrolet","model":"malibu","displ":3.5,"year":2008,"cyl":6,"trans":"auto(l4)","drv":"f","cty":18,"hwy":29,"fl":"r","class":"midsize","x":3.5,"y":29},{"manufacturer":"chevrolet","model":"malibu","displ":3.6,"year":2008,"cyl":6,"trans":"auto(s6)","drv":"f","cty":17,"hwy":26,"fl":"r","class":"midsize","x":3.6,"y":26},{"manufacturer":"hyundai","model":"sonata","displ":2.4,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"midsize","x":2.4,"y":26},{"manufacturer":"hyundai","model":"sonata","displ":2.4,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":18,"hwy":27,"fl":"r","class":"midsize","x":2.4,"y":27},{"manufacturer":"hyundai","model":"sonata","displ":2.4,"year":2008,"cyl":4,"trans":"auto(l4)","drv":"f","cty":21,"hwy":30,"fl":"r","class":"midsize","x":2.4,"y":30},{"manufacturer":"hyundai","model":"sonata","displ":2.4,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":31,"fl":"r","class":"midsize","x":2.4,"y":31},{"manufacturer":"hyundai","model":"sonata","displ":2.5,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"midsize","x":2.5,"y":26},{"manufacturer":"hyundai","model":"sonata","displ":2.5,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"midsize","x":2.5,"y":26},{"manufacturer":"hyundai","model":"sonata","displ":3.3,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"f","cty":19,"hwy":28,"fl":"r","class":"midsize","x":3.3,"y":28},{"manufacturer":"nissan","model":"altima","displ":2.5,"year":2008,"cyl":4,"trans":"auto(av)","drv":"f","cty":23,"hwy":31,"fl":"r","class":"midsize","x":2.5,"y":31},{"manufacturer":"nissan","model":"altima","displ":2.5,"year":2008,"cyl":4,"trans":"manual(m6)","drv":"f","cty":23,"hwy":32,"fl":"r","class":"midsize","x":2.5,"y":32},{"manufacturer":"nissan","model":"altima","displ":3.5,"year":2008,"cyl":6,"trans":"manual(m6)","drv":"f","cty":19,"hwy":27,"fl":"p","class":"midsize","x":3.5,"y":27},{"manufacturer":"nissan","model":"altima","displ":3.5,"year":2008,"cyl":6,"trans":"auto(av)","drv":"f","cty":19,"hwy":26,"fl":"p","class":"midsize","x":3.5,"y":26},{"manufacturer":"nissan","model":"maxima","displ":3,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"midsize","x":3,"y":26},{"manufacturer":"nissan","model":"maxima","displ":3,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"f","cty":19,"hwy":25,"fl":"r","class":"midsize","x":3,"y":25},{"manufacturer":"nissan","model":"maxima","displ":3.5,"year":2008,"cyl":6,"trans":"auto(av)","drv":"f","cty":19,"hwy":25,"fl":"p","class":"midsize","x":3.5,"y":25},{"manufacturer":"pontiac","model":"grand prix","displ":3.1,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"midsize","x":3.1,"y":26},{"manufacturer":"pontiac","model":"grand prix","displ":3.8,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":16,"hwy":26,"fl":"p","class":"midsize","x":3.8,"y":26},{"manufacturer":"pontiac","model":"grand prix","displ":3.8,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":17,"hwy":27,"fl":"r","class":"midsize","x":3.8,"y":27},{"manufacturer":"pontiac","model":"grand prix","displ":3.8,"year":2008,"cyl":6,"trans":"auto(l4)","drv":"f","cty":18,"hwy":28,"fl":"r","class":"midsize","x":3.8,"y":28},{"manufacturer":"pontiac","model":"grand prix","displ":5.3,"year":2008,"cyl":8,"trans":"auto(s4)","drv":"f","cty":16,"hwy":25,"fl":"p","class":"midsize","x":5.3,"y":25},{"manufacturer":"toyota","model":"camry","displ":2.2,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"r","class":"midsize","x":2.2,"y":29},{"manufacturer":"toyota","model":"camry","displ":2.2,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":21,"hwy":27,"fl":"r","class":"midsize","x":2.2,"y":27},{"manufacturer":"toyota","model":"camry","displ":2.4,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":31,"fl":"r","class":"midsize","x":2.4,"y":31},{"manufacturer":"toyota","model":"camry","displ":2.4,"year":2008,"cyl":4,"trans":"auto(l5)","drv":"f","cty":21,"hwy":31,"fl":"r","class":"midsize","x":2.4,"y":31},{"manufacturer":"toyota","model":"camry","displ":3,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"midsize","x":3,"y":26},{"manufacturer":"toyota","model":"camry","displ":3,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"f","cty":18,"hwy":26,"fl":"r","class":"midsize","x":3,"y":26},{"manufacturer":"toyota","model":"camry","displ":3.5,"year":2008,"cyl":6,"trans":"auto(s6)","drv":"f","cty":19,"hwy":28,"fl":"r","class":"midsize","x":3.5,"y":28},{"manufacturer":"volkswagen","model":"passat","displ":1.8,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"p","class":"midsize","x":1.8,"y":29},{"manufacturer":"volkswagen","model":"passat","displ":1.8,"year":1999,"cyl":4,"trans":"auto(l5)","drv":"f","cty":18,"hwy":29,"fl":"p","class":"midsize","x":1.8,"y":29},{"manufacturer":"volkswagen","model":"passat","displ":2,"year":2008,"cyl":4,"trans":"auto(s6)","drv":"f","cty":19,"hwy":28,"fl":"p","class":"midsize","x":2,"y":28},{"manufacturer":"volkswagen","model":"passat","displ":2,"year":2008,"cyl":4,"trans":"manual(m6)","drv":"f","cty":21,"hwy":29,"fl":"p","class":"midsize","x":2,"y":29},{"manufacturer":"volkswagen","model":"passat","displ":2.8,"year":1999,"cyl":6,"trans":"auto(l5)","drv":"f","cty":16,"hwy":26,"fl":"p","class":"midsize","x":2.8,"y":26},{"manufacturer":"volkswagen","model":"passat","displ":2.8,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"f","cty":18,"hwy":26,"fl":"p","class":"midsize","x":2.8,"y":26},{"manufacturer":"volkswagen","model":"passat","displ":3.6,"year":2008,"cyl":6,"trans":"auto(s6)","drv":"f","cty":17,"hwy":26,"fl":"p","class":"midsize","x":3.6,"y":26}],"type":"scatter"},{"name":"minivan","data":[{"manufacturer":"dodge","model":"caravan 2wd","displ":2.4,"year":1999,"cyl":4,"trans":"auto(l3)","drv":"f","cty":18,"hwy":24,"fl":"r","class":"minivan","x":2.4,"y":24},{"manufacturer":"dodge","model":"caravan 2wd","displ":3,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":17,"hwy":24,"fl":"r","class":"minivan","x":3,"y":24},{"manufacturer":"dodge","model":"caravan 2wd","displ":3.3,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":16,"hwy":22,"fl":"r","class":"minivan","x":3.3,"y":22},{"manufacturer":"dodge","model":"caravan 2wd","displ":3.3,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":16,"hwy":22,"fl":"r","class":"minivan","x":3.3,"y":22},{"manufacturer":"dodge","model":"caravan 2wd","displ":3.3,"year":2008,"cyl":6,"trans":"auto(l4)","drv":"f","cty":17,"hwy":24,"fl":"r","class":"minivan","x":3.3,"y":24},{"manufacturer":"dodge","model":"caravan 2wd","displ":3.3,"year":2008,"cyl":6,"trans":"auto(l4)","drv":"f","cty":17,"hwy":24,"fl":"r","class":"minivan","x":3.3,"y":24},{"manufacturer":"dodge","model":"caravan 2wd","displ":3.3,"year":2008,"cyl":6,"trans":"auto(l4)","drv":"f","cty":11,"hwy":17,"fl":"e","class":"minivan","x":3.3,"y":17},{"manufacturer":"dodge","model":"caravan 2wd","displ":3.8,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":15,"hwy":22,"fl":"r","class":"minivan","x":3.8,"y":22},{"manufacturer":"dodge","model":"caravan 2wd","displ":3.8,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"f","cty":15,"hwy":21,"fl":"r","class":"minivan","x":3.8,"y":21},{"manufacturer":"dodge","model":"caravan 2wd","displ":3.8,"year":2008,"cyl":6,"trans":"auto(l6)","drv":"f","cty":16,"hwy":23,"fl":"r","class":"minivan","x":3.8,"y":23},{"manufacturer":"dodge","model":"caravan 2wd","displ":4,"year":2008,"cyl":6,"trans":"auto(l6)","drv":"f","cty":16,"hwy":23,"fl":"r","class":"minivan","x":4,"y":23}],"type":"scatter"},{"name":"pickup","data":[{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":3.7,"year":2008,"cyl":6,"trans":"manual(m6)","drv":"4","cty":15,"hwy":19,"fl":"r","class":"pickup","x":3.7,"y":19},{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":3.7,"year":2008,"cyl":6,"trans":"auto(l4)","drv":"4","cty":14,"hwy":18,"fl":"r","class":"pickup","x":3.7,"y":18},{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":3.9,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"pickup","x":3.9,"y":17},{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":3.9,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"pickup","x":3.9,"y":17},{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":14,"hwy":19,"fl":"r","class":"pickup","x":4.7,"y":19},{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":14,"hwy":19,"fl":"r","class":"pickup","x":4.7,"y":19},{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":9,"hwy":12,"fl":"e","class":"pickup","x":4.7,"y":12},{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":5.2,"year":1999,"cyl":8,"trans":"manual(m5)","drv":"4","cty":11,"hwy":17,"fl":"r","class":"pickup","x":5.2,"y":17},{"manufacturer":"dodge","model":"dakota pickup 4wd","displ":5.2,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"r","class":"pickup","x":5.2,"y":15},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"manual(m6)","drv":"4","cty":12,"hwy":16,"fl":"r","class":"pickup","x":4.7,"y":16},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":9,"hwy":12,"fl":"e","class":"pickup","x":4.7,"y":12},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"pickup","x":4.7,"y":17},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"pickup","x":4.7,"y":17},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"manual(m6)","drv":"4","cty":12,"hwy":16,"fl":"r","class":"pickup","x":4.7,"y":16},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"manual(m6)","drv":"4","cty":9,"hwy":12,"fl":"e","class":"pickup","x":4.7,"y":12},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":5.2,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"r","class":"pickup","x":5.2,"y":15},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":5.2,"year":1999,"cyl":8,"trans":"manual(m5)","drv":"4","cty":11,"hwy":16,"fl":"r","class":"pickup","x":5.2,"y":16},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":5.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"pickup","x":5.7,"y":17},{"manufacturer":"dodge","model":"ram 1500 pickup 4wd","displ":5.9,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"r","class":"pickup","x":5.9,"y":15},{"manufacturer":"ford","model":"f150 pickup 4wd","displ":4.2,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"pickup","x":4.2,"y":17},{"manufacturer":"ford","model":"f150 pickup 4wd","displ":4.2,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"pickup","x":4.2,"y":17},{"manufacturer":"ford","model":"f150 pickup 4wd","displ":4.6,"year":1999,"cyl":8,"trans":"manual(m5)","drv":"4","cty":13,"hwy":16,"fl":"r","class":"pickup","x":4.6,"y":16},{"manufacturer":"ford","model":"f150 pickup 4wd","displ":4.6,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":13,"hwy":16,"fl":"r","class":"pickup","x":4.6,"y":16},{"manufacturer":"ford","model":"f150 pickup 4wd","displ":4.6,"year":2008,"cyl":8,"trans":"auto(l4)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"pickup","x":4.6,"y":17},{"manufacturer":"ford","model":"f150 pickup 4wd","displ":5.4,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"r","class":"pickup","x":5.4,"y":15},{"manufacturer":"ford","model":"f150 pickup 4wd","displ":5.4,"year":2008,"cyl":8,"trans":"auto(l4)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"pickup","x":5.4,"y":17},{"manufacturer":"toyota","model":"toyota tacoma 4wd","displ":2.7,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"4","cty":15,"hwy":20,"fl":"r","class":"pickup","x":2.7,"y":20},{"manufacturer":"toyota","model":"toyota tacoma 4wd","displ":2.7,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"4","cty":16,"hwy":20,"fl":"r","class":"pickup","x":2.7,"y":20},{"manufacturer":"toyota","model":"toyota tacoma 4wd","displ":2.7,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"4","cty":17,"hwy":22,"fl":"r","class":"pickup","x":2.7,"y":22},{"manufacturer":"toyota","model":"toyota tacoma 4wd","displ":3.4,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"4","cty":15,"hwy":17,"fl":"r","class":"pickup","x":3.4,"y":17},{"manufacturer":"toyota","model":"toyota tacoma 4wd","displ":3.4,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"4","cty":15,"hwy":19,"fl":"r","class":"pickup","x":3.4,"y":19},{"manufacturer":"toyota","model":"toyota tacoma 4wd","displ":4,"year":2008,"cyl":6,"trans":"manual(m6)","drv":"4","cty":15,"hwy":18,"fl":"r","class":"pickup","x":4,"y":18},{"manufacturer":"toyota","model":"toyota tacoma 4wd","displ":4,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"4","cty":16,"hwy":20,"fl":"r","class":"pickup","x":4,"y":20}],"type":"scatter"},{"name":"subcompact","data":[{"manufacturer":"ford","model":"mustang","displ":3.8,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"r","cty":18,"hwy":26,"fl":"r","class":"subcompact","x":3.8,"y":26},{"manufacturer":"ford","model":"mustang","displ":3.8,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"r","cty":18,"hwy":25,"fl":"r","class":"subcompact","x":3.8,"y":25},{"manufacturer":"ford","model":"mustang","displ":4,"year":2008,"cyl":6,"trans":"manual(m5)","drv":"r","cty":17,"hwy":26,"fl":"r","class":"subcompact","x":4,"y":26},{"manufacturer":"ford","model":"mustang","displ":4,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"r","cty":16,"hwy":24,"fl":"r","class":"subcompact","x":4,"y":24},{"manufacturer":"ford","model":"mustang","displ":4.6,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"r","cty":15,"hwy":21,"fl":"r","class":"subcompact","x":4.6,"y":21},{"manufacturer":"ford","model":"mustang","displ":4.6,"year":1999,"cyl":8,"trans":"manual(m5)","drv":"r","cty":15,"hwy":22,"fl":"r","class":"subcompact","x":4.6,"y":22},{"manufacturer":"ford","model":"mustang","displ":4.6,"year":2008,"cyl":8,"trans":"manual(m5)","drv":"r","cty":15,"hwy":23,"fl":"r","class":"subcompact","x":4.6,"y":23},{"manufacturer":"ford","model":"mustang","displ":4.6,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"r","cty":15,"hwy":22,"fl":"r","class":"subcompact","x":4.6,"y":22},{"manufacturer":"ford","model":"mustang","displ":5.4,"year":2008,"cyl":8,"trans":"manual(m6)","drv":"r","cty":14,"hwy":20,"fl":"p","class":"subcompact","x":5.4,"y":20},{"manufacturer":"honda","model":"civic","displ":1.6,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":28,"hwy":33,"fl":"r","class":"subcompact","x":1.6,"y":33},{"manufacturer":"honda","model":"civic","displ":1.6,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":24,"hwy":32,"fl":"r","class":"subcompact","x":1.6,"y":32},{"manufacturer":"honda","model":"civic","displ":1.6,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":25,"hwy":32,"fl":"r","class":"subcompact","x":1.6,"y":32},{"manufacturer":"honda","model":"civic","displ":1.6,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":23,"hwy":29,"fl":"p","class":"subcompact","x":1.6,"y":29},{"manufacturer":"honda","model":"civic","displ":1.6,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":24,"hwy":32,"fl":"r","class":"subcompact","x":1.6,"y":32},{"manufacturer":"honda","model":"civic","displ":1.8,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"f","cty":26,"hwy":34,"fl":"r","class":"subcompact","x":1.8,"y":34},{"manufacturer":"honda","model":"civic","displ":1.8,"year":2008,"cyl":4,"trans":"auto(l5)","drv":"f","cty":25,"hwy":36,"fl":"r","class":"subcompact","x":1.8,"y":36},{"manufacturer":"honda","model":"civic","displ":1.8,"year":2008,"cyl":4,"trans":"auto(l5)","drv":"f","cty":24,"hwy":36,"fl":"c","class":"subcompact","x":1.8,"y":36},{"manufacturer":"honda","model":"civic","displ":2,"year":2008,"cyl":4,"trans":"manual(m6)","drv":"f","cty":21,"hwy":29,"fl":"p","class":"subcompact","x":2,"y":29},{"manufacturer":"hyundai","model":"tiburon","displ":2,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":19,"hwy":26,"fl":"r","class":"subcompact","x":2,"y":26},{"manufacturer":"hyundai","model":"tiburon","displ":2,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":19,"hwy":29,"fl":"r","class":"subcompact","x":2,"y":29},{"manufacturer":"hyundai","model":"tiburon","displ":2,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"f","cty":20,"hwy":28,"fl":"r","class":"subcompact","x":2,"y":28},{"manufacturer":"hyundai","model":"tiburon","displ":2,"year":2008,"cyl":4,"trans":"auto(l4)","drv":"f","cty":20,"hwy":27,"fl":"r","class":"subcompact","x":2,"y":27},{"manufacturer":"hyundai","model":"tiburon","displ":2.7,"year":2008,"cyl":6,"trans":"auto(l4)","drv":"f","cty":17,"hwy":24,"fl":"r","class":"subcompact","x":2.7,"y":24},{"manufacturer":"hyundai","model":"tiburon","displ":2.7,"year":2008,"cyl":6,"trans":"manual(m6)","drv":"f","cty":16,"hwy":24,"fl":"r","class":"subcompact","x":2.7,"y":24},{"manufacturer":"hyundai","model":"tiburon","displ":2.7,"year":2008,"cyl":6,"trans":"manual(m5)","drv":"f","cty":17,"hwy":24,"fl":"r","class":"subcompact","x":2.7,"y":24},{"manufacturer":"subaru","model":"impreza awd","displ":2.2,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"4","cty":21,"hwy":26,"fl":"r","class":"subcompact","x":2.2,"y":26},{"manufacturer":"subaru","model":"impreza awd","displ":2.2,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"4","cty":19,"hwy":26,"fl":"r","class":"subcompact","x":2.2,"y":26},{"manufacturer":"subaru","model":"impreza awd","displ":2.5,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"4","cty":19,"hwy":26,"fl":"r","class":"subcompact","x":2.5,"y":26},{"manufacturer":"subaru","model":"impreza awd","displ":2.5,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"4","cty":19,"hwy":26,"fl":"r","class":"subcompact","x":2.5,"y":26},{"manufacturer":"volkswagen","model":"new beetle","displ":1.9,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":35,"hwy":44,"fl":"d","class":"subcompact","x":1.9,"y":44},{"manufacturer":"volkswagen","model":"new beetle","displ":1.9,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":29,"hwy":41,"fl":"d","class":"subcompact","x":1.9,"y":41},{"manufacturer":"volkswagen","model":"new beetle","displ":2,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"f","cty":21,"hwy":29,"fl":"r","class":"subcompact","x":2,"y":29},{"manufacturer":"volkswagen","model":"new beetle","displ":2,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"f","cty":19,"hwy":26,"fl":"r","class":"subcompact","x":2,"y":26},{"manufacturer":"volkswagen","model":"new beetle","displ":2.5,"year":2008,"cyl":5,"trans":"manual(m5)","drv":"f","cty":20,"hwy":28,"fl":"r","class":"subcompact","x":2.5,"y":28},{"manufacturer":"volkswagen","model":"new beetle","displ":2.5,"year":2008,"cyl":5,"trans":"auto(s6)","drv":"f","cty":20,"hwy":29,"fl":"r","class":"subcompact","x":2.5,"y":29}],"type":"scatter"},{"name":"suv","data":[{"manufacturer":"chevrolet","model":"c1500 suburban 2wd","displ":5.3,"year":2008,"cyl":8,"trans":"auto(l4)","drv":"r","cty":14,"hwy":20,"fl":"r","class":"suv","x":5.3,"y":20},{"manufacturer":"chevrolet","model":"c1500 suburban 2wd","displ":5.3,"year":2008,"cyl":8,"trans":"auto(l4)","drv":"r","cty":11,"hwy":15,"fl":"e","class":"suv","x":5.3,"y":15},{"manufacturer":"chevrolet","model":"c1500 suburban 2wd","displ":5.3,"year":2008,"cyl":8,"trans":"auto(l4)","drv":"r","cty":14,"hwy":20,"fl":"r","class":"suv","x":5.3,"y":20},{"manufacturer":"chevrolet","model":"c1500 suburban 2wd","displ":5.7,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"r","cty":13,"hwy":17,"fl":"r","class":"suv","x":5.7,"y":17},{"manufacturer":"chevrolet","model":"c1500 suburban 2wd","displ":6,"year":2008,"cyl":8,"trans":"auto(l4)","drv":"r","cty":12,"hwy":17,"fl":"r","class":"suv","x":6,"y":17},{"manufacturer":"chevrolet","model":"k1500 tahoe 4wd","displ":5.3,"year":2008,"cyl":8,"trans":"auto(l4)","drv":"4","cty":14,"hwy":19,"fl":"r","class":"suv","x":5.3,"y":19},{"manufacturer":"chevrolet","model":"k1500 tahoe 4wd","displ":5.3,"year":2008,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":14,"fl":"e","class":"suv","x":5.3,"y":14},{"manufacturer":"chevrolet","model":"k1500 tahoe 4wd","displ":5.7,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"r","class":"suv","x":5.7,"y":15},{"manufacturer":"chevrolet","model":"k1500 tahoe 4wd","displ":6.5,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":14,"hwy":17,"fl":"d","class":"suv","x":6.5,"y":17},{"manufacturer":"dodge","model":"durango 4wd","displ":3.9,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"suv","x":3.9,"y":17},{"manufacturer":"dodge","model":"durango 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"suv","x":4.7,"y":17},{"manufacturer":"dodge","model":"durango 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":9,"hwy":12,"fl":"e","class":"suv","x":4.7,"y":12},{"manufacturer":"dodge","model":"durango 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"suv","x":4.7,"y":17},{"manufacturer":"dodge","model":"durango 4wd","displ":5.2,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":16,"fl":"r","class":"suv","x":5.2,"y":16},{"manufacturer":"dodge","model":"durango 4wd","displ":5.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":13,"hwy":18,"fl":"r","class":"suv","x":5.7,"y":18},{"manufacturer":"dodge","model":"durango 4wd","displ":5.9,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"r","class":"suv","x":5.9,"y":15},{"manufacturer":"ford","model":"expedition 2wd","displ":4.6,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"r","cty":11,"hwy":17,"fl":"r","class":"suv","x":4.6,"y":17},{"manufacturer":"ford","model":"expedition 2wd","displ":5.4,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"r","cty":11,"hwy":17,"fl":"r","class":"suv","x":5.4,"y":17},{"manufacturer":"ford","model":"expedition 2wd","displ":5.4,"year":2008,"cyl":8,"trans":"auto(l6)","drv":"r","cty":12,"hwy":18,"fl":"r","class":"suv","x":5.4,"y":18},{"manufacturer":"ford","model":"explorer 4wd","displ":4,"year":1999,"cyl":6,"trans":"auto(l5)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"suv","x":4,"y":17},{"manufacturer":"ford","model":"explorer 4wd","displ":4,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"4","cty":15,"hwy":19,"fl":"r","class":"suv","x":4,"y":19},{"manufacturer":"ford","model":"explorer 4wd","displ":4,"year":1999,"cyl":6,"trans":"auto(l5)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"suv","x":4,"y":17},{"manufacturer":"ford","model":"explorer 4wd","displ":4,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"4","cty":13,"hwy":19,"fl":"r","class":"suv","x":4,"y":19},{"manufacturer":"ford","model":"explorer 4wd","displ":4.6,"year":2008,"cyl":8,"trans":"auto(l6)","drv":"4","cty":13,"hwy":19,"fl":"r","class":"suv","x":4.6,"y":19},{"manufacturer":"ford","model":"explorer 4wd","displ":5,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"suv","x":5,"y":17},{"manufacturer":"jeep","model":"grand cherokee 4wd","displ":3,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"4","cty":17,"hwy":22,"fl":"d","class":"suv","x":3,"y":22},{"manufacturer":"jeep","model":"grand cherokee 4wd","displ":3.7,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"4","cty":15,"hwy":19,"fl":"r","class":"suv","x":3.7,"y":19},{"manufacturer":"jeep","model":"grand cherokee 4wd","displ":4,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"4","cty":15,"hwy":20,"fl":"r","class":"suv","x":4,"y":20},{"manufacturer":"jeep","model":"grand cherokee 4wd","displ":4.7,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"suv","x":4.7,"y":17},{"manufacturer":"jeep","model":"grand cherokee 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":9,"hwy":12,"fl":"e","class":"suv","x":4.7,"y":12},{"manufacturer":"jeep","model":"grand cherokee 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":14,"hwy":19,"fl":"r","class":"suv","x":4.7,"y":19},{"manufacturer":"jeep","model":"grand cherokee 4wd","displ":5.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":13,"hwy":18,"fl":"r","class":"suv","x":5.7,"y":18},{"manufacturer":"jeep","model":"grand cherokee 4wd","displ":6.1,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":11,"hwy":14,"fl":"p","class":"suv","x":6.1,"y":14},{"manufacturer":"land rover","model":"range rover","displ":4,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"p","class":"suv","x":4,"y":15},{"manufacturer":"land rover","model":"range rover","displ":4.2,"year":2008,"cyl":8,"trans":"auto(s6)","drv":"4","cty":12,"hwy":18,"fl":"r","class":"suv","x":4.2,"y":18},{"manufacturer":"land rover","model":"range rover","displ":4.4,"year":2008,"cyl":8,"trans":"auto(s6)","drv":"4","cty":12,"hwy":18,"fl":"r","class":"suv","x":4.4,"y":18},{"manufacturer":"land rover","model":"range rover","displ":4.6,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"p","class":"suv","x":4.6,"y":15},{"manufacturer":"lincoln","model":"navigator 2wd","displ":5.4,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"r","cty":11,"hwy":17,"fl":"r","class":"suv","x":5.4,"y":17},{"manufacturer":"lincoln","model":"navigator 2wd","displ":5.4,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"r","cty":11,"hwy":16,"fl":"p","class":"suv","x":5.4,"y":16},{"manufacturer":"lincoln","model":"navigator 2wd","displ":5.4,"year":2008,"cyl":8,"trans":"auto(l6)","drv":"r","cty":12,"hwy":18,"fl":"r","class":"suv","x":5.4,"y":18},{"manufacturer":"mercury","model":"mountaineer 4wd","displ":4,"year":1999,"cyl":6,"trans":"auto(l5)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"suv","x":4,"y":17},{"manufacturer":"mercury","model":"mountaineer 4wd","displ":4,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"4","cty":13,"hwy":19,"fl":"r","class":"suv","x":4,"y":19},{"manufacturer":"mercury","model":"mountaineer 4wd","displ":4.6,"year":2008,"cyl":8,"trans":"auto(l6)","drv":"4","cty":13,"hwy":19,"fl":"r","class":"suv","x":4.6,"y":19},{"manufacturer":"mercury","model":"mountaineer 4wd","displ":5,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":13,"hwy":17,"fl":"r","class":"suv","x":5,"y":17},{"manufacturer":"nissan","model":"pathfinder 4wd","displ":3.3,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"suv","x":3.3,"y":17},{"manufacturer":"nissan","model":"pathfinder 4wd","displ":3.3,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"4","cty":15,"hwy":17,"fl":"r","class":"suv","x":3.3,"y":17},{"manufacturer":"nissan","model":"pathfinder 4wd","displ":4,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"4","cty":14,"hwy":20,"fl":"p","class":"suv","x":4,"y":20},{"manufacturer":"nissan","model":"pathfinder 4wd","displ":5.6,"year":2008,"cyl":8,"trans":"auto(s5)","drv":"4","cty":12,"hwy":18,"fl":"p","class":"suv","x":5.6,"y":18},{"manufacturer":"subaru","model":"forester awd","displ":2.5,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"4","cty":18,"hwy":25,"fl":"r","class":"suv","x":2.5,"y":25},{"manufacturer":"subaru","model":"forester awd","displ":2.5,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"4","cty":18,"hwy":24,"fl":"r","class":"suv","x":2.5,"y":24},{"manufacturer":"subaru","model":"forester awd","displ":2.5,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"4","cty":20,"hwy":27,"fl":"r","class":"suv","x":2.5,"y":27},{"manufacturer":"subaru","model":"forester awd","displ":2.5,"year":2008,"cyl":4,"trans":"manual(m5)","drv":"4","cty":19,"hwy":25,"fl":"p","class":"suv","x":2.5,"y":25},{"manufacturer":"subaru","model":"forester awd","displ":2.5,"year":2008,"cyl":4,"trans":"auto(l4)","drv":"4","cty":20,"hwy":26,"fl":"r","class":"suv","x":2.5,"y":26},{"manufacturer":"subaru","model":"forester awd","displ":2.5,"year":2008,"cyl":4,"trans":"auto(l4)","drv":"4","cty":18,"hwy":23,"fl":"p","class":"suv","x":2.5,"y":23},{"manufacturer":"toyota","model":"4runner 4wd","displ":2.7,"year":1999,"cyl":4,"trans":"manual(m5)","drv":"4","cty":15,"hwy":20,"fl":"r","class":"suv","x":2.7,"y":20},{"manufacturer":"toyota","model":"4runner 4wd","displ":2.7,"year":1999,"cyl":4,"trans":"auto(l4)","drv":"4","cty":16,"hwy":20,"fl":"r","class":"suv","x":2.7,"y":20},{"manufacturer":"toyota","model":"4runner 4wd","displ":3.4,"year":1999,"cyl":6,"trans":"auto(l4)","drv":"4","cty":15,"hwy":19,"fl":"r","class":"suv","x":3.4,"y":19},{"manufacturer":"toyota","model":"4runner 4wd","displ":3.4,"year":1999,"cyl":6,"trans":"manual(m5)","drv":"4","cty":15,"hwy":17,"fl":"r","class":"suv","x":3.4,"y":17},{"manufacturer":"toyota","model":"4runner 4wd","displ":4,"year":2008,"cyl":6,"trans":"auto(l5)","drv":"4","cty":16,"hwy":20,"fl":"r","class":"suv","x":4,"y":20},{"manufacturer":"toyota","model":"4runner 4wd","displ":4.7,"year":2008,"cyl":8,"trans":"auto(l5)","drv":"4","cty":14,"hwy":17,"fl":"r","class":"suv","x":4.7,"y":17},{"manufacturer":"toyota","model":"land cruiser wagon 4wd","displ":4.7,"year":1999,"cyl":8,"trans":"auto(l4)","drv":"4","cty":11,"hwy":15,"fl":"r","class":"suv","x":4.7,"y":15},{"manufacturer":"toyota","model":"land cruiser wagon 4wd","displ":5.7,"year":2008,"cyl":8,"trans":"auto(s6)","drv":"4","cty":13,"hwy":18,"fl":"r","class":"suv","x":5.7,"y":18}],"type":"scatter"}],"xAxis":{"type":"linear","title":{"text":"displ"},"categories":null}},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+
+???
+
+Although not covered today, know that there are many other R packages that are designed to display interactive data visualisations. This example shows highcharter. Another popular one is plotly. For maps, leaflet.
+
+---
+background-position: 1050px 20px
+background-size: 100px
+background-image: url(https://raw.githubusercontent.com/tidyverse/ggplot2/master/man/figures/logo.png)
+
+# Why ggplot2?
+
+Today, we will focus on __static data visualisation__ using the [ggplot2](https://ggplot2.tidyverse.org/) package, from the tidyverse. There are some advantages to using `ggplot2`:
+
+1. It is based on the [Grammar of Graphics](http://vita.had.co.nz/papers/layered-grammar.pdf), a theory for building statistical graphics.
+
+1. It provides a high degree of customisation.
+
+1. It allows for fast exploration and iteration.
+
+1. It is the most popular R graphics library, with many extensions and that is actively maintained.
+
+---
+background-position: 1050px 20px
+background-size: 100px
+background-image: url(https://raw.githubusercontent.com/tidyverse/ggplot2/master/man/figures/logo.png)
+
+# The layered grammar of graphics
+
+Below we have an example of the grammar that we would use in ggplot2 to create a graph. Our focus today will be on the highlighted elements.
+
+.pull-left[
+
+```r
+*ggplot(data = &lt;DATA&gt;) +
+  &lt;GEOM_FUNCTION&gt;(
+*    mapping = aes(&lt;MAPPINGS&gt;),
+     stat = &lt;STAT&gt;,
+     position = &lt;POSITION&gt;
+  ) +
+  &lt;COORDINATE_FUNCTION&gt; +
+* &lt;FACET_FUNCTION&gt; +
+* &lt;SCALE_FUNCTION&gt; +
+  &lt;THEME_FUNCTION&gt;
+```
+]
+.pull-right[
+
+- `DATA`: Data we want to visualise.
+- `GEOM`: Geometric shapes representing the data.
+- `MAPPINGS`: Aesthetic mappings of the geometric and statistical objects.
+- `FACET`: Arrangement of data into a grid of plots.
+- `SCALE`: Transformations to the `MAPPINGS`.
+
+]
+
+.footnote[
+Inspired by the [World Bank's DIME Analytics](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-visualization.html#12) training.
+]
+
+???
+A chart is made up of different layers. To denote the aggregation of layers, we use a plus sign.
+
+---
+class:inverse, bottom, left
+
+# Introduction to ggplot2
+
+---
+# Data and packages
+
+In addition to the tidyverse, we will use the [gapminder](https://github.com/jennybc/gapminder/) package for its data.
+
+.footnote[This data is only for __teaching purposes__. You may remember it from some [TED Talks](https://www.ted.com/playlists/474/the_best_hans_rosling_talks_yo)]
+
+.pull-left[
+
+```r
+library(gapminder)
+library(tidyverse)
+#&gt; -- Attaching packages ---------------------------------------------- tidyverse 1.3.1 --
+#&gt; v tibble  3.1.2     v dplyr   1.0.7
+#&gt; v tidyr   1.1.3     v stringr 1.4.0
+#&gt; v readr   1.4.0     v forcats 0.5.1
+#&gt; v purrr   0.3.4
+#&gt; -- Conflicts ------------------------------------------------- tidyverse_conflicts() --
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()
+```
+]
+.pull-right[
+&lt;img src="https://talkstar-assets.s3.amazonaws.com/production/playlists/playlist_474/2d21d632-4d8c-4555-b38b-41caa4419e8e/best_hans_talks_1200x627.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# The gapminder data
+
+In full format, it has 1704 rows and 6 columns.
+
+The first two columns are of type _factor_. This is useful for plotting.
+
+
+```r
+gapminder
+#&gt; # A tibble: 1,704 x 6
+#&gt;    country     continent  year lifeExp      pop gdpPercap
+#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+#&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.
+#&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.
+#&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.
+#&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.
+#&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.
+#&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.
+#&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.
+#&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.
+#&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.
+#&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.
+#&gt; # ... with 1,694 more rows
+```
+
+???
+Factor variables are mainly useful in plotting. They look like strings (i.e. character vectors) but in reality they are numbers (i.e. numeric vectors) with an associated label. These two characteristics makes them very useful for plotting because we can use them to order things.
+
+For now, you don't need to retain any more information than that about factors. We will explore them a bit more in detail in the exercises.
+
+---
+# Subsetting gapminder
+
+
+```r
+gapminder_example &lt;- gapminder %&gt;%
+  filter(year %in% c(1957, 2007))
+
+summary(gapminder_example)
+#&gt;         country       continent        year         lifeExp           pop           
+#&gt;  Afghanistan:  2   Africa  :104   Min.   :1957   Min.   :30.33   Min.   :6.132e+04  
+#&gt;  Albania    :  2   Americas: 50   1st Qu.:1957   1st Qu.:45.64   1st Qu.:2.876e+06  
+#&gt;  Algeria    :  2   Asia    : 66   Median :1982   Median :60.47   Median :7.297e+06  
+#&gt;  Angola     :  2   Europe  : 60   Mean   :1982   Mean   :59.26   Mean   :3.139e+07  
+#&gt;  Argentina  :  2   Oceania :  4   3rd Qu.:2007   3rd Qu.:72.39   3rd Qu.:2.185e+07  
+#&gt;  Australia  :  2                  Max.   :2007   Max.   :82.60   Max.   :1.319e+09  
+#&gt;  (Other)    :272                                                                    
+#&gt;    gdpPercap       
+#&gt;  Min.   :   277.6  
+#&gt;  1st Qu.:  1237.8  
+#&gt;  Median :  3499.0  
+#&gt;  Mean   :  7989.7  
+#&gt;  3rd Qu.:  9662.5  
+#&gt;  Max.   :113523.1  
+#&gt; 
+```
+
+---
+# Setting the stage
+
+
+
+
+
+
+.pull-left[
+
+```r
+ggplot(data = gapminder_example)
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
+]
+
+---
+# Aesthetics: x and y
+
+
+
+.pull-left[
+
+There are two arguments we can pass to `ggplot()`: `data` and `mapping`. The second must always use the function `aes()`.
+
+
+```r
+ggplot(
+  data = gapminder_example, 
+* mapping = aes(x = gdpPercap, y = lifeExp)
+  )
+```
+
+Or alternatively...
+
+
+```r
+gapminder_example %&gt;% 
+  ggplot(aes(x = gdpPercap, y = lifeExp))
+```
+
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
+]
+
+
+---
+# Geometries
+
+
+
+.pull-left[
+
+```r
+gapminder_example %&gt;% 
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+* geom_point()
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-15-1.png" width="504" /&gt;
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Code along #1
+
+1. Open today's [RStudio Cloud project](https://rstudio.cloud/project/2907237)
+1. Open the `code-along.R` script and run the code from the slides above.
+
+
+<div class="countdown" id="timer_614bb57e" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+
+---
+# More aesthetics: colours
+
+
+
+
+.pull-left[
+
+```r
+gapminder_example %&gt;% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+*     colour = continent
+      )
+    ) +
+  geom_point()
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-18-1.png" width="504" /&gt;
+]
+
+
+---
+# More aesthetics: shape
+
+
+
+
+.pull-left[
+
+```r
+gapminder_example %&gt;% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+*     shape = continent
+      )
+    ) +
+  geom_point()
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-20-1.png" width="504" /&gt;
+]
+
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Code along #2
+
+1. Open today's [RStudio Cloud project](https://rstudio.cloud/project/2907237)
+1. Open the `code-along.R` script and run the code from the slides above.
+
+<div class="countdown" id="timer_614bb6c1" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Scale transformations
+
+
+
+.pull-left[
+
+As a reminder, this is the default view without any scale transformations.
+
+
+```r
+gapminder_example %&gt;% 
+  ggplot(
+    aes(
+      x = gdpPercap,
+      y = lifeExp, 
+      colour = continent
+      )
+    ) +
+  geom_point()
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-23-1.png" width="504" /&gt;
+]
+
+---
+# Scale transformations
+
+
+
+.pull-left[
+
+With a transformation to the `x` aesthetic:
+
+
+```r
+gapminder_example %&gt;% 
+  ggplot(
+    aes(
+*     x = gdpPercap,
+      y = lifeExp, 
+      colour = continent
+      )
+    ) +
+  geom_point() +
+* scale_x_log10()
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-25-1.png" width="504" /&gt;
+
+]
+
+---
+# Scale transformations
+
+
+
+.pull-left[
+
+With a transformation to the `colour` aesthetic:
+
+
+```r
+gapminder_example %&gt;% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+*     colour = continent
+      )
+    ) +
+  geom_point() +
+  scale_x_log10() +
+* scale_colour_brewer(palette = "Dark2")
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-27-1.png" width="504" /&gt;
+
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Code along #3
+
+1. Open today's [RStudio Cloud project](https://rstudio.cloud/project/2907237)
+1. Open the `code-along.R` script and run the code from the slides above.
+
+<div class="countdown" id="timer_614bb4ac" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Faceting
+
+
+
+.pull-left[
+
+```r
+gapminder_example %&gt;% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+      colour = continent
+      )
+    ) +
+  geom_point(show.legend = FALSE) +
+* facet_wrap(~ continent)
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-30-1.png" width="504" /&gt;
+]
+
+---
+# Faceting
+
+
+
+.pull-left[
+
+```r
+gapminder_example %&gt;% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+      colour = continent
+      )
+    ) +
+  geom_point(show.legend = FALSE) +
+* facet_grid(continent ~ year)
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-32-1.png" width="504" /&gt;
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Code along #4
+
+1. Open today's [RStudio Cloud project](https://rstudio.cloud/project/2907237)
+1. Open the `code-along.R` script and run the code from the slides above.
+
+<div class="countdown" id="timer_614bb615" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: inverse, bottom, left
+background-image: url(https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80)
+background-size: cover
+
+# Break
+
+<div class="countdown" id="timer_614bb63e" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class:inverse, bottom, left
+
+# Common charts
+
+---
+# Histograms
+
+
+
+.pull-left[
+
+```r
+gapminder_example %&gt;%
+  ggplot(aes(x = gdpPercap)) +
+  geom_histogram() +
+  facet_grid(. ~ year)
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-36-1.png" width="504" /&gt;
+]
+
+---
+# Columns
+
+.pull-left[
+
+
+```r
+gapminder_summary &lt;- gapminder_example %&gt;% 
+  group_by(continent, year) %&gt;% 
+  summarise(
+    gdp_wmean = weighted.mean(
+      gdpPercap, 
+      pop
+      ),
+    .groups = "drop"
+    )
+
+ggplot(gapminder_summary) +
+  geom_col(
+    aes(
+      x = continent, 
+      y = gdp_wmean
+      )
+    ) +
+  facet_grid(. ~ year)
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-37-1.png" width="504" /&gt;
+]
+
+---
+# Lines
+
+
+
+.pull-left[
+
+```r
+gapminder %&gt;%
+  ggplot(
+    aes(
+      x = year, 
+      y = lifeExp, 
+      group = country
+      )
+    ) +
+  geom_line(show.legend = FALSE)
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-39-1.png" width="504" /&gt;
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Recreate
+
+.pull-left[
+Take another look at the code from the previous slide.
+
+How would you change the code to create the figure in the right?
+
+
+```r
+gapminder %&gt;%
+  ggplot(
+    aes(
+      x = year, 
+      y = lifeExp, 
+      group = country
+      )
+    ) +
+  geom_line(show.legend = FALSE)
+```
+
+]
+.pull-right[
+
+&lt;img src="02_dataviz_files/figure-html/exo-lines-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+<div class="countdown" id="timer_614bb681" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: exercise
+
+# ✅&amp;nbsp; Answer
+
+
+```r
+gapminder %&gt;%
+  ggplot(aes(year, lifeExp, group = country, colour = continent)) +
+  geom_line(show.legend = FALSE) +
+  facet_wrap(~ continent)
+```
+
+---
+class:inverse, bottom, left
+
+# Tidy data
+
+---
+# Definition
+
+There are three interrelated rules which make a dataset tidy:
+
+1. Each variable must have its own column.
+2. Each observation must have its own row.
+3. Each value must have its own cell.
+
+![](https://github.com/hadley/r4ds/raw/master/images/tidy-1.png)
+
+.right[Source: [R for Data Science](https://r4ds.had.co.nz/tidy-data.html)]
+
+---
+# Pivoting from long to wide
+
+
+
+
+```r
+gapminder_long
+#&gt; # A tibble: 5,112 x 5
+#&gt;    country     continent  year indicator      value
+#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+#&gt;  1 Afghanistan Asia       1952 lifeExp         28.8
+#&gt;  2 Afghanistan Asia       1952 pop        8425333  
+#&gt;  3 Afghanistan Asia       1952 gdpPercap      779. 
+#&gt;  4 Afghanistan Asia       1957 lifeExp         30.3
+#&gt;  5 Afghanistan Asia       1957 pop        9240934  
+#&gt;  6 Afghanistan Asia       1957 gdpPercap      821. 
+#&gt;  7 Afghanistan Asia       1962 lifeExp         32.0
+#&gt;  8 Afghanistan Asia       1962 pop       10267083  
+#&gt;  9 Afghanistan Asia       1962 gdpPercap      853. 
+#&gt; 10 Afghanistan Asia       1967 lifeExp         34.0
+#&gt; # ... with 5,102 more rows
+```
+
+---
+# Pivoting from long to wide
+
+`pivot_wider()` has two main arguments:
+
+- `names_from`: The name of the column from the long table that will be used to create new columns to form a wider table.
+- `values_from`: The name of the column from the long table that will be used to fill the contents of the new columns in the wider table.
+
+
+```r
+gapminder_long %&gt;% 
+  pivot_wider(names_from = indicator, values_from = value)
+#&gt; # A tibble: 1,704 x 6
+#&gt;    country     continent  year lifeExp      pop gdpPercap
+#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+#&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.
+#&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.
+#&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.
+#&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.
+#&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.
+#&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.
+#&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.
+#&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.
+#&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.
+#&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.
+#&gt; # ... with 1,694 more rows
+```
+
+---
+class: exercise
+
+# 📝&amp;nbsp; From long to wide
+
+1. Open today's [RStudio Cloud project](https://rstudio.cloud/project/2907237)
+1. Open the `pivot.R` script, run the code from the slides above and answer the different questions.
+
+<div class="countdown" id="timer_614bb717" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Pivoting from wide to long
+
+
+
+
+```r
+gapminder_wide
+#&gt; # A tibble: 142 x 14
+#&gt;    country     continent `1952` `1957` `1962` `1967` `1972` `1977` `1982` `1987` `1992`
+#&gt;    &lt;fct&gt;       &lt;fct&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1 Afghanistan Asia        28.8   30.3   32.0   34.0   36.1   38.4   39.9   40.8   41.7
+#&gt;  2 Albania     Europe      55.2   59.3   64.8   66.2   67.7   68.9   70.4   72     71.6
+#&gt;  3 Algeria     Africa      43.1   45.7   48.3   51.4   54.5   58.0   61.4   65.8   67.7
+#&gt;  4 Angola      Africa      30.0   32.0   34     36.0   37.9   39.5   39.9   39.9   40.6
+#&gt;  5 Argentina   Americas    62.5   64.4   65.1   65.6   67.1   68.5   69.9   70.8   71.9
+#&gt;  6 Australia   Oceania     69.1   70.3   70.9   71.1   71.9   73.5   74.7   76.3   77.6
+#&gt;  7 Austria     Europe      66.8   67.5   69.5   70.1   70.6   72.2   73.2   74.9   76.0
+#&gt;  8 Bahrain     Asia        50.9   53.8   56.9   59.9   63.3   65.6   69.1   70.8   72.6
+#&gt;  9 Bangladesh  Asia        37.5   39.3   41.2   43.5   45.3   46.9   50.0   52.8   56.0
+#&gt; 10 Belgium     Europe      68     69.2   70.2   70.9   71.4   72.8   73.9   75.4   76.5
+#&gt; # ... with 132 more rows, and 3 more variables: 1997 &lt;dbl&gt;, 2002 &lt;dbl&gt;, 2007 &lt;dbl&gt;
+```
+
+---
+# Pivoting from wide to long
+
+.pull-left[
+
+`pivot_longer()` has three main arguments:
+
+- `cols`: Columns to pivot into the longer format. Here you can select elements in the same way as you would with `dplyr::select()`.
+- `names_to`: The name of the column to create from the column names of the data in wide format.
+- `values_to`: The name of the column to create from the data stored in cell values.
+
+]
+
+.pull-right[
+
+```r
+gapminder_wide %&gt;%
+  pivot_longer(
+    cols = `1952`:`2007`,
+    names_to = "year",
+    values_to = "lifeExp"
+  )
+#&gt; # A tibble: 1,704 x 4
+#&gt;    country     continent year  lifeExp
+#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;chr&gt;   &lt;dbl&gt;
+#&gt;  1 Afghanistan Asia      1952     28.8
+#&gt;  2 Afghanistan Asia      1957     30.3
+#&gt;  3 Afghanistan Asia      1962     32.0
+#&gt;  4 Afghanistan Asia      1967     34.0
+#&gt;  5 Afghanistan Asia      1972     36.1
+#&gt;  6 Afghanistan Asia      1977     38.4
+#&gt;  7 Afghanistan Asia      1982     39.9
+#&gt;  8 Afghanistan Asia      1987     40.8
+#&gt;  9 Afghanistan Asia      1992     41.7
+#&gt; 10 Afghanistan Asia      1997     41.8
+#&gt; # ... with 1,694 more rows
+```
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; From wide to long
+
+1. Open today's [RStudio Cloud project](https://rstudio.cloud/project/2907237)
+1. Open the `pivot.R` script, run the code from the slides above and answer the different questions.
+
+<div class="countdown" id="timer_614bb524" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: exercise
+
+## 👩‍💻&amp;nbsp; Demo: Recreating the OECD style with ggplot2
+
+The code used in this demonstration is in the [RStudio Cloud project](https://rstudio.cloud/project/2907237).
+
+.center[
+
+]
+
+
+---
+class: inverse, bottom, left
+background-image: url(img/gradient-background.png)
+background-size: cover
+
+# Annex
+
+---
+# To learn more
+
+.pull-left[
+
+&lt;https://r4ds.had.co.nz/&gt;
+
+
+[Chapter 3](https://r4ds.had.co.nz/data-visualisation.html) and [Chapter 28](https://r4ds.had.co.nz/graphics-for-communication.html)
+]
+
+.pull-right[
+&lt;img src="https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png" width="60%" /&gt;
+]
+
+---
+# Columns: a better example
+
+.pull-left[
+
+
+```r
+gapminder_summary &lt;- gapminder_example %&gt;% 
+  group_by(continent, year) %&gt;% 
+  summarise(
+    gdp_wmean = weighted.mean(
+      gdpPercap, 
+      pop
+      ),
+    .groups = "drop"
+    )
+
+ggplot(gapminder_summary) +
+  geom_col(
+    aes(
+      x = continent, 
+      y = gdp_wmean,
+      fill = factor(year)
+      ),
+    position = "dodge"
+    )
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-53-1.png" width="504" /&gt;
+]
+
+---
+# Bars vs. columns
+
+
+
+.pull-left[
+
+```r
+gapminder_example %&gt;%
+  ggplot() +
+  # we don't specify a 'y' aesthetic
+  geom_bar(aes(x = continent)) +
+  facet_grid(. ~ year)
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-55-1.png" width="504" /&gt;
+]
+
+
+---
+# Bars vs. columns
+
+
+
+.pull-left[
+
+```r
+gapminder_example %&gt;%
+  count(continent, year) %&gt;%
+  ggplot() +
+  # we need a 'y' aesthetic
+  geom_col(aes(x = continent, y = n)) + 
+  facet_grid(. ~ year)
+
+```
+]
+.pull-right[
+&lt;img src="02_dataviz_files/figure-html/unnamed-chunk-57-1.png" width="504" /&gt;
+]
+
+???
+
+geom_col() will generally be more useful to us than geom_bar() because often we want to be very specific about the way we summarise the data. Imagine, for example, if these bars showed a weighted mean.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": ["r", "css", "yaml"],
+"countIncrementalSlides": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
