@@ -12,6 +12,8 @@ params:
   url_github: "https://github.com/mpaulacaldas/cfe-r-training"
   png_background: "img/gradient-background.png"
   png_break: "https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+  background_position: "1050px 20px"
+  background_size: "100px"
 output:
   xaringan::moon_reader:
     css: ["default", "cfe-fonts.css", "cfe.css"]
@@ -27,10 +29,12 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message=FALSE}
+library(here)
+
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
-  fig.retina = 3, # can't remember why I put this in another deck
+  fig.retina = 3, # https://community.rstudio.com/t/size-of-image-in-xaringan-slides/21319/12
   collapse = TRUE,
   comment = "#>"
   )
@@ -43,6 +47,17 @@ xaringanExtra::use_xaringan_extra(c(
   ))
 
 emoji <- function(x) paste0(emo::ji(x), "&nbsp;")
+
+url_tidyverse_logo <- function(pkg) {
+  sprintf("https://raw.githubusercontent.com/tidyverse/%s/master/man/figures/logo.png", pkg)
+}
+
+# hacky way of getting the background colour  to match the background of the
+# exercise slides. For the values of yellow, see cfe.css
+yellow <- rgb(red = 255, green = 215, blue = 145, maxColorValue = 255)
+theme_exo <- function(p) {
+  theme(plot.background = element_rect(fill = yellow, colour = NA))
+  }
 ```
 
 class: title-slide, inverse, bottom
@@ -92,36 +107,461 @@ The presenter notes are where you might also find OECD or CFE specific
 information.
 
 ---
+class: middle
+
+# Learning objectives for today
+
+1. Understand the main ideas behind the "layered grammar of graphics" and "tidy data"
+
+1. Learn how to create basic charts with ggplot2
+
+1. Learn to reshape data between wide and long format
+
+---
 class:inverse, bottom, left
 
 # Introduction to data visualisation in R
 
 ---
-# Another simple slide
+# Data visualisation in R
 
-With text. Let's see the text.
-
-```{r}
-summary(iris)
+```{r, echo = FALSE, fig.align='center'}
+library(ggplot2)
+ggplot(mpg) +
+  geom_point(aes(displ, hwy, colour = class))
 ```
+
+???
+
+There are many possible ways to visualise data with R. In general, libraries are divided into two camps: static visualisations and dynamic visualisations. 
+
+Today we will concentrate on ggplot2, a package for highly customisable static visualisations and that facilitates quick iteration and data exploration.
+
+---
+# Data visualisation in R
+
+```{r, echo=FALSE, message = FALSE, warning=FALSE}
+library(highcharter)
+hchart(mpg, "scatter", hcaes(x = displ, y = hwy, group = class))
+```
+
+???
+
+Although not covered today, know that there are many other R packages that are designed to display interactive data visualisations. This example shows highcharter. Another popular one is plotly. For maps, leaflet.
+
+---
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+background-image: url(`r url_tidyverse_logo("ggplot2")`)
+
+# Why ggplot2?
+
+Today, we will focus on __static data visualisation__ using the [ggplot2](https://ggplot2.tidyverse.org/) package, from the tidyverse. There are some advantages to using `ggplot2`:
+
+1. It is based on the [Grammar of Graphics](http://vita.had.co.nz/papers/layered-grammar.pdf), a theory for building statistical graphics.
+
+1. It provides a high degree of customisation.
+
+1. It allows for fast exploration and iteration.
+
+1. It is the most popular R graphics library, with many extensions and that is actively maintained.
+
+---
+background-position: `r params$background_position`
+background-size: `r params$background_size`
+background-image: url(`r url_tidyverse_logo("ggplot2")`)
+
+# The layered grammar of graphics
+
+Below we have an example of the grammar that we would use in ggplot2 to create a graph. Our focus today will be on the highlighted elements.
+
+.pull-left[
+```{r, eval = FALSE}
+ggplot(data = <DATA>) + #<<
+  <GEOM_FUNCTION>(
+     mapping = aes(<MAPPINGS>), #<<
+     stat = <STAT>,
+     position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION> + #<<
+  <SCALE_FUNCTION> + #<<
+  <THEME_FUNCTION>
+```
+]
+.pull-right[
+
+- `DATA`: Data we want to visualise.
+- `GEOM`: Geometric shapes representing the data.
+- `MAPPINGS`: Aesthetic mappings of the geometric and statistical objects.
+- `FACET`: Arrangement of data into a grid of plots.
+- `SCALE`: Transformations to the `MAPPINGS`.
+
+]
+
+.footnote[
+Inspired by the [World Bank's DIME Analytics](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-visualization.html#12) training.
+]
+
+???
+A chart is made up of different layers. To denote the aggregation of layers, we use a plus sign.
 
 ---
 class:inverse, bottom, left
 
-# The layered grammar of graphics
+# Introduction to ggplot2
+
+---
+# Data and packages
+
+In addition to the tidyverse, we will use the [gapminder](https://github.com/jennybc/gapminder/) package for its data.
+
+.footnote[This data is only for __teaching purposes__. You may remember it from some [TED Talks](https://www.ted.com/playlists/474/the_best_hans_rosling_talks_yo)]
+
+.pull-left[
+```{r, warning=FALSE}
+library(gapminder)
+library(tidyverse)
+```
+]
+.pull-right[
+```{r, echo = FALSE, out.width="100%", fig.align='center'}
+knitr::include_graphics("https://talkstar-assets.s3.amazonaws.com/production/playlists/playlist_474/2d21d632-4d8c-4555-b38b-41caa4419e8e/best_hans_talks_1200x627.jpg")
+```
+]
+
+---
+# The gapminder data
+
+In full format, it has `r nrow(gapminder)` rows and `r ncol(gapminder)` columns.
+
+The first two columns are of type _factor_. This is useful for plotting.
+
+```{r}
+gapminder
+```
+
+???
+Factor variables are mainly useful in plotting. They look like strings (i.e. character vectors) but in reality they are numbers (i.e. numeric vectors) with an associated label. These two characteristics makes them very useful for plotting because we can use them to order things.
+
+For now, you don't need to retain any more information than that about factors. We will explore them a bit more in detail in the exercises.
+
+---
+# Subsetting gapminder
+
+```{r}
+gapminder_example <- gapminder %>%
+  filter(year %in% c(1957, 2007))
+
+summary(gapminder_example)
+```
+
+---
+# Setting the stage
+
+```{r, include=FALSE}
+theme_set(theme_gray(base_size = 14))
+```
+
+
+```{r setting-stage, echo = FALSE, eval=FALSE}
+ggplot(data = gapminder_example)
+```
+
+.pull-left[
+```{r, ref.label="setting-stage", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="setting-stage", echo = FALSE, eval=TRUE}
+```
+]
+
+---
+# Aesthetics: x and y
+
+```{r aesthetics, echo = FALSE, eval=FALSE}
+ggplot(
+  data = gapminder_example, 
+  mapping = aes(x = gdpPercap, y = lifeExp) #<<
+  )
+```
+
+.pull-left[
+
+There are two arguments we can pass to `ggplot()`: `data` and `mapping`. The second must always use the function `aes()`.
+
+```{r, ref.label="aesthetics", echo = TRUE, eval=FALSE}
+```
+
+Or alternatively...
+
+```{r, eval = FALSE}
+gapminder_example %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp))
+```
+
+]
+.pull-right[
+```{r, ref.label="aesthetics", echo = FALSE, eval=TRUE}
+```
+]
+
+
+---
+# Geometries
+
+```{r geometries, echo = FALSE, eval=FALSE}
+gapminder_example %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() #<<
+```
+
+.pull-left[
+```{r, ref.label="geometries", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="geometries", echo = FALSE, eval=TRUE}
+```
+]
 
 ---
 class: exercise
 
-# `r emoji("pencil")` Exercise with timer
+# `r emoji("pencil")` Code along #1
 
-Prompt.
+1. Open today's [RStudio Cloud project](`r params$url_project`)
+1. Open the `code-along.R` script and run the code from the slides above.
 
-- Items
-- Items
 
 ```{r, echo = FALSE}
-countdown::countdown(minutes = 0, seconds = 2, top = 0)
+countdown::countdown(minutes = 5, seconds = 0, top = 0)
+```
+
+
+---
+# More aesthetics: colours
+
+
+```{r aesthetics-colour, echo = FALSE, eval=FALSE}
+gapminder_example %>% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+      colour = continent #<<
+      )
+    ) +
+  geom_point()
+```
+
+.pull-left[
+```{r, ref.label="aesthetics-colour", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="aesthetics-colour", echo = FALSE, eval=TRUE}
+```
+]
+
+
+---
+# More aesthetics: shape
+
+
+```{r aesthetics-shape, echo = FALSE, eval=FALSE}
+gapminder_example %>% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+      shape = continent #<<
+      )
+    ) +
+  geom_point()
+```
+
+.pull-left[
+```{r, ref.label="aesthetics-shape", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="aesthetics-shape", echo = FALSE, eval=TRUE}
+```
+]
+
+
+---
+class: exercise
+
+# `r emoji("pencil")` Code along #2
+
+1. Open today's [RStudio Cloud project](`r params$url_project`)
+1. Open the `code-along.R` script and run the code from the slides above.
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, seconds = 0, top = 0)
+```
+
+---
+# Scale transformations
+
+```{r scale-default, echo = FALSE, eval=FALSE}
+gapminder_example %>% 
+  ggplot(
+    aes(
+      x = gdpPercap,
+      y = lifeExp, 
+      colour = continent
+      )
+    ) +
+  geom_point()
+```
+
+.pull-left[
+
+As a reminder, this is the default view without any scale transformations.
+
+```{r, ref.label="scale-default", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="scale-default", echo = FALSE, eval=TRUE}
+```
+]
+
+---
+# Scale transformations
+
+```{r scale-trans, echo = FALSE, eval=FALSE}
+gapminder_example %>% 
+  ggplot(
+    aes(
+      x = gdpPercap, #<<
+      y = lifeExp, 
+      colour = continent
+      )
+    ) +
+  geom_point() +
+  scale_x_log10() #<<
+```
+
+.pull-left[
+
+With a transformation to the `x` aesthetic:
+
+```{r, ref.label="scale-trans", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="scale-trans", echo = FALSE, eval=TRUE}
+```
+
+]
+
+---
+# Scale transformations
+
+```{r scale-colour, echo = FALSE, eval=FALSE}
+gapminder_example %>% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+      colour = continent #<<
+      )
+    ) +
+  geom_point() +
+  scale_x_log10() +
+  scale_colour_brewer(palette = "Dark2") #<<
+```
+
+.pull-left[
+
+With a transformation to the `colour` aesthetic:
+
+```{r, ref.label="scale-colour", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="scale-colour", echo = FALSE, eval=TRUE}
+```
+
+]
+
+---
+class: exercise
+
+# `r emoji("pencil")` Code along #3
+
+1. Open today's [RStudio Cloud project](`r params$url_project`)
+1. Open the `code-along.R` script and run the code from the slides above.
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, seconds = 0, top = 0)
+```
+
+---
+# Faceting
+
+```{r facet, echo = FALSE, eval=FALSE}
+gapminder_example %>% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+      colour = continent
+      )
+    ) +
+  geom_point(show.legend = FALSE) +
+  facet_wrap(~ continent) #<<
+```
+
+.pull-left[
+```{r, ref.label="facet", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="facet", echo = FALSE, eval=TRUE}
+```
+]
+
+---
+# Faceting
+
+```{r facet-grid, echo = FALSE, eval=FALSE}
+gapminder_example %>% 
+  ggplot(
+    aes(
+      x = gdpPercap, 
+      y = lifeExp, 
+      colour = continent
+      )
+    ) +
+  geom_point(show.legend = FALSE) +
+  facet_grid(continent ~ year) #<<
+```
+
+.pull-left[
+```{r, ref.label="facet-grid", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="facet-grid", echo = FALSE, eval=TRUE}
+```
+]
+
+---
+class: exercise
+
+# `r emoji("pencil")` Code along #4
+
+1. Open today's [RStudio Cloud project](`r params$url_project`)
+1. Open the `code-along.R` script and run the code from the slides above.
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, seconds = 0, top = 0)
 ```
 
 ---
@@ -141,9 +581,421 @@ class:inverse, bottom, left
 # Common charts
 
 ---
+# Histograms
+
+```{r histogram, echo = FALSE, eval=FALSE}
+gapminder_example %>%
+  ggplot(aes(x = gdpPercap)) +
+  geom_histogram() +
+  facet_grid(. ~ year)
+```
+
+.pull-left[
+```{r, ref.label="histogram", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="histogram", echo = FALSE, eval=TRUE, message=FALSE}
+```
+]
+
+---
+# Columns
+
+.pull-left[
+
+```{r columns-summary, eval=FALSE}
+gapminder_summary <- gapminder_example %>% 
+  group_by(continent, year) %>% 
+  summarise(
+    gdp_wmean = weighted.mean(
+      gdpPercap, 
+      pop
+      ),
+    .groups = "drop"
+    )
+
+ggplot(gapminder_summary) +
+  geom_col(
+    aes(
+      x = continent, 
+      y = gdp_wmean
+      )
+    ) +
+  facet_grid(. ~ year)
+```
+]
+.pull-right[
+```{r, ref.label="columns-summary", echo = FALSE, eval=TRUE}
+```
+]
+
+---
+# Lines
+
+```{r lines, echo = FALSE, eval=FALSE}
+gapminder %>%
+  ggplot(
+    aes(
+      x = year, 
+      y = lifeExp, 
+      group = country
+      )
+    ) +
+  geom_line(show.legend = FALSE)
+```
+
+.pull-left[
+```{r, ref.label="lines", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="lines", echo = FALSE, eval=TRUE}
+```
+]
+
+---
+class: exercise
+
+# `r emoji("pencil")` Recreate
+
+.pull-left[
+Take another look at the code from the previous slide.
+
+How would you change the code to create the figure in the right?
+
+```{r, ref.label="lines", echo = TRUE, eval=FALSE}
+```
+
+]
+.pull-right[
+
+```{r exo-lines, echo = FALSE, fig.align='center'}
+gapminder %>%
+  ggplot(aes(year, lifeExp, group = country, colour = continent)) +
+  geom_line(show.legend = FALSE) +
+  facet_wrap(~ continent) +
+  theme_exo()
+```
+
+]
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, seconds = 0, top = 0)
+```
+
+---
+class: exercise
+
+# `r emoji("white_check_mark")` Answer
+
+```{r, eval = FALSE}
+gapminder %>%
+  ggplot(aes(year, lifeExp, group = country, colour = continent)) +
+  geom_line(show.legend = FALSE) +
+  facet_wrap(~ continent)
+```
+
+---
+class:inverse, bottom, left
+
+# Tidy data
+
+---
+# Definition
+
+There are three interrelated rules which make a dataset tidy:
+
+1. Each variable must have its own column.
+2. Each observation must have its own row.
+3. Each value must have its own cell.
+
+![](https://github.com/hadley/r4ds/raw/master/images/tidy-1.png)
+
+.right[Source: [R for Data Science](https://r4ds.had.co.nz/tidy-data.html)]
+
+---
+# Pivoting from long to wide
+
+```{r, include = FALSE}
+gapminder_long <- gapminder %>% 
+  pivot_longer(
+    lifeExp:gdpPercap, 
+    names_to = "indicator", 
+    values_to = "value"
+    )
+```
+
+```{r}
+gapminder_long
+```
+
+---
+# Pivoting from long to wide
+
+`pivot_wider()` has two main arguments:
+
+- `names_from`: The name of the column from the long table that will be used to create new columns to form a wider table.
+- `values_from`: The name of the column from the long table that will be used to fill the contents of the new columns in the wider table.
+
+```{r}
+gapminder_long %>% 
+  pivot_wider(names_from = indicator, values_from = value)
+```
+
+---
+class: exercise
+
+# `r emoji("pencil")` From long to wide
+
+1. Open today's [RStudio Cloud project](`r params$url_project`)
+1. Open the `pivot.R` script, run the code from the slides above and answer the different questions.
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 2, seconds = 0, top = 0)
+```
+
+---
+# Pivoting from wide to long
+
+```{r, include = FALSE}
+gapminder_wide <- gapminder %>%
+  select(country:lifeExp) %>%
+  pivot_wider(names_from = year, values_from = lifeExp)
+```
+
+```{r}
+gapminder_wide
+```
+
+---
+# Pivoting from wide to long
+
+.pull-left[
+
+`pivot_longer()` has three main arguments:
+
+- `cols`: Columns to pivot into the longer format. Here you can select elements in the same way as you would with `dplyr::select()`.
+- `names_to`: The name of the column to create from the column names of the data in wide format.
+- `values_to`: The name of the column to create from the data stored in cell values.
+
+]
+
+.pull-right[
+```{r}
+gapminder_wide %>%
+  pivot_longer(
+    cols = `1952`:`2007`,
+    names_to = "year",
+    values_to = "lifeExp"
+  )
+```
+]
+
+---
+class: exercise
+
+# `r emoji("pencil")` From wide to long
+
+1. Open today's [RStudio Cloud project](`r params$url_project`)
+1. Open the `pivot.R` script, run the code from the slides above and answer the different questions.
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, seconds = 0, top = 0)
+```
+
+---
+class: exercise
+
+## `r emoji("woman_technologist")` Demo: Recreating the OECD style with ggplot2
+
+The code used in this demonstration is in the [RStudio Cloud project](`r params$url_project`).
+
+.center[
+```{r, echo = FALSE, eval=FALSE}
+data_raw <- readxl::read_xlsx(here("exercises/02_dataviz/worker_productivity.xlsx"))
+
+data_figure <- data_raw %>%
+  # Change the type of the "country" variable to factor, and order the factor
+  # with respect to the max value observed. This will make sure countries are
+  # plotted in descending order with respect to the max value
+  mutate(country = fct_reorder(country, -max)) %>% 
+  # for plotting, Excel requires a different table structure than ggplot2, which
+  # uses "tidy data". Here we pivot the table into the longer, "tidy data"
+  # format, i.e. the names of the original columns now populate the "category"
+  # variable
+  pivot_longer(
+    c(average, min, max),
+    names_to = "category",
+    values_to = "value"
+    ) %>% 
+  # transform data to more readable in the figure
+  mutate(
+    value = value / 1000,
+    category = factor(
+      category,
+      levels = c("min", "average", "max"),
+      labels = c("Minimum region", "National average", "Maximum region")
+  ))
+
+
+# 2 Graph -----------------------------------------------------------------
+# 2.1 RCaG theme --------------------------------------------------------
+
+data_figure %>%
+  ggplot(aes(x = country, y = value)) +
+  geom_line(colour = "#00A9CB", size = 3) +
+  # order matters: geom_point should come after geom_line otherwise the line
+  # would be on top of the points
+  geom_point(aes(colour = category, shape = category), size = 3) +
+  geom_point(
+    # data can be replaced for some geoms
+    data = filter(data_figure, category == "National average"),
+    # add this layer which is identical to previous geom_point but for average
+    # only to ensure that average category is on top for countries with only 1
+    # region
+    colour = "black", size = 3, shape = 18
+  ) +
+  geom_hline(
+    # linetype in aes() to create new legend entry
+    aes(yintercept = 57.74, linetype = "OECD average"),
+    colour = "#1461B3"
+    ) +
+  labs(subtitle = "'000 USD per worker") +
+  scale_colour_manual(values = c("white", "black", "#0060B3")) +
+  scale_shape_manual(values = c(16, 18, 16)) +
+  # Customize interval on y-axis
+  scale_y_continuous(
+    limits = c(0, 220), expand = c(0, 0),
+    breaks = seq(0, 220, by = 20)
+  ) +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(size = 10, colour = "black", angle = 45, hjust = 1),
+    axis.text.y = element_text(size = 10, colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.ticks.length = unit(-0.15, "cm"),
+    plot.subtitle = element_text(size = 10, colour = "black", hjust = -0.05),
+    plot.margin = margin(t = 4, 1, 1, 1, "lines"),
+    panel.grid.major = element_line(colour = "white"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "#E9E9E9"),
+    legend.text = element_text(size = 10),
+    legend.title = element_blank(),
+    legend.key = element_rect(color = "#E9E9E9", fill = "#E9E9E9"),
+    legend.background = element_rect(fill = "#E9E9E9"),
+    legend.box.background = element_rect(color = "#E9E9E9", fill = "#E9E9E9"),
+    legend.box.margin = margin(0, 3, 0, 3, "cm"),
+    legend.key.size = unit(0.7, "line"),
+    legend.position = c(0.5, 1.12),
+    legend.direction = "horizontal",
+    legend.box = "horizontal"
+  ) +
+  theme_exo()
+```
+]
+
+
+---
 class: inverse, bottom, left
 background-image: url(`r params$png_background`)
 background-size: cover
 
 # Annex
 
+---
+# To learn more
+
+.pull-left[
+
+<https://r4ds.had.co.nz/>
+
+
+[Chapter 3](https://r4ds.had.co.nz/data-visualisation.html) and [Chapter 28](https://r4ds.had.co.nz/graphics-for-communication.html)
+]
+
+.pull-right[
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png")
+```
+]
+
+---
+# Columns: a better example
+
+.pull-left[
+
+```{r columns-summary-better, eval=FALSE}
+gapminder_summary <- gapminder_example %>% 
+  group_by(continent, year) %>% 
+  summarise(
+    gdp_wmean = weighted.mean(
+      gdpPercap, 
+      pop
+      ),
+    .groups = "drop"
+    )
+
+ggplot(gapminder_summary) +
+  geom_col(
+    aes(
+      x = continent, 
+      y = gdp_wmean,
+      fill = factor(year)
+      ),
+    position = "dodge"
+    )
+```
+]
+.pull-right[
+```{r, ref.label="columns-summary-better", echo = FALSE, eval=TRUE}
+```
+]
+
+---
+# Bars vs. columns
+
+```{r bars, echo = FALSE, eval=FALSE}
+gapminder_example %>%
+  ggplot() +
+  # we don't specify a 'y' aesthetic
+  geom_bar(aes(x = continent)) +
+  facet_grid(. ~ year)
+```
+
+.pull-left[
+```{r, ref.label="bars", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="bars", echo = FALSE, eval=TRUE}
+```
+]
+
+
+---
+# Bars vs. columns
+
+```{r columns, echo = FALSE, eval=FALSE}
+gapminder_example %>%
+  count(continent, year) %>%
+  ggplot() +
+  # we need a 'y' aesthetic
+  geom_col(aes(x = continent, y = n)) + 
+  facet_grid(. ~ year)
+
+```
+
+.pull-left[
+```{r, ref.label="columns", echo = TRUE, eval=FALSE}
+```
+]
+.pull-right[
+```{r, ref.label="columns", echo = FALSE, eval=TRUE}
+```
+]
+
+???
+
+geom_col() will generally be more useful to us than geom_bar() because often we want to be very specific about the way we summarise the data. Imagine, for example, if these bars showed a weighted mean.
