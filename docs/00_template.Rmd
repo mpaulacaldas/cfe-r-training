@@ -30,7 +30,7 @@ editor_options:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
-  fig.retina = 3, # can't remember why I put this in another deck
+  fig.retina = 3, # https://community.rstudio.com/t/size-of-image-in-xaringan-slides/21319/12
   collapse = TRUE,
   comment = "#>"
   )
