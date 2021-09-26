@@ -2,7 +2,7 @@
 title: "Data visualisation with ggplot2"
 author: "María Paula Caldas"
 ta: "Jolien Noels"
-date: "2021-09-13"
+date: "2021-09-23"
 description: ""
 params:
   module: "2"
