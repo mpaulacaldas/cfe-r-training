@@ -22,8 +22,8 @@ library(purrr)
 
 rmds <- c(
   "01_intro.Rmd",
-  "02_dataviz.Rmd"
-  # "03_programming.Rmd",
+  "02_dataviz.Rmd",
+  "03_programming.Rmd"
   # "04_rmarkdown.Rmd",
   # "05_goodpractice.Rmd"
   )
@@ -57,3 +57,4 @@ render("README.md", output_file = "docs/index.html")
 render("docs/00_template.Rmd")
 render("docs/01_intro.Rmd")
 render("docs/02_dataviz.Rmd")
+render("docs/03_programming.Rmd")
