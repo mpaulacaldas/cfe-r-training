@@ -1,13 +1,13 @@
 ---
-title: "Our titles are not as long"
+title: "R programming basics"
 author: "María Paula Caldas"
 ta: "Jolien Noels"
-date: "2021-09-13"
+date: "2021-09-30"
 description: ""
 params:
-  module: "1"
-  url_slides:  "https://mpaulacaldas.github.io/cfe-r-training/" # TODO
-  url_project: ""
+  module: "3"
+  url_slides:  "https://mpaulacaldas.github.io/cfe-r-training/03_programming.html"
+  url_project: "https://rstudio.cloud/project/2940340"
   url_teams: "https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c"
   url_github: "https://github.com/mpaulacaldas/cfe-r-training"
   png_background: "img/gradient-background.png"

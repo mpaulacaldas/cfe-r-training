@@ -179,6 +179,57 @@ gapminder_example %>%
   facet_grid(continent ~ year, scales = "free_x")
 
 
+# Common charts -----------------------------------------------------------
+
+# histograms
+gapminder_example %>%
+  ggplot(aes(x = gdpPercap)) +
+  geom_histogram() +
+  facet_grid(. ~ year)
+
+# columns
+gapminder_summary <- gapminder_example %>%
+  group_by(continent, year) %>%
+  summarise(
+    gdp_wmean = weighted.mean(
+      gdpPercap,
+      pop
+    ),
+    .groups = "drop"
+  )
+ggplot(gapminder_summary) +
+  geom_col(
+    aes(
+      x = continent,
+      y = gdp_wmean
+    )
+  ) +
+  facet_grid(. ~ year)
+
+# lines
+gapminder %>%
+  ggplot(
+    aes(
+      x = year,
+      y = lifeExp,
+      group = country
+    )
+  ) +
+  geom_line(show.legend = FALSE)
+
+
+# your turn: recreate the plot in the slides. you can take inspiration from:
+gapminder %>%
+  ggplot(
+    aes(
+      x = year,
+      y = lifeExp,
+      group = country
+    )
+  ) +
+  geom_line(show.legend = FALSE)
+
+
 # Hints -------------------------------------------------------------------
 
 # Keyboard shortcuts

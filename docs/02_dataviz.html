@@ -4,7 +4,7 @@
     <title>Data visualisation with ggplot2</title>
     <meta charset="utf-8" />
     <meta name="author" content="María Paula Caldas" />
-    <meta name="date" content="2021-09-13" />
+    <meta name="date" content="2021-09-23" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
@@ -127,7 +127,7 @@ class: middle
 
 1. Learn how to create basic charts with ggplot2
 
-1. Learn to reshape data between wide and long format
+1. Learn to reshape data between wide and long format using the pivot functions from tidyr
 
 ---
 class:inverse, bottom, left
@@ -230,6 +230,14 @@ In addition to the tidyverse, we will use the [gapminder](https://github.com/jen
 ```r
 library(gapminder)
 library(tidyverse)
+#&gt; -- Attaching packages ---------------------------------------------- tidyverse 1.3.1 --
+#&gt; v tibble  3.1.2     v dplyr   1.0.7
+#&gt; v tidyr   1.1.3     v stringr 1.4.0
+#&gt; v readr   1.4.0     v forcats 0.5.1
+#&gt; v purrr   0.3.4
+#&gt; -- Conflicts ------------------------------------------------- tidyverse_conflicts() --
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()
 ```
 ]
 .pull-right[
@@ -769,6 +777,10 @@ gapminder_long
 ```
 
 ---
+background-position: 1050px 20px
+background-size: 100px
+background-image: url(https://raw.githubusercontent.com/tidyverse/tidyr/master/man/figures/logo.png)
+
 # Pivoting from long to wide
 
 `pivot_wider()` has two main arguments:
@@ -833,6 +845,10 @@ gapminder_wide
 ```
 
 ---
+background-position: 1050px 20px
+background-size: 100px
+background-image: url(https://raw.githubusercontent.com/tidyverse/tidyr/master/man/figures/logo.png)
+
 # Pivoting from wide to long
 
 .pull-left[
@@ -907,10 +923,12 @@ background-size: cover
 
 .pull-left[
 
-&lt;https://r4ds.had.co.nz/&gt;
+[**R for Data Science**](https://r4ds.had.co.nz/), [Chapter 3](https://r4ds.had.co.nz/data-visualisation.html) and [Chapter 28](https://r4ds.had.co.nz/graphics-for-communication.html)
 
+[**ggplot2: Elegant graphics for data analysis**](https://ggplot2-book.org/), for a comprehensive explanation of the package and its implementation of the Grammar of Graphics.
 
-[Chapter 3](https://r4ds.had.co.nz/data-visualisation.html) and [Chapter 28](https://r4ds.had.co.nz/graphics-for-communication.html)
+[**R Graphics Cookbook**](https://r-graphics.org/), for "recipes" to create specific types of charts.
+
 ]
 
 .pull-right[
