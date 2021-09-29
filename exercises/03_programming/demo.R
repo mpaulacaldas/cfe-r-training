@@ -69,9 +69,12 @@ oecd_theme <- function() {
     legend.box.background = element_rect(color = "#E9E9E9", fill = "#E9E9E9"),
     legend.box.margin = margin(0, 0.5, 0, 0.5, "cm"),
     legend.key.size = unit(0.7, "line"),
-    legend.position = "top",
     legend.direction = "horizontal",
-    legend.box = "horizontal"
+    legend.box = "horizontal",
+    legend.position = c(0.5, 1.12),
+    plot.subtitle = element_text(size = 10, colour = "black", hjust = -0.05),
+    plot.title = element_text(size = 14, colour = "black", hjust = 0.5, vjust = 15),
+    plot.margin = margin(t = 4, 1, 1, 1, "lines")
   )
 }
 
@@ -89,15 +92,7 @@ for (i in selected_countries) {
 
   p <- data_figure %>%
     oecd_ggplot() +
-    # adding theme we created earlier
-    oecd_theme() +
-    # you can still overwrite parts of the theme
-    theme(
-      legend.position = c(0.5, 1.12),
-      plot.subtitle = element_text(size = 10, colour = "black", hjust = -0.05),
-      plot.title = element_text(size = 14, colour = "black", hjust = 0.5, vjust = 15),
-      plot.margin = margin(t = 4, 1, 1, 1, "lines")
-    )
+    oecd_theme()
 
   ggsave(
     filename = paste0(i, "-labour-productivity.png"),
