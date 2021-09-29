@@ -51,9 +51,7 @@ selected_countries <- c("UK", "ME", "KR")
 for (i in selected_countries) {
 
   data_figure <- data_raw %>%
-    filter(country == "IE" |
-             country == i |
-             country == "BG") %>% 
+    filter(country %in% c("IE", i, "BG") %>% 
     mutate(country = fct_reorder(country, -max)) %>%
     pivot_longer(
       c(average, min, max),
