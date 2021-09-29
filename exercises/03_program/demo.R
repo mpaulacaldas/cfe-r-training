@@ -86,7 +86,9 @@ for (i in selected_countries) {
       limits = c(0, 220), expand = c(0, 0),
       breaks = seq(0, 220, by = 20)
     ) +
+    # adding theme we created earlier
     oecd_theme() +
+    # you can still overwrite parts of the theme
     theme(
       legend.position = c(0.5, 1.12),
       plot.subtitle = element_text(size = 10, colour = "black", hjust = -0.05),
