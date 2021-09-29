@@ -51,6 +51,9 @@ selected_countries <- c("UK", "ME", "KR")
 for (i in selected_countries) {
 
   data_figure <- data_raw %>%
+    filter(country == "IE" |
+             country == i |
+             country == "BG") %>% 
     mutate(country = fct_reorder(country, -max)) %>%
     pivot_longer(
       c(average, min, max),
@@ -63,10 +66,7 @@ for (i in selected_countries) {
         category,
         levels = c("min", "average", "max"),
         labels = c("Minimum region", "National average", "Maximum region")
-      )) %>%
-    filter(country == "IE" |
-             country == i |
-             country == "BG")
+      ))
 
   p <- data_figure %>%
     ggplot(aes(x = country, y = value)) +
