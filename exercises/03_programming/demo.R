@@ -62,11 +62,11 @@ oecd_theme <- function() {
   )
 }
 
-# We will make three graphs for three randomly selected countries
-selected_countries <- c("UK", "ME", "KR")
-
 
 # 3 Graphs ----------------------------------------------------------------
+
+# We will make three graphs for three randomly selected countries
+selected_countries <- c("UK", "ME", "KR")
 
 # Using a loop, we make three figures which will be saved in your files
 for (i in selected_countries) {
