@@ -95,7 +95,7 @@ for (i in selected_countries) {
     oecd_theme()
 
   ggsave(
-    filename = paste0(i, "-labour-productivity.png"),
+    filename = paste0("loop_", i, "-labour-productivity.png"),
     plot = p,
     width = 7,
     height = 5,
@@ -103,3 +103,23 @@ for (i in selected_countries) {
   )
 
 }
+
+# We can do the same thing with a function and using purrr::walk()
+oecd_ggsave <- function(i) {
+  
+  data_figure <- data_raw %>%
+    filter(country %in% c("IE", i, "BG"))
+
+  p <- data_figure %>%
+    oecd_ggplot() +
+    oecd_theme()
+
+  ggsave(
+    filename = paste0("purrr_", i, "-labour-productivity.png"),
+    plot = p,
+    width = 7,
+    height = 5,
+    units = "in"
+  )
+}
+walk(selected_countries, oecd_ggsave)
