@@ -46,7 +46,7 @@ data_raw <- read_xlsx("worker_productivity.xlsx")
 
 # 3 Graphs ----------------------------------------------------------------
 
-# Using a loop we make three figures which will be saved in your files
+# Using a loop, we make three figures which will be saved in your files
 for (i in selected_countries) {
 
   data_figure <- data_raw %>%
