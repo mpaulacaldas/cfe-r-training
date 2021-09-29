@@ -8,7 +8,13 @@
 library(tidyverse)
 library(readxl)
 
-# 1 Global ----------------------------------------------------------------
+# 1 Data ------------------------------------------------------------------
+
+# Import data we created during the first workshop
+data_raw <- read_xlsx("worker_productivity.xlsx")
+
+
+# 2 Helpers ---------------------------------------------------------------
 
 # build a theme that you can use for many graphs
 oecd_theme <- function() {
@@ -37,11 +43,6 @@ oecd_theme <- function() {
 
 # We will make three graphs for three randomly selected countries
 selected_countries <- c("UK", "ME", "KR")
-
-# 2 Data ------------------------------------------------------------------
-
-# Import data we created during the first workshop
-data_raw <- read_xlsx("worker_productivity.xlsx")
 
 
 # 3 Graphs ----------------------------------------------------------------
