@@ -11,7 +11,20 @@ library(readxl)
 # 1 Data ------------------------------------------------------------------
 
 # Import data we created during the first workshop
-data_raw <- read_xlsx("worker_productivity.xlsx")
+data_raw <- read_xlsx("worker_productivity.xlsx") %>% 
+  mutate(country = fct_reorder(country, -max)) %>%
+  pivot_longer(
+    c(average, min, max),
+    names_to = "category",
+    values_to = "value"
+  ) %>%
+  mutate(
+    value = value / 1000,
+    category = factor(
+      category,
+      levels = c("min", "average", "max"),
+      labels = c("Minimum region", "National average", "Maximum region")
+    ))
 
 
 # 2 Helpers ---------------------------------------------------------------
@@ -72,20 +85,7 @@ selected_countries <- c("UK", "ME", "KR")
 for (i in selected_countries) {
 
   data_figure <- data_raw %>%
-    filter(country %in% c("IE", i, "BG") %>% 
-    mutate(country = fct_reorder(country, -max)) %>%
-    pivot_longer(
-      c(average, min, max),
-      names_to = "category",
-      values_to = "value"
-    ) %>%
-    mutate(
-      value = value / 1000,
-      category = factor(
-        category,
-        levels = c("min", "average", "max"),
-        labels = c("Minimum region", "National average", "Maximum region")
-      ))
+    filter(country %in% c("IE", i, "BG")
 
   p <- data_figure %>%
     oecd_ggplot() +
