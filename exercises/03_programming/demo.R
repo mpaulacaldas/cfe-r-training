@@ -88,7 +88,7 @@ selected_countries <- c("UK", "ME", "KR")
 for (i in selected_countries) {
 
   data_figure <- data_raw %>%
-    filter(country %in% c("IE", i, "BG")
+    filter(country %in% c("IE", i, "BG"))
 
   p <- data_figure %>%
     oecd_ggplot() +
