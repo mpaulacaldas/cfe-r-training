@@ -16,7 +16,28 @@ data_raw <- read_xlsx("worker_productivity.xlsx")
 
 # 2 Helpers ---------------------------------------------------------------
 
-# build a theme that you can use for many graphs
+# build a plot skeleton and theme that you can use for many graphs
+oecd_ggplot <- function(data) {
+  ggplot(data, aes(x = country, y = value)) +
+    geom_line(colour = "#00A9CB", size = 3) +
+    geom_point(aes(colour = category, shape = category), size = 3) +
+    geom_point(
+      data = filter(data, category == "National average"),
+      colour = "black", size = 3, shape = 18
+    ) +
+    geom_hline(
+      aes(yintercept = 57.74, linetype = "OECD average"),
+      colour = "#1461B3"
+    ) +
+    labs(subtitle = "'000 USD per worker") +
+    scale_colour_manual(values = c("white", "black", "#0060B3")) +
+    scale_shape_manual(values = c(16, 18, 16)) +
+    scale_y_continuous(
+      limits = c(0, 220), expand = c(0, 0),
+      breaks = seq(0, 220, by = 20)
+    )
+}
+
 oecd_theme <- function() {
   theme(
     axis.title = element_blank(),
@@ -67,24 +88,7 @@ for (i in selected_countries) {
       ))
 
   p <- data_figure %>%
-    ggplot(aes(x = country, y = value)) +
-    geom_line(colour = "#00A9CB", size = 3) +
-    geom_point(aes(colour = category, shape = category), size = 3) +
-    geom_point(
-      data = filter(data_figure, category == "National average"),
-      colour = "black", size = 3, shape = 18
-    ) +
-    geom_hline(
-      aes(yintercept = 57.74, linetype = "OECD average"),
-      colour = "#1461B3"
-    ) +
-    labs(subtitle = "'000 USD per worker") +
-    scale_colour_manual(values = c("white", "black", "#0060B3")) +
-    scale_shape_manual(values = c(16, 18, 16)) +
-    scale_y_continuous(
-      limits = c(0, 220), expand = c(0, 0),
-      breaks = seq(0, 220, by = 20)
-    ) +
+    oecd_ggplot() +
     # adding theme we created earlier
     oecd_theme() +
     # you can still overwrite parts of the theme
