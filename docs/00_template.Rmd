@@ -92,6 +92,16 @@ The presenter notes are where you might also find OECD or CFE specific
 information.
 
 ---
+class: middle
+
+# Learning objectives for today
+
+1. One.
+
+1. Two.
+
+
+---
 # A regular slide
 
 With text. Let's see the text.
