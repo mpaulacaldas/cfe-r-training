@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R programming basics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="María Paula Caldas" />
+    <meta name="date" content="2021-09-30" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <script src="libs/fitvids/fitvids.min.js"></script>
+    <link rel="stylesheet" href="cfe-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="cfe.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide, inverse, bottom
+background-image: url(img/gradient-background.png)
+background-size: cover
+
+# R programming basics
+### CFE R Training - Module 3
+
+&lt;br/&gt;
+
+María Paula Caldas and Jolien Noels
+
+---
+class: middle
+
+# Useful links
+
+[Slides](https://mpaulacaldas.github.io/cfe-r-training/03_programming.html), if you want to navigate on your own
+
+[RStudio Project](https://rstudio.cloud/project/2940340), to try out the exercises
+
+[Teams Space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c), for discussions
+
+[Github repository](https://github.com/mpaulacaldas/cfe-r-training), for later reference
+
+---
+class: middle
+
+# Housekeeping matters
+
+🙋‍♀️&amp;nbsp; During the session, ask questions in the chat 
+or raise your hand
+
+📷&amp;nbsp; Sessions are recorded. Remember to turn off your camera if 
+its your preference
+
+💬&amp;nbsp; After the session, post follow-up questions, 
+comments or reactions in the [Teams space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c)
+
+📝&amp;nbsp; If you are going through these slides on your own, type `p` 
+to see the presenter notes
+
+???
+
+The presenter notes are where you might also find OECD or CFE specific 
+information.
+
+---
+class: middle
+
+# Learning objectives for today
+
+1. Understand the difference between vectors, lists and data frames and how to subset them
+
+1. Know how to write simple loops and functions
+
+1. Understand how to use functions and lists as an alternative to loops
+
+---
+class:inverse, bottom, left
+
+# Vectors
+
+---
+# Vectors
+
+.pull-left[
+
+__Vectors__ are the most common and basic data structure in R. 
+
+There are two types:
+
+- Atomic vectors
+- Lists
+
+There is a related object, `NULL` which represents the _absence_ of a vector.
+
+]
+
+.pull-right[
+
+&lt;img src="https://github.com/hadley/r4ds/blob/master/diagrams/data-structures-overview.png?raw=true" width="100%" /&gt;
+]
+
+.footnote[
+Ref: [Chapter 20, R4DS](https://r4ds.had.co.nz/vectors.html#important-types-of-atomic-vector)
+]
+
+---
+# Atomic vectors
+
+.pull-left[
+
+Atomic vectors are __homogeneous__, i.e. all their elements need to be of the same _type_.
+
+
+```r
+lgl &lt;- c(TRUE, FALSE, TRUE, TRUE)
+
+int &lt;- c(1L, 2L, 3L, 4L)
+
+dbl &lt;- c(5.5, 33.6, 8, 12.5)
+
+chr &lt;- c("coffee", "café")
+```
+
+We can create vectors using `c()` and assign them to an object using `&lt;-`
+
+
+]
+.pull-right[
+&lt;img src="https://github.com/hadley/r4ds/blob/master/diagrams/data-structures-overview.png?raw=true" width="100%" /&gt;
+]
+
+.footnote[
+Ref: [Chapter 20, R4DS](https://r4ds.had.co.nz/vectors.html#important-types-of-atomic-vector)
+]
+
+
+---
+# Vector types
+
+It can be difficult to tell the _type_ of a vector solely by the way it is printed in the console.
+
+.pull-left[
+
+When we print them in R:
+
+
+```r
+lgl
+#&gt; [1]  TRUE FALSE  TRUE  TRUE
+
+int
+#&gt; [1] 1 2 3 4
+
+dbl
+#&gt; [1]  5.5 33.6  8.0 12.5
+
+chr
+#&gt; [1] "coffee" "café"
+```
+
+]
+.pull-right[
+
+When we explore their type:
+
+
+```r
+typeof(lgl)
+#&gt; [1] "logical"
+
+typeof(int)
+#&gt; [1] "integer"
+
+typeof(dbl)
+#&gt; [1] "double"
+
+typeof(chr)
+#&gt; [1] "character"
+```
+
+]
+
+---
+# Logical operations
+
+.pull-left[
+
+_From the first session:_
+
+| Condition | Reads |
+|----------|-------|
+| `x &gt; y`  | `x` is greater than `y` |
+| `x &gt;= y` | `x` is greater or equal to `y` |
+| `x == 3` | `x` is equal to 3 |
+| `x %in% c(2, 8)` | `x` is either 2 or 8 |
+| `x &gt; y &amp; x &lt; z` | `x` is greater than `y` AND smaller than `z` |
+| &lt;code&gt;x &gt; y &amp;#124; x &lt; z&lt;/code&gt; | `x` is greater than `y` OR smaller than `z` |
+
+]
+.pull-right[
+
+Logical operations return logical vectors
+
+
+```r
+telework_days &lt;- c(2, 4:5)
+office_days   &lt;- c("monday", "wednesday")
+
+
+4 %in% telework_days
+#&gt; [1] TRUE
+3:5 %in% telework_days
+#&gt; [1] FALSE  TRUE  TRUE
+
+is.character(office_days)
+#&gt; [1] TRUE
+```
+
+
+]
+
+---
+# Coercion
+
+There are two ways to convert, or __coerce__, vectors from one type to another:
+
+.pull-left[
+### Explicit
+
+
+```r
+lgl
+#&gt; [1]  TRUE FALSE  TRUE  TRUE
+as.numeric(lgl)
+#&gt; [1] 1 0 1 1
+
+int
+#&gt; [1] 1 2 3 4
+as.character(int)
+#&gt; [1] "1" "2" "3" "4"
+```
+
+
+]
+.pull-right[
+### Implicit
+
+
+```r
+lgl
+#&gt; [1]  TRUE FALSE  TRUE  TRUE
+lgl * 5
+#&gt; [1] 5 0 5 5
+
+dbl
+#&gt; [1]  5.5 33.6  8.0 12.5
+chr
+#&gt; [1] "coffee" "café"
+c(chr, dbl)
+#&gt; [1] "coffee" "café"   "5.5"    "33.6"   "8"      "12.5"
+```
+
+]
+
+---
+# Coercion
+
+This concept is important to understand _warnings_:
+
+
+```r
+ages_chr &lt;- c("29", "88", "46", "&gt;100")
+ages_num &lt;- as.numeric(ages)
+#&gt; Error in eval(expr, envir, enclos): object 'ages' not found
+
+ages_num
+#&gt; Error in eval(expr, envir, enclos): object 'ages_num' not found
+```
+
+⚠️&amp;nbsp; __Avoid ignoring warnings__. Warnings, as opposed to errors, don't stop code execution, so mistakes can propagate.
+
+---
+# Missing values
+
+Each type of atomic vector has it's own type of missing value
+
+.pull-left[
+
+
+```r
+NA
+#&gt; [1] NA
+NA_integer_
+#&gt; [1] NA
+NA_real_
+#&gt; [1] NA
+NA_character_
+#&gt; [1] NA
+```
+
+]
+
+.pull-right[
+
+
+```r
+typeof(NA)
+#&gt; [1] "logical"
+typeof(NA_integer_)
+#&gt; [1] "integer"
+typeof(NA_real_)
+#&gt; [1] "double"
+typeof(NA_character_)
+#&gt; [1] "character"
+```
+
+]
+
+&lt;br/&gt;
+Because of coercion this often doesn't matter.
+
+.pull-left[
+
+```r
+c("tea", NA, "té")
+#&gt; [1] "tea" NA    "té"
+```
+
+]
+.pull-right[
+
+```r
+typeof(c("tea", NA, "té"))
+#&gt; [1] "character"
+```
+
+]
+
+---
+# Missing values are _contagious_
+
+.pull-left[
+
+Some functions have an option to remove them, but you need to be explicit about it.
+
+
+```r
+mean(c(10, 20, NA))
+#&gt; [1] NA
+mean(c(10, 20, NA), na.rm = TRUE)
+#&gt; [1] 15
+```
+
+]
+
+.pull-right[
+
+Functions that remove them by default tend to give a warning:
+
+
+```r
+library(ggplot2)
+ggplot(airquality, aes(Ozone, Temp)) +
+  geom_point()
+#&gt; Warning: Removed 37 rows containing missing values (geom_point).
+```
+
+&lt;img src="03_programming_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+# Missing values are _contagious_
+
+⚠️&amp;nbsp; You can't use `==` to identify the missing values in a vector. Use `is.na()`
+
+.pull-left[
+
+```r
+x &lt;- c(10, 20)
+
+x == 10
+#&gt; [1]  TRUE FALSE
+
+x == NA
+#&gt; [1] NA NA
+
+is.na(x)
+#&gt; [1] FALSE FALSE
+```
+
+]
+.pull-right[
+
+```r
+y &lt;- c(10, NA)
+
+y == 10
+#&gt; [1] TRUE   NA
+
+y == NA
+#&gt; [1] NA NA
+
+is.na(y)
+#&gt; [1] FALSE  TRUE
+```
+
+]
+
+
+---
+# Recycling
+
+Vectors of shorter length are __recycled__ to match the length of the longer vector
+
+This makes fairly common operations quicker to type
+
+
+```r
+rates &lt;- c(0.93, 0.85, 0.43)
+
+rates * 100
+#&gt; [1] 93 85 43
+rates * c(100, 100, 100)
+#&gt; [1] 93 85 43
+```
+
+---
+# Recycling
+
+Recycling can happen for vectors of any length, not just those of length 1
+
+
+```r
+c(10, 100, 1000, 10000) * c(1, 3)
+#&gt; [1]    10   300  1000 30000
+c(10, 100, 1000, 10000) * c(1, 3, 1, 3)
+#&gt; [1]    10   300  1000 30000
+```
+
+And it also explains a fairly common warning:
+
+
+```r
+1:5 + 1:3
+#&gt; Warning in 1:5 + 1:3: longer object length is not a multiple of shorter object length
+#&gt; [1] 2 4 6 5 7
+```
+
+---
+
+# Subsetting
+
+### By position
+
+
+```r
+office &lt;- c("alexandre", "nikos", "maria paula", "tahsin")
+
+
+office[2]
+#&gt; [1] "nikos"
+
+office[c(1, 4)]
+#&gt; [1] "alexandre" "tahsin"
+
+office[-1]
+#&gt; [1] "nikos"       "maria paula" "tahsin"
+```
+
+---
+
+# Subsetting
+
+### With a logical vector
+
+
+```r
+office
+#&gt; [1] "alexandre"   "nikos"       "maria paula" "tahsin"
+
+present_on_monday &lt;- c(TRUE, FALSE, TRUE, TRUE)
+office[present_on_monday]
+#&gt; [1] "alexandre"   "maria paula" "tahsin"
+```
+
+⚠️&amp;nbsp; This is somewhere where we need to be aware of R's recycling rules
+
+
+```r
+office[c(TRUE, FALSE)]
+#&gt; [1] "alexandre"   "maria paula"
+```
+
+---
+
+# Subsetting
+
+### By name
+
+Vectors can be _named_ and we can use those names to subset them
+
+
+```r
+names(office) &lt;- c("BANQUET", "PATIAS", "CALDAS", "MEDHI")
+office
+#&gt;       BANQUET        PATIAS        CALDAS         MEDHI 
+#&gt;   "alexandre"       "nikos" "maria paula"      "tahsin"
+
+office[c("CALDAS", "PATIAS")]
+#&gt;        CALDAS        PATIAS 
+#&gt; "maria paula"       "nikos"
+```
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Vectors
+
+Head to the [RStudio Cloud Project](https://rstudio.cloud/project/2940340) and follow the instructions in the `vectors.R` script.
+
+<div class="countdown" id="timer_61555d42" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class:inverse, bottom, left
+
+# Conditions
+
+---
+# If conditions
+
+.pull-left[
+### Syntax
+
+```
+if (&lt;CONDITION&gt;) {
+  &lt;CODE_TO_EXECUTE_IF_CONDITION_IS_TRUE&gt;
+}
+```
+]
+.pull-right[
+### Examples
+
+```r
+if (TRUE) {
+  "I will print!"
+}
+#&gt; [1] "I will print!"
+
+
+if (FALSE) {
+  "Nothing will happen!"
+}
+```
+]
+
+---
+# Conditions: warnings
+
+⚠️&amp;nbsp; `&lt;CONDITION&gt;` should evaluate to a logical vector of length 1. If it's a longer vector, only the first element will be used.
+
+
+
+```r
+if (c(TRUE, FALSE)) {
+  "I will print!"
+}
+#&gt; Warning in if (c(TRUE, FALSE)) {: the condition has length &gt; 1 and only the first
+#&gt; element will be used
+#&gt; [1] "I will print!"
+
+
+if (c(FALSE, TRUE)) {
+  "Nothing will happen!"
+}
+#&gt; Warning in if (c(FALSE, TRUE)) {: the condition has length &gt; 1 and only the first
+#&gt; element will be used
+```
+
+---
+# Conditions: errors
+
+⚠️&amp;nbsp; `&lt;CONDITION&gt;` Conditions will fail with missing values.
+
+
+
+```r
+if (NA) {
+  "I will fail!"
+}
+#&gt; Error in if (NA) {: missing value where TRUE/FALSE needed
+
+
+if (c(NA, TRUE)) {
+  "I will fail too!"
+}
+#&gt; Warning in if (c(NA, TRUE)) {: the condition has length &gt; 1 and only the first element
+#&gt; will be used
+#&gt; Error in if (c(NA, TRUE)) {: missing value where TRUE/FALSE needed
+```
+
+---
+# If-else conditions
+
+.pull-left[
+### Syntax
+
+```
+if (&lt;CONDITION&gt;) {
+  &lt;CODE_TO_EXECUTE_IF_CONDITION_IS_TRUE&gt;
+} else {
+  &lt;CODE_TO_EXECUTE_OTHERWISE&gt;
+}
+```
+]
+.pull-right[
+### Examples
+
+
+```r
+language &lt;- "spanish"
+
+if (language == "spanish") {
+  "¡Hola!"
+} else {
+  "Hi!"
+}
+#&gt; [1] "¡Hola!"
+```
+
+]
+
+---
+# Multiple conditions
+
+.pull-left[
+### Syntax
+
+```
+if (&lt;CONDITION1&gt;) {
+  &lt;CODE_TO_EXECUTE_IF_CONDITION1_IS_TRUE&gt;
+} else if (&lt;CONDITION2&gt;) {
+  &lt;CODE_TO_EXECUTE_IF_CONDITION2_IS_TRUE&gt;
+} else {
+  &lt;CODE_TO_EXECUTE_OTHERWISE&gt;
+}
+```
+]
+.pull-right[
+### Examples
+
+
+```r
+language &lt;- "french"
+
+if (language == "spanish") {
+  "¡Hola!"
+} else if (language == "french") {
+  "Salut!"
+} else {
+  "Hi!"
+}
+#&gt; [1] "Salut!"
+```
+
+]
+
+---
+# Vectorised alternatives
+
+The vectorised alternatives are more useful when we work with data frames.
+
+
+```r
+byear &lt;- c(1970, 2005, 1992, 1962)
+```
+
+.pull-left[
+
+### `ifelse()`
+
+
+```r
+ifelse(2021 - byear &lt; 18, "young", "old")
+#&gt; [1] "old"   "young" "old"   "old"
+```
+
+]
+
+.pull-right[
+
+### `dplyr::case_when()`
+
+
+```r
+dplyr::case_when(
+  byear &lt;= 1964        ~ "boomer",
+  byear %in% 1965:1980 ~ "gen x",
+  byear %in% 1981:1996 ~ "millenial",
+  TRUE                 ~ "gen z"
+)
+#&gt; [1] "gen x"     "gen z"     "millenial" "boomer"
+```
+
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Conditions
+
+Head to the [RStudio Cloud Project](https://rstudio.cloud/project/2940340) and follow the instructions in the `conditions.R` script.
+
+<div class="countdown" id="timer_61555b92" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class:inverse, bottom, left
+
+# Loops
+
+---
+# For loops
+
+.pull-left[
+### Steps
+
+1. Create an empty vector to store results
+
+2. Specify the sequence to iterate over
+
+3. Define what you want to do and where you want to store the result
+
+4. (Optional) print the output
+
+]
+.pull-right[
+### Structure
+
+
+```r
+output &lt;- vector("double", 7)
+for (m in seq_along(output)) {
+  output[m] &lt;- format(
+    Sys.Date() + m, 
+    "%e %b, %Y"
+    )
+}
+output
+#&gt; [1] " 1 Oct, 2021" " 2 Oct, 2021" " 3 Oct, 2021" " 4 Oct, 2021" " 5 Oct, 2021"
+#&gt; [6] " 6 Oct, 2021" " 7 Oct, 2021"
+```
+]
+
+---
+# For loops
+### Less-than-ideal patterns
+
+- _Growing the output vector with each iteration_ is computationally inefficient. If you know the size that the output vector should be, use `vector()`.
+
+- _Using colon notation and `length()` to define the sequence_ can lead to unexpected behaviour. What if `days` was a zero-length vector? What would `1:length(days)` return? What would `seq_along(days)` return?
+
+
+```r
+days   &lt;- c("tomorrow", "day after tomorrow")
+output &lt;- NULL
+for (m in 1:length(days)) {
+  output &lt;- c(output, format(Sys.Date() + m, "%e %b, %Y"))
+}
+output
+#&gt; [1] " 1 Oct, 2021" " 2 Oct, 2021"
+```
+
+---
+class: exercise
+
+# 📝&amp;nbsp; For loops
+
+Head to the [RStudio Cloud Project](https://rstudio.cloud/project/2940340) and follow the instructions in the `loops.R` script.
+
+<div class="countdown" id="timer_61555b55" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: inverse, bottom, left
+background-image: url(https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80)
+background-size: cover
+
+# Break
+
+<div class="countdown" id="timer_61555bf2" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class:inverse, bottom, left
+
+# Lists
+
+---
+# Lists
+
+.pull-left[
+Unlike atomic vectors, lists can be __heterogeneous__. 
+
+They can be made up of vectors of many different types, including other lists.
+
+
+```r
+a &lt;- list(
+  a = 1:3, 
+  b = "a string", 
+  c = pi, 
+  d = list(-1, -5)
+  )
+```
+
+]
+.pull-right[
+&lt;img src="https://github.com/hadley/r4ds/blob/master/diagrams/data-structures-overview.png?raw=true" width="100%" /&gt;
+]
+
+.footnote[
+Ref: [Chapter 20, R4DS](https://r4ds.had.co.nz/vectors.html#important-types-of-atomic-vector)
+]
+
+???
+
+Since they can contain other lists, lists are sometimes known as recursive vectors.
+
+---
+# Inspecting lists
+
+Lists can be very big in size, so it's not always a good idea to print them to the console. 
+
+To examine their structure, one useful way is to use `str()`
+
+
+```r
+str(a)
+#&gt; List of 4
+#&gt;  $ a: int [1:3] 1 2 3
+#&gt;  $ b: chr "a string"
+#&gt;  $ c: num 3.14
+#&gt;  $ d:List of 2
+#&gt;   ..$ : num -1
+#&gt;   ..$ : num -5
+```
+
+In the RStudio IDE, you can also use `View(a)`
+
+---
+# Subsetting lists
+
+.pull-left[
+
+Extract the component, returning a list:
+  
+
+```r
+a["b"]
+#&gt; $b
+#&gt; [1] "a string"
+typeof(a["b"])
+#&gt; [1] "list"
+```
+]
+.pull-right[
+
+Extract the component, removing a level of hierarchy:
+
+
+```r
+a[["b"]]
+#&gt; [1] "a string"
+typeof(a[["b"]])
+#&gt; [1] "character"
+
+a$b
+#&gt; [1] "a string"
+typeof(a$b)
+#&gt; [1] "character"
+```
+
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Subsetting lists
+
+.pull-left[
+1. Go to the [RStudio Project](https://rstudio.cloud/project/2940340).
+
+1. Type out the different subsets presented in the figure in the right. What what are the vector types of the outputs you get?
+
+1. Take the bottom row of the figure. How would you re-write those subsetting operations using the `$`?
+
+]
+.pull-right[
+&lt;img src="https://github.com/hadley/r4ds/blob/master/diagrams/lists-subsetting.png?raw=true" width="100%" /&gt;
+]
+
+.footnote[
+Ref: [Chapter 20, R4DS](https://r4ds.had.co.nz/vectors.html#important-types-of-atomic-vector)
+]
+
+<div class="countdown" id="timer_61555a4d" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+
+---
+class:inverse, bottom, left
+
+# Functions
+
+
+---
+# Functions
+
+.pull-left[
+### Elements of a function
+
+1. __Name__: Name of the function. It's a good idea to make it a verb.
+1. __Arguments__: These can be empty or have default values.
+1. __Body__: With the code that you want to execute according to the values taken by the arguments. At the end, the function should _return_ a value.
+
+]
+.pull-right[
+
+### Example
+
+
+```r
+greet &lt;- function(person, language = "ENG") {
+  greeting &lt;- "Hi"
+  if (language == "ESP") {
+    greeting &lt;- "Hola"
+  }
+  paste0(greeting, ", ", person, "!")
+}
+
+greet(person = "Jolien")
+#&gt; [1] "Hi, Jolien!"
+greet("Jolien")
+#&gt; [1] "Hi, Jolien!"
+
+greet("Jolien", "ESP")
+#&gt; [1] "Hola, Jolien!"
+```
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Functions
+
+Head to the [RStudio Cloud Project](https://rstudio.cloud/project/2940340) and follow the instructions in the `functions.R` script.
+
+<div class="countdown" id="timer_61555c4a" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class:inverse, bottom, left
+background-image: url(https://raw.githubusercontent.com/tidyverse/purrr/master/man/figures/logo.png)
+background-position: 1050px 20px
+background-size: 100px
+
+# Functional programming
+
+---
+# Iteration over vectors with purrr
+
+The purrr package has a family of __map__ functions that allow us to iterate over vectors.
+
+.pull-left[
+
+&lt;br/&gt;
+
+
+```r
+map(
+ .x, # for every element of .x
+ .f # do .f
+)
+```
+]
+.pull-right[
+&lt;img src="https://github.com/hadley/adv-r/blob/master/diagrams/functionals/map.png?raw=true" width="80%" /&gt;
+]
+
+.footnote[
+Ref: [Advanced R, Chapter 9](https://adv-r.hadley.nz/functionals.html)
+]
+
+---
+
+
+
+# Iteration over vectors with purrr
+
+The purrr package has a family of __map__ functions that allow us to iterate over vectors.
+
+.pull-left[
+
+
+```r
+library(purrr)
+
+triple &lt;- function(x) x * 3
+map(1:3, triple)
+#&gt; [[1]]
+#&gt; [1] 3
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 6
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] 9
+```
+
+]
+.pull-right[
+&lt;img src="https://github.com/hadley/adv-r/blob/master/diagrams/functionals/map.png?raw=true" width="80%" /&gt;
+]
+
+---
+# Control the type of output vector
+
+.pull-left[
+By default, `map()` always returns a list.
+
+
+```r
+map(1:3, triple)
+#&gt; [[1]]
+#&gt; [1] 3
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 6
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] 9
+```
+
+
+]
+.pull-right[
+We can change the type of the output vector with the `map_*()` variants.
+
+
+```r
+map_dbl(1:3, triple)
+#&gt; [1] 3 6 9
+
+map_chr(1:3, triple)
+#&gt; [1] "3.000000" "6.000000" "9.000000"
+```
+
+]
+
+---
+# Pass arguments to `.f`
+
+We can pass arguments to `.f` via `...`
+
+.pull-left[
+
+&lt;br/&gt;
+
+
+```r
+map(
+ .x, # for every element of .x
+ .f, # do .f
+ ... # extra arguments to .f
+)
+```
+]
+.pull-right[
+&lt;img src="https://github.com/hadley/adv-r/blob/master/diagrams/functionals/map-arg.png?raw=true" width="80%" /&gt;
+]
+
+.footnote[
+Ref: [Advanced R, Chapter 9](https://adv-r.hadley.nz/functionals.html)
+]
+
+---
+# Pass arguments to `.f`
+
+We can pass arguments to `.f` via `...`
+
+.pull-left[
+
+
+```r
+seniority &lt;- list(
+  eds = c(2, 10, 5, 3),
+  rdg = c(3, 16, NA)
+)
+
+map_dbl(seniority, mean)
+#&gt; eds rdg 
+#&gt;   5  NA
+map_dbl(seniority, mean, na.rm = TRUE)
+#&gt; eds rdg 
+#&gt; 5.0 9.5
+```
+]
+.pull-right[
+&lt;img src="https://github.com/hadley/adv-r/blob/master/diagrams/functionals/map-arg.png?raw=true" width="80%" /&gt;
+]
+
+.footnote[
+Ref: [Advanced R, Chapter 9](https://adv-r.hadley.nz/functionals.html)
+]
+
+---
+
+# Other ways to define `.f`
+
+We can call `map()` with existing or user-defined functions:
+
+
+```r
+triple &lt;- function(x) x * 3
+map_dbl(1:3, triple)
+#&gt; [1] 3 6 9
+```
+
+.pull-left[
+
+### Anonymous functions
+
+
+```r
+map_dbl(1:3, function(x) x * 3)
+#&gt; [1] 3 6 9
+```
+
+]
+
+.pull-right[
+
+### Tilde notation
+
+
+```r
+map_dbl(1:3, ~ .x * 3)
+#&gt; [1] 3 6 9
+```
+
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Iteration with purrr
+
+Head to the [RStudio Cloud Project](https://rstudio.cloud/project/2940340) and follow the instructions in the `purrr.R` script.
+
+<div class="countdown" id="timer_61555ad5" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: exercise
+
+# 👩‍💻&amp;nbsp; Demo: Automated plots
+
+The code used in this demonstration is in the [RStudio Cloud project](https://rstudio.cloud/project/2940340).
+
+---
+class: inverse, bottom, left
+background-image: url(img/gradient-background.png)
+background-size: cover
+
+# Annex
+
+---
+# To learn more
+
+.pull-left[
+
+[**R for Data Science**](https://r4ds.had.co.nz/), [Section III - Program](https://r4ds.had.co.nz/program-intro.html)
+
+[**Advanced R**](https://adv-r.hadley.nz/index.html), [Chapter 9 - Functionals](https://adv-r.hadley.nz/functionals.html)
+
+]
+
+.pull-right[
+&lt;img src="https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png" width="60%" /&gt;
+]
+
+---
+# To learn more
+
+.pull-left[
+<div class="shareagain" style="min-width:300px;margin:1em auto;">
+<iframe src="https://robust-tools.djnavarro.net/artistry/#1" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<script>fitvids('.shareagain', {players: 'iframe'});</script>
+</div>
+
+]
+.pull-right[
+
+Danielle Navarro's [Youtube playlist](https://www.youtube.com/watch?v=aozL5TKQgfY&amp;list=PLRPB0ZzEYegMStVRojPITLUZ6A8YGUHi-) of her __aRt programming__ class.
+
+Jenny Bryan's [purrr workshop](https://speakerdeck.com/jennybc/purrr-workshop).
+
+]
+
+---
+class:inverse, bottom, left
+
+# Data frames and tibbles
+
+---
+# Data frames and tibbles
+
+### Printing
+
+_tibbles_ have a nicer printing method.
+
+.pull-left[
+
+
+```r
+df &lt;- airquality[1:3, ]
+
+df
+#&gt;   Ozone Solar.R Wind Temp Month Day
+#&gt; 1    41     190  7.4   67     5   1
+#&gt; 2    36     118  8.0   72     5   2
+#&gt; 3    12     149 12.6   74     5   3
+```
+]
+.pull-right[
+
+```r
+library(tibble)
+tb &lt;- tibble(df)
+tb
+#&gt; # A tibble: 3 x 6
+#&gt;   Ozone Solar.R  Wind  Temp Month   Day
+#&gt;   &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+#&gt; 1    41     190   7.4    67     5     1
+#&gt; 2    36     118   8      72     5     2
+#&gt; 3    12     149  12.6    74     5     3
+```
+
+]
+
+
+???
+
+In R, tables with data are usually represented using __data frames__. The tidyverse introduces a similar structure, called __tibbles__, with slightly different behaviours.
+
+---
+# Data frames and tibbles
+
+### Column subsetting
+
+`$` and `[[` have the same behaviour
+
+.pull-left[
+
+
+```r
+df$Ozone
+#&gt; [1] 41 36 12
+df[["Ozone"]]
+#&gt; [1] 41 36 12
+```
+]
+.pull-right[
+
+```r
+tb$Ozone
+#&gt; [1] 41 36 12
+tb[["Ozone"]]
+#&gt; [1] 41 36 12
+```
+
+]
+
+---
+# Data frames and tibbles
+
+### Column subsetting
+
+`[` does not consistently return the same object type for data frames
+
+.pull-left[
+
+
+```r
+df[, c("Ozone", "Wind")]
+#&gt;   Ozone Wind
+#&gt; 1    41  7.4
+#&gt; 2    36  8.0
+#&gt; 3    12 12.6
+df[, "Ozone"]
+#&gt; [1] 41 36 12
+```
+]
+.pull-right[
+
+```r
+tb[, c("Ozone", "Wind")]
+#&gt; # A tibble: 3 x 2
+#&gt;   Ozone  Wind
+#&gt;   &lt;int&gt; &lt;dbl&gt;
+#&gt; 1    41   7.4
+#&gt; 2    36   8  
+#&gt; 3    12  12.6
+tb[, "Ozone"]
+#&gt; # A tibble: 3 x 1
+#&gt;   Ozone
+#&gt;   &lt;int&gt;
+#&gt; 1    41
+#&gt; 2    36
+#&gt; 3    12
+```
+
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": ["r", "css", "yaml"],
+"countIncrementalSlides": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
