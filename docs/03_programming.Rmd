@@ -283,7 +283,7 @@ This concept is important to understand _warnings_:
 
 ```{r, error = TRUE}
 ages_chr <- c("29", "88", "46", ">100")
-ages_num <- as.numeric(ages)
+ages_num <- as.numeric(ages_chr)
 
 ages_num
 ```
