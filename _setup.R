@@ -20,11 +20,28 @@ if (FALSE) {
 
 library(purrr)
 
+rproj <-
+  c(
+    "Version: 1.0",
+    "",
+    "RestoreWorkspace: No",
+    "SaveWorkspace: No",
+    "AlwaysSaveHistory: Default",
+    "",
+    "EnableCodeIndexing: Yes",
+    "UseSpacesForTab: Yes",
+    "NumSpacesForTab: 2",
+    "Encoding: UTF-8",
+    "",
+    "RnwWeave: Sweave",
+    "LaTeX: pdfLaTeX"
+  )
+
 rmds <- c(
   "01_intro.Rmd",
   "02_dataviz.Rmd",
-  "03_programming.Rmd"
-  # "04_rmarkdown.Rmd",
+  "03_programming.Rmd",
+  "04_rmarkdown.Rmd"
   # "05_goodpractice.Rmd"
   )
 
@@ -43,6 +60,11 @@ rmds %>%
   fs::path_ext_remove() %>%
   fs::path("exercises/", ., "solutions") %>%
   fs::dir_create()
+
+rmds %>%
+  fs::path_ext_remove() %>%
+  {paste0("exercises/", ., "/", ., ".Rproj")} %>%
+  purrr::walk(~ writeLines(rproj, .x))
 
 
 # Render ------------------------------------------------------------------
