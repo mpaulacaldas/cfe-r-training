@@ -56,6 +56,7 @@ data_max <- data_average %>%
 
 data_figure <- data_average %>%
   distinct(country, min, average, max) %>%
+  left_join(data_max, by = "country") %>% 
   mutate(country = fct_reorder(country, -max)) %>%
   pivot_longer(
     c(average, min, max),
@@ -68,8 +69,7 @@ data_figure <- data_average %>%
       category,
       levels = c("min", "average", "max"),
       labels = c("Minimum region", "National average", "Maximum region")
-    )) %>%
-  left_join(data_max, by = "country")
+    ))
 
 
 # 2 Graph -----------------------------------------------------------------
