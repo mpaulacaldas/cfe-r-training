@@ -28,17 +28,23 @@ data_raw <- read_csv(
 data_average <- data_raw %>%
   rename_with(tolower) %>%
   select(reg_id, region, tl, var, meas, year, value) %>%
-  filter(var == "GVA_IND_TOTAL",
-         meas == "PW_REAL_PPP",
-         year == "2018",
-         tl == "2") %>%
-  mutate(country = substr(reg_id, 1, 2)) %>%
-  mutate(check = substr(reg_id, 3, 4)) %>%
+  filter(
+    var == "GVA_IND_TOTAL",
+    meas == "PW_REAL_PPP",
+    year == "2018",
+    tl == "2"
+    ) %>%
+  mutate(
+    country = substr(reg_id, 1, 2),
+    check = substr(reg_id, 3, 4)
+    ) %>%
   filter(check != "ZZ") %>%
   group_by(country) %>%
-  mutate(average = mean(value),
-         max = max(value),
-         min = min(value)) %>%
+  mutate(
+    average = mean(value),
+    max = max(value),
+    min = min(value)
+    ) %>%
   ungroup()
 
 # For this example we are only adding the labels on top
