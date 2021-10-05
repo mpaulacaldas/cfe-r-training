@@ -52,8 +52,7 @@ data_max <- data_average %>%
   group_by(country)  %>%
   filter(value == max(value)) %>%
   ungroup() %>%
-  rename(max_region = region)
-
+  select(country, max_region = region)
 
 data_figure <- data_average %>%
   distinct(country, min, average, max) %>%
@@ -70,7 +69,7 @@ data_figure <- data_average %>%
       levels = c("min", "average", "max"),
       labels = c("Minimum region", "National average", "Maximum region")
     )) %>%
-  left_join(data_max[c("max_region","country")], by = c("country"))
+  left_join(data_max, by = "country")
 
 
 # 2 Graph -----------------------------------------------------------------
