@@ -86,8 +86,10 @@ data_figure %>%
     aes(yintercept = 57.74, linetype = "OECD average"),
     colour = "#1461B3"
   ) +
-  geom_text(data = . %>%  filter(category == "Maximum region"),
-            aes(label = max_region), angle = 90, hjust = -0.2) +
+  geom_text(
+    data = filter(data_figure, category == "Maximum region"),
+    aes(label = max_region), angle = 90, hjust = -0.2
+    ) +
   labs(subtitle = "'000 USD per worker") +
   scale_colour_manual(values = c("white", "black", "#0060B3")) +
   scale_shape_manual(values = c(16, 18, 16)) +
