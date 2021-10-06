@@ -2,7 +2,7 @@
 title: "Reproducible reports with RMarkdown"
 author: "María Paula Caldas"
 ta: "Jolien Noels"
-date: "2021-09-13"
+date: "2021-10-07"
 description: ""
 params:
   module: "4"
@@ -12,6 +12,8 @@ params:
   url_github: "https://github.com/mpaulacaldas/cfe-r-training"
   png_background: "img/gradient-background.png"
   png_break: "https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+  background_position: "1050px 20px"
+  background_size: "100px"
 output:
   xaringan::moon_reader:
     css: ["default", "cfe-fonts.css", "cfe.css"]
@@ -43,6 +45,10 @@ xaringanExtra::use_xaringan_extra(c(
   ))
 
 emoji <- function(x) paste0(emo::ji(x), "&nbsp;")
+
+url_tidyverse_logo <- function(pkg) {
+  sprintf("https://raw.githubusercontent.com/tidyverse/%s/master/man/figures/logo.png", pkg)
+}
 ```
 
 class: title-slide, inverse, bottom
@@ -96,49 +102,148 @@ class: middle
 
 # Learning objectives for today
 
-1. One.
+1. Understand what RMarkdown is and its many implementations.
 
-1. Two.
+1. Understand how Markdown, YAML and R code are used together to make a report.
 
-
----
-# A regular slide
-
-With text. Let's see the text.
-
-```{r}
-1 + 1
-2 + 2 #<<
-```
+1. Learn how to leverage the `params` arguments to parametrise reports.
 
 
 ---
 class:inverse, bottom, left
 
-# Section division
+# Introduction
+## What is RMarkdown?
 
 ---
-# Another simple slide
+background-image: url(https://github.com/rstudio/rmarkdown/blob/main/man/figures/logo.png?raw=true)
+background-position: `r params$background_position`
+background-size: `r params$background_size`
 
-With text. Let's see the text.
+# What is RMarkdown?
 
-```{r}
-summary(iris)
-```
+It is an **authoring framework** for data science, that combines:
+
+- Prose
+- Code
+- Results
+
+The term _RMarkdown_ can also make reference to:
+
+- `r emoji("document")`  A file format (`.Rmd`)
+- `r emoji("package")` The [`rmarkdown`](https://pkgs.rstudio.com/rmarkdown/) package.
+
+---
+# The RMarkdown universe
+
+TODO: Add about xaringan, bookdown, blogdown/distill/postcards...
+
+---
+# How does the process work?
+
+.pull-left[
+### As programmers, we...
+
+1. Create an `.Rmd` file.
+1. Write prose and R code
+1. Specify rendering parameters
+1. *Knit* the document, by clicking on a button
+
+]
+
+.pull-right[
+
+### Behind the scenes...
+
+**rmarkdown** processes the `.Rmd` file using [knitr](https://github.com/yihui/knitr/) and [pandoc](https://pandoc.org/)
+
+.center[![](https://es.r4ds.hadley.nz/images/RMarkdownFlow.png)]
+]
+
 
 ---
 class: exercise
 
-# `r emoji("pencil")` Exercise with timer
+# `r emoji("pencil")` Create and knit an `.Rmd`
 
-Prompt.
+Let's try these out at the same time in the [RStudio Cloud Project](`r params$url_project`).
 
-- Items
-- Items
 
-```{r, echo = FALSE}
-countdown::countdown(minutes = 0, seconds = 2, top = 0)
+1. Create an`.Rmd` from the RStudio IDE.
+
+    ```{r, echo = FALSE, out.width = "20%", fig.align = "center"}
+    knitr::include_graphics("img/new-rmarkdown.png")
+    ```
+
+1. *Knit* the document.
+
+    ```{r, echo = FALSE, out.width = "10%", fig.align = "center"}
+    knitr::include_graphics("img/knit.png")
+    ```
+
+1. Make some changes, knit again.
+
+---
+class:inverse, bottom, left
+
+# Markdown, R and YAML
+## (Text, code and metadata)
+
+---
+
+# YAML parameters
+
+.pull-left[
+- They are defined at the beginning of `.Rmd` files
+
+- They control the output file format (e.g. PDF, Word, HTML)
+
+- And the different options for each file format
+]
+
+.pull-right[
+
+```markdown
+*---
+*title: "Analizando los capítulos de R-Ladies en LAC"
+*author: "María Paula Caldas"
+*output: 
+*  html_document:
+*    toc: true
+*    toc_float: true
+*---
+
+## Importar los datos
+
+Los datos presentan los diferentes 
+capítulos de las R-Ladies...
 ```
+
+]
+
+---
+class: ejercicio
+
+# `r emoji("pencil")` Ejercicio: Los parámetros YAML
+
+--
+
+## 1. Demuestro yo
+
+- Cómo encuentrar cuales son las opciones de personalización disponibles de `html_document`.
+- Cómo tejer un RMarkdown a diferentes formatos de salida.
+
+--
+
+## 2. Experimentamos juntas
+
+- Crea un nuevo fichero RMarkdown con la ayuda de RStudio.
+- Escoje el formato `html_document` como formato de salida.
+- Intenta varios temas diferentes. ¿Cuál fue tu favorito?
+- Crea una tabla de contenidos flotante.
+
+---
+
 
 ---
 class: inverse, bottom, left
@@ -152,9 +257,43 @@ countdown::countdown(minutes = 10, top = 0)
 ```
 
 ---
+class:inverse, bottom, left
+
+# Parametrised reports
+
+---
+# Another simple slide
+
+With text. Let's see the text.
+
+```{r}
+summary(iris)
+```
+
+---
 class: inverse, bottom, left
 background-image: url(`r params$png_background`)
 background-size: cover
 
 # Annex
 
+---
+background-image: url(https://bookdown.org/yihui/rmarkdown/images/cover.png)
+background-position: 800px 250px
+background-size: 230px
+
+# En otras palablas
+
+Es una herramienta que nos permite convertir un archivo con texto y código en R en varios tipos de:
+
+- Documentos: [HTML](https://bookdown.org/yihui/rmarkdown/html-document.html), [PDF](https://bookdown.org/yihui/rmarkdown/pdf-document.html), [Word](https://bookdown.org/yihui/rmarkdown/word-document.html)
+- Presentaciones: [PowerPoint](https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html), [Beamer](https://bookdown.org/yihui/rmarkdown/beamer-presentation.html)
+
+Y muchos más...
+
+- Documentos con [dashboards o Shiny apps](https://bookdown.org/yihui/rmarkdown/dashboards.html)
+- Presentaciones [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html)
+- [Sitios web](https://bookdown.org/yihui/rmarkdown/websites.html)
+- [Libros](https://bookdown.org/yihui/rmarkdown/books.html)
+
+.footnote[`r emoji("book")` [R Markdown: The Definite Guide](https://bookdown.org/yihui/rmarkdown/)]
