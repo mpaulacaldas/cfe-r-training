@@ -1,0 +1,83 @@
+---
+title: "palmerpenguins"
+author: "Allison Horst"
+output: 
+  html_document:
+    df_print: "paged"
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "75%",
+  fig.align = 'center'
+)
+library(tidyverse)
+library(palmerpenguins)
+```
+
+
+> This document is based on the _README_ of the
+> [palmerpenguins](https://github.com/allisonhorst/palmerpenguins/) package.
+
+The goal of __palmerpenguins__ is to provide a great dataset for data exploration & visualization, as an alternative to `iris`. 
+
+As always, let's load the `tidyverse` fist.
+
+```{r}
+library(tidyverse)
+```
+
+Penguins are fun to summarize!
+
+```{r count, eval = FALSE}
+penguins %>% 
+  count(species)
+```
+
+```{r summarize, echo = FALSE}
+penguins %>% 
+  group_by(species) %>% 
+  summarize(across(where(is.numeric), mean, na.rm = TRUE))
+```
+
+## Penguins are fun to visualize! 
+
+```{r mass-flipper}
+mass_flipper <- ggplot(data = penguins, 
+                       aes(x = flipper_length_mm,
+                           y = body_mass_g)) +
+  geom_point(aes(color = species, 
+                 shape = species),
+             size = 3,
+             alpha = 0.8) +
+  theme_minimal() +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(title = "Penguin size, Palmer Station LTER",
+       subtitle = "Flipper length and body mass for Adelie, Chinstrap, and Gentoo Penguins",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin species",
+       shape = "Penguin species") +
+  theme(legend.position = c(0.2, 0.7),
+        legend.background = element_rect(fill = "white", color = NA),
+        plot.title.position = "plot",
+        plot.caption = element_text(hjust = 0, face= "italic"),
+        plot.caption.position = "plot")
+mass_flipper
+```
+
+```{r flipper-hist, echo = FALSE}
+flipper_hist <- ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(aes(fill = species), 
+                 alpha = 0.5, 
+                 position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Penguin flipper lengths")
+flipper_hist
+```
