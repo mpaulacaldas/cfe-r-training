@@ -1,10 +1,8 @@
-# simple version: creating just one country note for a manually selected country
+# Simple version: Creating just one country note for the country given by
+# default in the template
 
 rmarkdown::render(
-  input = "04-rmarkdown.Rmd", 
-  params = list(
-    country_selected = "KR"
-  ),
+  input = "template.Rmd",
   output_format = "all" # to simultaneously create html and word files
 )
 
