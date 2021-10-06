@@ -12,6 +12,8 @@ params:
   url_github: "https://github.com/mpaulacaldas/cfe-r-training"
   png_background: "img/gradient-background.png"
   png_break: "https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+  background_position: "1050px 20px"
+  background_size: "100px"
 output:
   xaringan::moon_reader:
     css: ["default", "cfe-fonts.css", "cfe.css"]
@@ -43,6 +45,10 @@ xaringanExtra::use_xaringan_extra(c(
   ))
 
 emoji <- function(x) paste0(emo::ji(x), "&nbsp;")
+
+url_tidyverse_logo <- function(pkg) {
+  sprintf("https://raw.githubusercontent.com/tidyverse/%s/master/man/figures/logo.png", pkg)
+} 
 ```
 
 class: title-slide, inverse, bottom
