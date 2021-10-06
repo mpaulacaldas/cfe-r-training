@@ -3,7 +3,7 @@ title: "palmerpenguins"
 author: "Allison Horst"
 output: 
   html_document:
-    df_print: "paged"
+    df_print: "kable"
 ---
 
 
@@ -12,7 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   out.width = "75%",
-  fig.align = 'center'
+  fig.align = 'center',
+  warning = FALSE,
+  message = FALSE
 )
 library(tidyverse)
 library(palmerpenguins)
@@ -30,14 +32,14 @@ As always, let's load the `tidyverse` fist.
 library(tidyverse)
 ```
 
-Penguins are fun to summarize!
+## Penguins are fun to summarize!
 
-```{r count, eval = FALSE}
+```{r count}
 penguins %>% 
   count(species)
 ```
 
-```{r summarize, echo = FALSE}
+```{r summarize}
 penguins %>% 
   group_by(species) %>% 
   summarize(across(where(is.numeric), mean, na.rm = TRUE))
@@ -45,7 +47,7 @@ penguins %>%
 
 ## Penguins are fun to visualize! 
 
-```{r mass-flipper}
+```{r mass-flipper, echo = FALSE}
 mass_flipper <- ggplot(data = penguins, 
                        aes(x = flipper_length_mm,
                            y = body_mass_g)) +
