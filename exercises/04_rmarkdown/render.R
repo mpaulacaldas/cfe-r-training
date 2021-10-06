@@ -10,7 +10,7 @@ rmarkdown::render(
 
 # Creating multiple country notes for a list of countries
 
-possible_countries <- c("KR", "ME", "UK")
+possible_countries <- c("KOR", "MEX", "GBR")
 possible_outputs   <- c("html", "docx")
 
 fs::dir_create("country-notes")
