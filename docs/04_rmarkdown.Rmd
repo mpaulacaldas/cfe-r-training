@@ -385,33 +385,6 @@ shortcut `Ctrl + Shift + K`
 
 ]
 
-.panel[.panel-name[Tables]
-
-.pull-left[
-
-```md
-| Column 1       | Column 2          |
-|:--------------:|------------------:|
-| Cell alignment | is determined     |
-| by the         | colons at the top.|
-| No need for really tidy | separators|
-```
-
-]
-.pull-right[
-
-
-| Column 1       | Column 2          |
-|:--------------:|------------------:|
-| Cell alignment | is determined     |
-| by the         | colons at the top |
-| No need for really tidy | separators|
-
-]
-
-
-]
-
 ]
 
 ???
