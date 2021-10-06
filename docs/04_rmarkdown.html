@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Reproducible reports with RMarkdown</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="María Paula Caldas" />
+    <meta name="date" content="2021-10-07" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <script src="libs/fitvids/fitvids.min.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="cfe-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="cfe.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide, inverse, bottom
+background-image: url(img/gradient-background.png)
+background-size: cover
+
+# Reproducible reports with RMarkdown
+### CFE R Training - Module 4
+
+&lt;br/&gt;
+
+María Paula Caldas and Jolien Noels
+
+---
+class: middle
+
+# Useful links
+
+[Slides](https://mpaulacaldas.github.io/cfe-r-training/04_rmarkdown.html), if you want to navigate on your own
+
+[RStudio Project](https://rstudio.cloud/project/2989711), to try out the exercises
+
+[Teams Space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c), for discussions
+
+[Github repository](https://github.com/mpaulacaldas/cfe-r-training), for later reference
+
+---
+class: middle
+
+# Housekeeping matters
+
+🙋‍♀️&amp;nbsp; During the session, ask questions in the chat 
+or raise your hand
+
+📷&amp;nbsp; Sessions are recorded. Remember to turn off your camera if 
+its your preference
+
+💬&amp;nbsp; After the session, post follow-up questions, 
+comments or reactions in the [Teams space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c)
+
+📝&amp;nbsp; If you are going through these slides on your own, type `p` 
+to see the presenter notes
+
+???
+
+The presenter notes are where you might also find OECD or CFE specific 
+information.
+
+---
+class: middle
+
+# Learning objectives for today
+
+1. Understand what RMarkdown is and its many implementations.
+
+1. Understand how Markdown, YAML and R code are used together to make a report.
+
+1. Learn how to leverage the `params` arguments to parametrise reports.
+
+
+---
+class:inverse, bottom, left
+
+# Introduction
+## What is RMarkdown?
+
+---
+background-image: url(https://github.com/rstudio/rmarkdown/blob/main/man/figures/logo.png?raw=true)
+background-position: 1050px 20px
+background-size: 100px
+
+# What is RMarkdown?
+
+It is an **authoring framework** for data science, that combines:
+
+- Prose
+- Code
+- Results
+
+The term _RMarkdown_ can also make reference to:
+
+- 📜&amp;nbsp;  A file format (`.Rmd`)
+- 📦&amp;nbsp; The [`rmarkdown`](https://pkgs.rstudio.com/rmarkdown/) package.
+
+---
+# How does the process work?
+
+.pull-left[
+### As programmers, we...
+
+1. Create an `.Rmd` file.
+1. Write prose and R code
+1. Specify rendering parameters
+1. *Knit* the document, by clicking on a button
+
+]
+
+.pull-right[
+
+### Behind the scenes...
+
+**rmarkdown** processes the `.Rmd` file using [knitr](https://github.com/yihui/knitr/) and [pandoc](https://pandoc.org/)
+
+.center[![](https://es.r4ds.hadley.nz/images/RMarkdownFlow.png)]
+]
+
+---
+# Why RMarkdown?
+## Reproducibility
+
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/s9aWmU0atlQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+
+---
+# Why RMarkdown?
+## Multiple output formats
+
+.panelset.sideways[
+
+.panel[.panel-name[Traditional]
+
+- PDF
+- HTML
+- Word
+- PowerPoint
+
+]
+
+.panel[.panel-name[Slides]
+
+[xaringan](https://github.com/yihui/xaringan), an RMarkdown extension based on [remark.js](https://remarkjs.com)
+
+<div class="shareagain" style="min-width:300px;margin:1em auto;max-width:560px;">
+<iframe src="https://mpaulacaldas.github.io/cfe-r-training/01_intro.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<script>fitvids('.shareagain', {players: 'iframe'});</script>
+</div>
+
+]
+
+.panel[.panel-name[Books]
+
+[bookdown](https://bookdown.org/), to write HTML, PDF, ePub and Kindle books with RMarkdown.
+
+Some examples:
+
+- [R for Data Science](https://r4ds.had.co.nz/)
+- [Geocomputation with R](https://geocompr.robinlovelace.net/)
+
+]
+
+.panel[.panel-name[Websites]
+
+[blogdown](https://pkgs.rstudio.com/blogdown/), an extension based on Hugo.
+
+[distill](https://pkgs.rstudio.com/distill/), a format optimised for scientific and technical communication.
+
+[postcards](https://github.com/seankross/postcards), for personal landing pages.
+
+]
+
+]
+
+
+---
+# Why RMarkdown?
+## Multiple output formats
+
+
+.pull-left[
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/_D-ux3MqGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+]
+.pull-right[
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/qLEkUjxk7e8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Create and knit an `.Rmd`
+
+Let's try these out at the same time in the [RStudio Cloud Project](https://rstudio.cloud/project/2989711).
+
+
+1. Create an`.Rmd` from the RStudio IDE.
+
+    &lt;img src="img/new-rmarkdown.png" width="20%" style="display: block; margin: auto;" /&gt;
+
+1. *Knit* the document.
+
+    &lt;img src="img/knit.png" width="10%" style="display: block; margin: auto;" /&gt;
+
+1. Make some changes, knit again.
+
+---
+class:inverse, bottom, left
+
+# Markdown, R and YAML
+## (Text, code and metadata)
+
+---
+
+# YAML parameters
+
+.pull-left[
+- They are defined at the beginning of `.Rmd` files
+
+- They control the output file format (e.g. PDF, Word, HTML)
+
+- And the different options for each file format
+]
+
+.pull-right[
+
+```markdown
+*---
+*title: "Country note: Korea"
+*author: "CFE/EDS"
+*date: "2021-10-06"
+*output: 
+*  html_document:
+*    theme: yeti
+*    toc: true
+*    toc_float: true
+*  word_document: default
+*---
+
+## Labour productivity in Korea
+
+Labour productivity is measured as GDP 
+per hour worked. In Korea, the most 
+productive region...
+```
+
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; YAML parameters
+
+<div class="countdown" id="yaml" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+## Instructors demonstrate...
+
+- How to find the different output options for `html_document`
+- Knitting an `.Rmd` to different type of outputs
+
+## You do...
+
+In the [RStudio Cloud Project](https://rstudio.cloud/project/2989711):
+
+- Create a new `.Rmd` file from RStudio
+- Choose `html_document` as output option
+- Add a floating table of contents
+- Change the output option to `word_document`
+- Add a table of contents, and number the sections
+
+---
+# Markdown syntax
+
+.panelset[
+
+.panel[.panel-name[Headers]
+
+.pull-left[
+
+```md
+# First level
+## Second level
+### Third level
+#### Fourth level
+```
+
+].pull-right[
+
+# First level
+## Second level
+### Third level
+#### Fourth level
+  
+]
+
+]
+
+.panel[.panel-name[Text]
+
+.pull-left[
+
+```md
+Another option to ~~crochet~~
+_knit_ an `.Rmd` document is 
+using the `render()` function
+from the __rmarkdown__ package.
+
+But most of the time, the 
+easiest way to go about it is 
+using the _Knit_ button in 
+RStudio, or the keyboard 
+shortcut `Ctrl + Shift + K`
+```
+
+].pull-right[
+
+Another option to ~~crochet~~
+_knit_ an `.Rmd` document is 
+using the `render()` function
+from the __rmarkdown__ package.
+But most of the time, the 
+easiest way to go about it is 
+using the _Knit_ button in 
+RStudio, or the keyboard 
+shortcut `Ctrl + Shift + K`
+]
+
+]
+
+.panel[.panel-name[Lists]
+
+.pull-left[
+
+```md
+- One item
+- Another item
+  - A sub-item
+  - Another sub-item
+
+1. Item 1
+1. Item 2
+1. Item 3
+```
+
+].pull-right[
+
+- One item
+- Another item
+  - A sub-item
+  - Another sub-item
+
+1. Item 1
+1. Item 2
+1. Item 3
+
+]
+
+&lt;br/&gt;
+
+&gt; 💡&amp;nbsp; You are not required to keep the count in numbered lists.
+]
+
+.panel[.panel-name[Images]
+
+.pull-left[
+
+```md
+![Alt text](https://github.com/rstudio/rmarkdown/raw/master/man/figures/logo.png)
+```
+
+].pull-right[
+.center[
+![A judge’s desk labeled “Reproducibility” with a witness stand right next to it. On the witness stand is a smiling and confident R Markdown document pointing at some lines of code on itself. A fuzzy monster lawyer in a polka-dot tie stands proudly saying “Nothing further!” The judge (also a cute fuzzy monster) is smiling with their hands raised in celebration of reproducible work.](https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/reproducibility_court.png?raw=true)
+]
+]
+
+&gt; 🙋&amp;nbsp; What is the use of the text inside the square brackets?
+]
+
+.panel[.panel-name[Links]
+
+.pull-left[
+
+```md
+[RStudio's RMarkdown lessons](https://rmarkdown.rstudio.com/lesson-1.html)
+```
+&lt;br/&gt;
+
+```md
+&lt;https://rmarkdown.rstudio.com/lesson-1.html&gt;
+```
+
+
+
+].pull-right[
+
+[RStudio's RMarkdown lessons](https://rmarkdown.rstudio.com/lesson-1.html)
+
+&lt;br/&gt;
+
+&lt;https://rmarkdown.rstudio.com/lesson-1.html&gt;
+
+
+]
+
+]
+
+]
+
+???
+
+In the RStudio IDE, you can always go to: Help -&gt; Markdown quick reference for a list of these rules.
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Markdown syntax
+
+<div class="countdown" id="markdown" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+In the [RStudio Cloud Project](https://rstudio.cloud/project/2989711):
+
+1. Create a new `.Rmd` using the RStudio IDE, or use a previous one.
+
+1. In the top of the RStudio IDE, go to _Help_ -&gt; _Markdown Quick Reference_.
+
+1. Using the reference, add the following elements to your document:
+  - A footnote.
+  - A block quote.
+  - A table.
+
+---
+# Inline R code
+
+
+.pull-left[
+
+```markdown
+### Connectivity report
+
+_Date of last update: `r Sys.Date()`_
+
+With fixed average download speeds at 
+145 Mbps, people living in Xyz 
+experience actual fixed Internet 
+speeds `r scales::percent((145/119) - 1)`
+above the OECD average.
+```
+]
+
+.pull-right[
+
+### Connectivity report
+
+_Date of last update: 2021-10-06_
+
+With fixed average download speeds at 
+145 Mbps, people living in Xyz 
+experience actual fixed Internet 
+speeds 22%
+above the OECD average.
+
+]
+
+---
+
+# R code chunks
+
+.panelset[
+
+.panel[.panel-name[Objects]
+
+.pull-left[
+
+````markdown
+### Connectivity report
+
+_Date of last update: `r Sys.Date()`_
+
+```{r, echo = FALSE}
+xyz  &lt;- 145
+oecd &lt;- 119
+rate &lt;- (xyz/oecd - 1)
+```
+
+With fixed average download speeds at 
+`r xyz` Mbps, people living in Xyz 
+experience actual fixed Internet 
+speeds `r scales::percent(rate)`
+above the OECD average.
+````
+
+]
+
+.pull-right[
+
+### Connectivity report
+
+_Date of last update: 2021-10-06_
+
+
+
+With fixed average download speeds at 
+145 Mbps, people living in Xyz 
+experience actual fixed Internet 
+speeds 22%
+above the OECD average.
+
+]
+
+
+]
+
+.panel[.panel-name[Figures]
+
+.pull-left[
+
+````markdown
+```{r}
+library(ggplot2)
+df &lt;- data.frame(
+  region = c("Xyz", "OECD"),
+  speed  = c(145, 119))
+ggplot(df, aes(region, speed)) + 
+  geom_col()
+```
+````
+]
+
+.pull-right[
+
+
+```r
+library(ggplot2)
+df &lt;- data.frame(
+  region = c("Xyz", "OECD"),
+  speed  = c(145, 119))
+ggplot(df, aes(region, speed)) + 
+  geom_col()
+```
+
+&lt;img src="04_rmarkdown_files/figure-html/xyz-cols-1.png" width="504" /&gt;
+
+]
+
+
+]
+
+.panel[.panel-name[Tables]
+
+.pull-left[
+
+````markdown
+```{r}
+df # printed
+```
+
+```{r}
+knitr::kable(df) # rendered
+```
+````
+]
+
+.pull-right[
+
+
+```r
+df # printed
+#&gt;   region speed
+#&gt; 1    Xyz   145
+#&gt; 2   OECD   119
+```
+
+
+```r
+knitr::kable(df) # rendered
+```
+
+
+
+|region | speed|
+|:------|-----:|
+|Xyz    |   145|
+|OECD   |   119|
+
+]
+
+]
+
+]
+
+---
+
+# Chunk options
+
+Chunk options control the output of chunks. They can be used to determine if the code is executed, printed, or if its results are displayed in the final document.
+
+.pull-left[
+````
+*```{r, eval = FALSE}
+ggplot(df, aes(region, speed)) + 
+  geom_col()
+```
+````
+]
+
+.pull-right[
+
+- You set them at the top of the chunk &lt;br&gt;`{r option = value}`
+
+- Options are separated by commas&lt;br&gt;`{r opt1 = value1, opt2 = value2}`
+
+]
+
+.footnote[
+.small[
+📖&amp;nbsp; [Chapter 27, R4DS](https://es.r4ds.hadley.nz/r-markdown.html#opciones-de-los-bloques)
+]
+]
+
+---
+
+# Most common options
+
+.panelset[
+
+.panel[.panel-name[eval]
+
+`eval = FALSE` shows the code, but doesn't evaluate it.
+
+.pull-left[
+
+````
+*```{r, eval = FALSE}
+nrow(df)
+```
+````
+]
+
+.pull-right[
+
+
+```r
+nrow(df)
+```
+
+]
+
+]
+
+.panel[.panel-name[echo]
+
+`echo = FALSE` hides the code chunk from the output, but it executes the code and prints its results.
+
+.pull-left[
+
+````
+*```{r, echo = FALSE}
+df # printed
+knitr::kable(df) # rendered
+```
+````
+
+]
+
+.pull-right[
+
+
+```
+#&gt;   region speed
+#&gt; 1    Xyz   145
+#&gt; 2   OECD   119
+```
+
+
+
+|region | speed|
+|:------|-----:|
+|Xyz    |   145|
+|OECD   |   119|
+]
+
+]
+
+.panel[.panel-name[include]
+
+`include = FALSE` executes teh code in the chunk, but doesn't print the code or its results.
+
+The objects created in the block remain available to be used later in the document.
+
+.pull-left[
+
+````markdown
+*```{r, include = FALSE}
+df &lt;- data.frame(
+  region = c("Xyz", "OECD"),
+  speed  = c(145, 119))
+
+df
+nrow(df)
+```
+
+We have data for `r nrow(df) - 1` country.
+````
+]
+
+.pull-right[
+
+
+
+We have data for 1 country.
+
+]
+
+
+]
+
+
+]
+
+---
+class: exercise
+
+# 📝&amp;nbsp; Putting it all together
+
+<div class="countdown" id="code" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+Head to the [RStudio Cloud Project](https://rstudio.cloud/project/2989711)
+
+Modify `starting-point.Rmd` so you get an output file that looks exactly like `goal.html`
+
+---
+class: inverse, bottom, left
+background-image: url(https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80)
+background-size: cover
+
+# Break
+
+<div class="countdown" id="break" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class:inverse, bottom, left
+
+# Parametrised reports
+
+---
+# Parametrised reports
+
+You can __parametrise__ RMarkdown documents further by setting the `params` parameter in the YAML header. 
+
+This can be useful to:
+
+- Highlight important metadata of the document
+    - This is what we do, for example, to control the RStudio Cloud links in the present slides.
+
+- To create a template that can be used to produce similar documents that change depending on parameters.
+
+---
+# The `params` parameter
+
+.pull-left[
+
+````markdown
+---
+title: "Status report"
+output: html_document
+params:
+  country: "Xyz"
+  tl: "TL2"
+---
+
+```{r, include = FALSE}
+library(cfe)
+indicators &lt;- read_status(params$country, params$tl)
+```
+
+In `r indicators$year`, `r params$country` 
+reported download speeds between 
+`r min(indicators$speed)` Mbps and 
+`r max(indicators$speed)` Mbps 
+across its `r params$tl` regions.
+
+````
+
+]
+
+.pull-right[
+
+### Status report
+
+In 2021, Xyz reported average download speeds 
+between 60Mpbs and 180Mbps across its TL2 
+regions.
+
+]
+
+---
+class: exercise
+
+# 👩‍💻&amp;nbsp; Demo: Parametrised country notes
+
+The code used in this demonstration is in the [RStudio Cloud project](https://rstudio.cloud/project/2989711).
+
+---
+class: inverse, bottom, left
+background-image: url(img/gradient-background.png)
+background-size: cover
+
+# Annex
+
+---
+# More exercises
+
+The __OECD lunch::houR()__ had two sessions dedicated to RMarkdown. The materials from the sessions are available in the [Algobank](https://algobank.oecd.org:4430/Philip.CHAN/lunch-hour-materials/-/tree/master/).
+
+The __Tidyverse Certification Exam__ has an exercise where you are asked to [fix an `.Rmd` that is not working](https://education.rstudio.com/blog/2020/02/instructor-certification-exams/#question-2-1). It uses many of the tidyverse concepts we have covered so far, and introduces the `params` parameter.
+
+---
+
+# Books
+
+.pull-left[
+
+[R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+
+&lt;img src="https://bookdown.org/yihui/rmarkdown/images/cover.png" width="50%" /&gt;
+
+]
+.pull-right[
+
+[R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
+
+&lt;img src="https://bookdown.org/yihui/rmarkdown-cookbook/images/cover.png" width="50%" /&gt;
+
+]
+
+
+---
+# On the opportunities and challenges
+
+__Ana Moreno__ is looking for examples of OECD documents produced in R Markdown. If you want to know of or want to contribute, answer in [this thread](https://community.oecd.org/thread/29197).
+
+__Romain Lesur__, the Head of Innovation at INSEE spoke on the [benefits and challenges of using RMarkdown in organisations](https://community.oecd.org/events/5062) at the OECD R/Python/Algobank CoP.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": ["r", "css", "yaml"],
+"countIncrementalSlides": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
