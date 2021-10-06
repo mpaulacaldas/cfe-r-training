@@ -22,7 +22,6 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/OE
 
 # Country note: `r params$country_selected`^[Disclaimer: <https://oecdcode.org/disclaimers/territories.html>] 
   
-\newpage
 
 
 ```{r libraries}
