@@ -4,7 +4,8 @@ rmarkdown::render(
   input = "04-rmarkdown.Rmd", 
   params = list(
     country_selected = "KR"
-  ) #, output_format = "all" # to simultanously create html and word files
+  ),
+  output_format = "all" # to simultaneously create html and word files
 )
 
 
