@@ -13,14 +13,14 @@ rmarkdown::render(
 # Creating multiple country notes for a list of countries
 
 possible_countries <- c("KR", "ME", "UK")
-
-
-## ... using for loops
+possible_outputs   <- c("html", "docx")
 
 for (i in possible_countries) {
-  rmarkdown::render(
-    input = "template.Rmd",
-    output_file = paste0(i,'-country-note.pdf'),
-    params = list(country_selected = i)
-  )
+  for (j in possible_outputs) {
+    rmarkdown::render(
+      input = "template.Rmd",
+      output_file = paste0(i,'-country-note.', j),
+      params = list(iso2 = i)
+    )
+  }
 }
