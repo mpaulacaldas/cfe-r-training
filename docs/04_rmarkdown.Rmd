@@ -134,11 +134,6 @@ The term _RMarkdown_ can also make reference to:
 - `r emoji("package")` The [`rmarkdown`](https://pkgs.rstudio.com/rmarkdown/) package.
 
 ---
-# The RMarkdown universe
-
-TODO: Add about xaringan, bookdown, blogdown/distill/postcards...
-
----
 # How does the process work?
 
 .pull-left[
@@ -160,6 +155,75 @@ TODO: Add about xaringan, bookdown, blogdown/distill/postcards...
 .center[![](https://es.r4ds.hadley.nz/images/RMarkdownFlow.png)]
 ]
 
+---
+# Why RMarkdown?
+## Reproducibility
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/s9aWmU0atlQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
+# Why RMarkdown?
+## Multiple output formats
+
+.panelset.sideways[
+
+.panel[.panel-name[Traditional]
+
+- PDF
+- HTML
+- Word
+- PowerPoint
+
+]
+
+.panel[.panel-name[Slides]
+
+[xaringan](https://github.com/yihui/xaringan), an RMarkdown extension based on [remark.js](https://remarkjs.com)
+
+```{r, echo = FALSE}
+xaringanExtra::embed_xaringan(
+  url = "https://mpaulacaldas.github.io/cfe-r-training/01_intro.html",
+  ratio = "16:9", max_width = "560"
+)
+```
+
+]
+
+.panel[.panel-name[Books]
+
+[bookdown](https://bookdown.org/), to write HTML, PDF, ePub and Kindle books with RMarkdown.
+
+Some examples:
+
+- [R for Data Science](https://r4ds.had.co.nz/)
+- [Geocomputation with R](https://geocompr.robinlovelace.net/)
+
+]
+
+.panel[.panel-name[Websites]
+
+[blogdown](https://pkgs.rstudio.com/blogdown/), an extension based on Hugo.
+
+[distill](https://pkgs.rstudio.com/distill/), a format optimised for scientific and technical communication.
+
+[postcards](https://github.com/seankross/postcards), for personal landing pages.
+
+]
+
+]
+
+
+---
+# Why RMarkdown?
+## Multiple output formats
+
+
+.pull-left[
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_D-ux3MqGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+]
+.pull-right[
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qLEkUjxk7e8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+]
 
 ---
 class: exercise
@@ -231,7 +295,7 @@ class: exercise
 # `r emoji("pencil")` YAML parameters
 
 ```{r, echo = FALSE}
-countdown::countdown(minutes = 5, top = 0, id = "yaml")
+countdown::countdown(minutes = 3, top = 0, id = "yaml")
 ```
 
 ## Instructors demonstrate...
@@ -245,8 +309,9 @@ In the [RStudio Cloud Project](`r params$url_project`):
 
 - Create a new `.Rmd` file from RStudio
 - Choose `html_document` as output option
-- Try out different themes and knit
 - Add a floating table of contents
+- Change the output option to `word_document`
+- Add a table of contents, and number the sections
 
 ---
 # Markdown syntax
@@ -397,7 +462,7 @@ class: exercise
 # `r emoji("pencil")` Markdown syntax
 
 ```{r, echo = FALSE}
-countdown::countdown(minutes = 5, top = 0, id = "yaml")
+countdown::countdown(minutes = 5, top = 0, id = "markdown")
 ```
 
 In the [RStudio Cloud Project](`r params$url_project`):
@@ -412,6 +477,294 @@ In the [RStudio Cloud Project](`r params$url_project`):
   - A table.
 
 ---
+# Inline R code
+
+
+.pull-left[
+
+```markdown
+### Connectivity report
+
+_Date of last update: `r knitr::inline_expr('Sys.Date()')`_
+
+With fixed average download speeds at 
+145 Mbps, people living in Xyz 
+experience actual fixed Internet 
+speeds `r knitr::inline_expr('scales::percent((145/119) - 1)')`
+above the OECD average.
+```
+]
+
+.pull-right[
+
+### Connectivity report
+
+_Date of last update: `r Sys.Date()`_
+
+With fixed average download speeds at 
+145 Mbps, people living in Xyz 
+experience actual fixed Internet 
+speeds `r scales::percent((145/119) - 1)`
+above the OECD average.
+
+]
+
+---
+
+# R code chunks
+
+.panelset[
+
+.panel[.panel-name[Objects]
+
+.pull-left[
+
+````markdown
+### Connectivity report
+
+_Date of last update: `r knitr::inline_expr('Sys.Date()')`_
+
+```{r, echo = FALSE}`r ''`
+xyz  <- 145
+oecd <- 119
+rate <- (xyz/oecd - 1)
+```
+
+With fixed average download speeds at 
+`r knitr::inline_expr('xyz')` Mbps, people living in Xyz 
+experience actual fixed Internet 
+speeds `r knitr::inline_expr('scales::percent(rate)')`
+above the OECD average.
+````
+
+]
+
+.pull-right[
+
+### Connectivity report
+
+_Date of last update: `r Sys.Date()`_
+
+```{r, echo = FALSE}
+xyz  <- 145
+oecd <- 119
+rate <- (xyz/oecd - 1)
+```
+
+With fixed average download speeds at 
+`r xyz` Mbps, people living in Xyz 
+experience actual fixed Internet 
+speeds `r scales::percent(rate)`
+above the OECD average.
+
+]
+
+
+]
+
+.panel[.panel-name[Figures]
+
+.pull-left[
+
+````markdown
+```{r}`r ''`
+library(ggplot2)
+df <- data.frame(
+  region = c("Xyz", "OECD"),
+  speed  = c(145, 119))
+ggplot(df, aes(region, speed)) + 
+  geom_col()
+```
+````
+]
+
+.pull-right[
+
+```{r xyz-cols, fig.height=3}
+library(ggplot2)
+df <- data.frame(
+  region = c("Xyz", "OECD"),
+  speed  = c(145, 119))
+ggplot(df, aes(region, speed)) + 
+  geom_col()
+```
+
+]
+
+
+]
+
+.panel[.panel-name[Tables]
+
+.pull-left[
+
+````markdown
+```{r}`r ''`
+df # printed
+```
+
+```{r}`r ''`
+knitr::kable(df) # rendered
+```
+````
+]
+
+.pull-right[
+
+```{r}
+df # printed
+```
+
+```{r}
+knitr::kable(df) # rendered
+```
+
+]
+
+]
+
+]
+
+---
+
+# Chunk options
+
+Chunk options control the output of chunks. They can be used to determine if the code is executed, printed, or if its results are displayed in the final document.
+
+.pull-left[
+````
+*```{r, eval = FALSE}`r ''`
+ggplot(df, aes(region, speed)) + 
+  geom_col()
+```
+````
+]
+
+.pull-right[
+
+- You set them at the top of the chunk <br>`{r option = value}`
+
+- Options are separated by commas<br>`{r opt1 = value1, opt2 = value2}`
+
+]
+
+.footnote[
+.small[
+`r emoji("book")` [Chapter 27, R4DS](https://es.r4ds.hadley.nz/r-markdown.html#opciones-de-los-bloques)
+]
+]
+
+---
+
+# Most common options
+
+.panelset[
+
+.panel[.panel-name[eval]
+
+`eval = FALSE` shows the code, but doesn't evaluate it.
+
+.pull-left[
+
+````
+*```{r, eval = FALSE}`r ''`
+nrow(df)
+```
+````
+]
+
+.pull-right[
+
+```{r, eval = FALSE}
+nrow(df)
+```
+
+]
+
+]
+
+.panel[.panel-name[echo]
+
+`echo = FALSE` hides the code chunk from the output, but it executes the code and prints its results.
+
+.pull-left[
+
+````
+*```{r, echo = FALSE}`r ''`
+df # printed
+knitr::kable(df) # rendered
+```
+````
+
+]
+
+.pull-right[
+
+```{r, echo=FALSE}
+df # printed
+knitr::kable(df) # rendered
+```
+]
+
+]
+
+.panel[.panel-name[include]
+
+`include = FALSE` executes teh code in the chunk, but doesn't print the code or its results.
+
+The objects created in the block remain available to be used later in the document.
+
+.pull-left[
+
+````markdown
+*```{r, include = FALSE}`r ''`
+df <- data.frame(
+  region = c("Xyz", "OECD"),
+  speed  = c(145, 119))
+
+df
+nrow(df)
+```
+
+We have data for `r knitr::inline_expr('nrow(df) - 1')` country.
+````
+]
+
+.pull-right[
+
+```{r, include=FALSE}
+df <- data.frame(
+  region = c("Xyz", "OECD"),
+  speed  = c(145, 119))
+
+df
+nrow(df)
+```
+
+We have data for `r nrow(df) - 1` country.
+
+]
+
+
+]
+
+
+]
+
+---
+class: exercise
+
+# `r emoji("pencil")` Putting it all together
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, top = 0, id = "code")
+```
+
+Head to the [RStudio Cloud Project](`r params$url_project`)
+
+Modify `starting-point.Rmd` so you get an output file that looks exactly like `goal.html`
+
+---
 class: inverse, bottom, left
 background-image: url(`r params$png_break`)
 background-size: cover
@@ -419,7 +772,7 @@ background-size: cover
 # Break
 
 ```{r, echo = FALSE}
-countdown::countdown(minutes = 10, top = 0)
+countdown::countdown(minutes = 10, top = 0, id = "break")
 ```
 
 ---
@@ -428,13 +781,62 @@ class:inverse, bottom, left
 # Parametrised reports
 
 ---
-# Another simple slide
+# Parametrised reports
 
-With text. Let's see the text.
+You can __parametrise__ RMarkdown documents further by setting the `params` parameter in the YAML header. 
 
-```{r}
-summary(iris)
+This can be useful to:
+
+- Highlight important metadata of the document
+    - This is what we do, for example, to control the RStudio Cloud links in the present slides.
+
+- To create a template that can be used to produce similar documents that change depending on parameters.
+
+---
+# The `params` parameter
+
+.pull-left[
+
+````markdown
+---
+title: "Status report"
+output: html_document
+params:
+  country: "Xyz"
+  tl: "TL2"
+---
+
+```{r, include = FALSE}`r ''`
+library(cfe)
+indicators <- read_status(params$country, params$tl)
 ```
+
+In `r knitr::inline_expr('indicators$year')`, `r knitr::inline_expr('params$country')` 
+reported download speeds between 
+`r knitr::inline_expr('min(indicators$speed)')` Mbps and 
+`r knitr::inline_expr('max(indicators$speed)')` Mbps 
+across its `r knitr::inline_expr('params$tl')` regions.
+
+````
+
+]
+
+.pull-right[
+
+### Status report
+
+In 2021, Xyz reported average download speeds 
+between 60Mpbs and 180Mbps across its TL2 
+regions.
+
+]
+
+---
+class: exercise
+
+# `r emoji("woman_technologist")` Demo: Parametrised country notes
+
+The code used in this demonstration is in the [RStudio Cloud project](`r params$url_project`).
 
 ---
 class: inverse, bottom, left
@@ -444,22 +846,39 @@ background-size: cover
 # Annex
 
 ---
-background-image: url(https://bookdown.org/yihui/rmarkdown/images/cover.png)
-background-position: 800px 250px
-background-size: 230px
+# More exercises
 
-# En otras palablas
+The __OECD lunch::houR()__ had two sessions dedicated to RMarkdown. The materials from the sessions are available in the [Algobank](https://algobank.oecd.org:4430/Philip.CHAN/lunch-hour-materials/-/tree/master/).
 
-Es una herramienta que nos permite convertir un archivo con texto y código en R en varios tipos de:
+The __Tidyverse Certification Exam__ has an exercise where you are asked to [fix an `.Rmd` that is not working](https://education.rstudio.com/blog/2020/02/instructor-certification-exams/#question-2-1). It uses many of the tidyverse concepts we have covered so far, and introduces the `params` parameter.
 
-- Documentos: [HTML](https://bookdown.org/yihui/rmarkdown/html-document.html), [PDF](https://bookdown.org/yihui/rmarkdown/pdf-document.html), [Word](https://bookdown.org/yihui/rmarkdown/word-document.html)
-- Presentaciones: [PowerPoint](https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html), [Beamer](https://bookdown.org/yihui/rmarkdown/beamer-presentation.html)
+---
 
-Y muchos más...
+# Books
 
-- Documentos con [dashboards o Shiny apps](https://bookdown.org/yihui/rmarkdown/dashboards.html)
-- Presentaciones [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html)
-- [Sitios web](https://bookdown.org/yihui/rmarkdown/websites.html)
-- [Libros](https://bookdown.org/yihui/rmarkdown/books.html)
+.pull-left[
 
-.footnote[`r emoji("book")` [R Markdown: The Definite Guide](https://bookdown.org/yihui/rmarkdown/)]
+[R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+
+```{r, echo = FALSE, out.width="50%"}
+knitr::include_graphics("https://bookdown.org/yihui/rmarkdown/images/cover.png")
+```
+
+]
+.pull-right[
+
+[R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
+
+```{r, echo = FALSE, out.width="50%"}
+knitr::include_graphics("https://bookdown.org/yihui/rmarkdown-cookbook/images/cover.png")
+```
+
+]
+
+
+---
+# On the opportunities and challenges
+
+__Ana Moreno__ is looking for examples of OECD documents produced in R Markdown. If you want to know of or want to contribute, answer in [this thread](https://community.oecd.org/thread/29197).
+
+__Romain Lesur__, the Head of Innovation at INSEE spoke on the [benefits and challenges of using RMarkdown in organisations](https://community.oecd.org/events/5062) at the OECD R/Python/Algobank CoP.
