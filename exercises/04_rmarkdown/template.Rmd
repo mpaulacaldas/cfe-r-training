@@ -1,0 +1,120 @@
+---
+output: pdf_document
+params:
+  country_selected: KR  # options: UK, ME, KR 
+  show: false
+header-includes:
+- \usepackage{sectsty} 
+---
+
+```{r logo, echo=FALSE, fig.align="center", out.width="50%"}
+knitr::include_graphics("OECD_logo.jpg")
+```
+
+\allsectionsfont{\centering}
+# Country note: `r params$country_selected`^[Disclaimer: <https://oecdcode.org/disclaimers/territories.html>] 
+
+\newpage
+
+```{r setup, echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+```{r global, echo=FALSE, message=FALSE}
+oecd_theme <- function() {
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(size = 10, colour = "black", angle = 45, hjust = 1),
+    axis.text.y = element_text(size = 10, colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.ticks.length = unit(-0.15, "cm"),
+    panel.grid.major = element_line(colour = "white"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "#E9E9E9"),
+    legend.text = element_text(size = 10),
+    legend.title = element_blank(),
+    legend.key = element_rect(color = "#E9E9E9", fill = "#E9E9E9"),
+    legend.background = element_rect(fill = "#E9E9E9"),
+    legend.box.background = element_rect(color = "#E9E9E9", fill = "#E9E9E9"),
+    legend.box.margin = margin(0, 0.5, 0, 0.5, "cm"),
+    legend.key.size = unit(0.7, "line"),
+    legend.position = "top",
+    legend.direction = "horizontal",
+    legend.box = "horizontal"
+  )
+}
+```
+
+\allsectionsfont{\raggedright}
+## Labour productivity in `r params$country_selected`
+
+```{r data-prep, echo = FALSE, message=FALSE, results='hide', warning=FALSE}
+
+data_raw <- read_xlsx("worker_productivity.xlsx") %>% 
+  mutate(country = fct_reorder(country, -max)) %>%
+  pivot_longer(
+    c(average, min, max),
+    names_to = "category",
+    values_to = "value"
+  ) %>%
+  mutate(
+    value = value / 1000,
+    category = factor(
+      category,
+      levels = c("min", "average", "max"),
+      labels = c("Minimum region", "National average", "Maximum region")
+    ))
+
+data_figure <- data_raw %>%
+    filter(country %in% c("IE", params$country_selected, "BG"))
+
+```
+
+```{r value, echo=FALSE} 
+average <- data_figure %>% 
+  filter(country == params$country_selected, category == "National average") %>% 
+  select(value)
+
+max <- data_figure %>% 
+  filter(country == params$country_selected, category == "Maximum region") %>% 
+  select(value)
+
+min <- data_figure %>% 
+  filter(country == params$country_selected, category == "Minimum region") %>% 
+  select(value)
+```
+
+On average, labour productivity in `r params$country_selected` is `r format(round(average*1000), big.mark=",")` USD per worker. The region with the highest labour produtivity has a gross value added per worker of `r format(round(max*1000), big.mark=",")` USD. Its GVA per worker is `r round(max/min, digits = 1)` times that of the region with the lowest GVA per worker at `r format(round(min*1000), big.mark=",")` USD. 
+
+```{r fig, echo=FALSE}
+
+data_figure %>%
+  ggplot(aes(x = country, y = value)) +
+  geom_line(colour = "#00A9CB", size = 3) +
+  geom_point(aes(colour = category, shape = category), size = 3) +
+  geom_point(
+    data = filter(data_figure, category == "National average"),
+    colour = "black", size = 3, shape = 18
+  ) +
+  geom_hline(
+    aes(yintercept = 57.74, linetype = "OECD average"),
+    colour = "#1461B3"
+    ) +
+  labs(subtitle = "'000 USD per worker") +
+  scale_colour_manual(values = c("white", "black", "#0060B3")) +
+  scale_shape_manual(values = c(16, 18, 16)) +
+  scale_y_continuous(
+    limits = c(0, 220), expand = c(0, 0),
+    breaks = seq(0, 220, by = 20)
+  ) +
+  oecd_theme()
+
+```
+
+This is a country note to the Regions and Cities at a glance report. The report can be found [here](https://www.oecd.org/cfe/oecd-regions-and-cities-at-a-glance-26173212.htm). More data is available at <https://regions-cities-atlas.oecd.org/>.
