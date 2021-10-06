@@ -11,17 +11,18 @@ rmarkdown::render(
 # Creating multiple country notes for a list of countries
 
 possible_countries <- c("KOR", "MEX", "GBR")
-possible_outputs   <- c("html", "docx")
+possible_formats   <- c("html_document", "word_document")
 
 fs::dir_create("country-notes")
 
 for (i in possible_countries) {
-  for (j in possible_outputs) {
+  for (j in possible_formats) {
     rmarkdown::render(
       input = "template.Rmd",
       output_dir = "country-notes", 
-      output_file = paste0(i,'.', j),
-      params = list(iso2 = i)
+      output_format = j,
+      output_file = i,
+      params = list(iso3 = i)
     )
   }
 }
