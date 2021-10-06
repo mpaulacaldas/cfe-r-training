@@ -205,45 +205,238 @@ class:inverse, bottom, left
 
 ```markdown
 *---
-*title: "Analizando los capítulos de R-Ladies en LAC"
-*author: "María Paula Caldas"
+*title: "Country note: Korea"
+*author: "CFE/EDS"
+*date: "`r Sys.Date()`"
 *output: 
 *  html_document:
+*    theme: yeti
 *    toc: true
 *    toc_float: true
+*  word_document: default
 *---
 
-## Importar los datos
+## Labour productivity in Korea
 
-Los datos presentan los diferentes 
-capítulos de las R-Ladies...
+Labour productivity is measured as GDP 
+per hour worked. In Korea, the most 
+productive region...
 ```
 
 ]
 
 ---
-class: ejercicio
+class: exercise
 
-# `r emoji("pencil")` Ejercicio: Los parámetros YAML
+# `r emoji("pencil")` YAML parameters
 
---
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, top = 0, id = "yaml")
+```
 
-## 1. Demuestro yo
+## Instructors demonstrate...
 
-- Cómo encuentrar cuales son las opciones de personalización disponibles de `html_document`.
-- Cómo tejer un RMarkdown a diferentes formatos de salida.
+- How to find the different output options for `html_document`
+- Knitting an `.Rmd` to different type of outputs
 
---
+## You do...
 
-## 2. Experimentamos juntas
+In the [RStudio Cloud Project](`r params$url_project`):
 
-- Crea un nuevo fichero RMarkdown con la ayuda de RStudio.
-- Escoje el formato `html_document` como formato de salida.
-- Intenta varios temas diferentes. ¿Cuál fue tu favorito?
-- Crea una tabla de contenidos flotante.
+- Create a new `.Rmd` file from RStudio
+- Choose `html_document` as output option
+- Try out different themes and knit
+- Add a floating table of contents
 
 ---
+# Markdown syntax
 
+.panelset[
+
+.panel[.panel-name[Headers]
+
+.pull-left[
+
+```md
+# First level
+## Second level
+### Third level
+#### Fourth level
+```
+
+].pull-right[
+
+# First level
+## Second level
+### Third level
+#### Fourth level
+  
+]
+
+]
+
+.panel[.panel-name[Text]
+
+.pull-left[
+
+```md
+Another option to ~~crochet~~
+_knit_ an `.Rmd` document is 
+using the `render()` function
+from the __rmarkdown__ package.
+
+But most of the time, the 
+easiest way to go about it is 
+using the _Knit_ button in 
+RStudio, or the keyboard 
+shortcut `Ctrl + Shift + K`
+```
+
+].pull-right[
+
+Another option to ~~crochet~~
+_knit_ an `.Rmd` document is 
+using the `render()` function
+from the __rmarkdown__ package.
+But most of the time, the 
+easiest way to go about it is 
+using the _Knit_ button in 
+RStudio, or the keyboard 
+shortcut `Ctrl + Shift + K`
+]
+
+]
+
+.panel[.panel-name[Lists]
+
+.pull-left[
+
+```md
+- One item
+- Another item
+  - A sub-item
+  - Another sub-item
+
+1. Item 1
+1. Item 2
+1. Item 3
+```
+
+].pull-right[
+
+- One item
+- Another item
+  - A sub-item
+  - Another sub-item
+
+1. Item 1
+1. Item 2
+1. Item 3
+
+]
+
+<br/>
+
+> `r emoji("bulb")` You are not required to keep the count in numbered lists.
+]
+
+.panel[.panel-name[Images]
+
+.pull-left[
+
+```md
+![Alt text](https://github.com/rstudio/rmarkdown/raw/master/man/figures/logo.png)
+```
+
+].pull-right[
+.center[
+![A judge’s desk labeled “Reproducibility” with a witness stand right next to it. On the witness stand is a smiling and confident R Markdown document pointing at some lines of code on itself. A fuzzy monster lawyer in a polka-dot tie stands proudly saying “Nothing further!” The judge (also a cute fuzzy monster) is smiling with their hands raised in celebration of reproducible work.](https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/reproducibility_court.png?raw=true)
+]
+]
+
+> `r emoji("raising_hand_woman")` What is the use of the text inside the square brackets?
+]
+
+.panel[.panel-name[Links]
+
+.pull-left[
+
+```md
+[RStudio's RMarkdown lessons](https://rmarkdown.rstudio.com/lesson-1.html)
+```
+<br/>
+
+```md
+<https://rmarkdown.rstudio.com/lesson-1.html>
+```
+
+
+
+].pull-right[
+
+[RStudio's RMarkdown lessons](https://rmarkdown.rstudio.com/lesson-1.html)
+
+<br/>
+
+<https://rmarkdown.rstudio.com/lesson-1.html>
+
+
+]
+
+]
+
+.panel[.panel-name[Tables]
+
+.pull-left[
+
+```md
+| Column 1       | Column 2          |
+|:--------------:|------------------:|
+| Cell alignment | is determined     |
+| by the         | colons at the top.|
+| No need for really tidy | separators|
+```
+
+]
+.pull-right[
+
+
+| Column 1       | Column 2          |
+|:--------------:|------------------:|
+| Cell alignment | is determined     |
+| by the         | colons at the top |
+| No need for really tidy | separators|
+
+]
+
+
+]
+
+]
+
+???
+
+In the RStudio IDE, you can always go to: Help -> Markdown quick reference for a list of these rules.
+
+---
+class: exercise
+
+# `r emoji("pencil")` Markdown syntax
+
+```{r, echo = FALSE}
+countdown::countdown(minutes = 5, top = 0, id = "yaml")
+```
+
+In the [RStudio Cloud Project](`r params$url_project`):
+
+1. Create a new `.Rmd` using the RStudio IDE, or use a previous one.
+
+1. In the top of the RStudio IDE, go to _Help_ -> _Markdown Quick Reference_.
+
+1. Using the reference, add the following elements to your document:
+  - A footnote.
+  - A block quote.
+  - A table.
 
 ---
 class: inverse, bottom, left
