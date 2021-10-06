@@ -24,15 +24,3 @@ for (i in possible_countries) {
     params = list(country_selected = i)
   )
 }
-
-
-## ... using purrr
-
-purrr::map(
-  .x = possible_countries,
-  .f = ~rmarkdown::render(
-    input = "template.Rmd", 
-    params = list(country_selected = .x), 
-    output_file = paste0(.x, "-country-note.html")
-  )
-)
