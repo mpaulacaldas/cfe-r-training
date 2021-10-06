@@ -117,4 +117,4 @@ data_figure %>%
   oecd_theme()
 ```
 
-This is a country note to the Regions and Cities at a Glance report. The report can be found [here](https://www.oecd.org/cfe/oecd-regions-and-cities-at-a-glance-26173212.htm). More data is available at <https://regions-cities-atlas.oecd.org/>.
+This is an example of country note to the [Regions and Cities at a Glance report](https://www.oecd.org/cfe/oecd-regions-and-cities-at-a-glance-26173212.htm). More data is available at <https://regions-cities-atlas.oecd.org/>.
