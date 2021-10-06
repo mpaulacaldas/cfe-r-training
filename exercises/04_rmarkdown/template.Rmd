@@ -1,0 +1,120 @@
+---
+title: "`r paste0('Country note: ', params$iso2)`"
+author: "Centre for Entrepreneurship, SMEs, Regions and Cities"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  word_document: default
+params:
+  iso2: "KR"  # options: UK, ME, KR 
+  show_code: false
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = params$show_code, message = FALSE)
+```
+
+```{r libraries}
+library(tidyverse)
+library(readxl)
+library(countrycode)
+```
+
+```{r theme}
+oecd_theme <- function() {
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(size = 10, colour = "black", angle = 45, hjust = 1),
+    axis.text.y = element_text(size = 10, colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.ticks.length = unit(-0.15, "cm"),
+    panel.grid.major = element_line(colour = "white"),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "#E9E9E9"),
+    legend.text = element_text(size = 10),
+    legend.title = element_blank(),
+    legend.key = element_rect(color = "#E9E9E9", fill = "#E9E9E9"),
+    legend.background = element_rect(fill = "#E9E9E9"),
+    legend.box.background = element_rect(color = "#E9E9E9", fill = "#E9E9E9"),
+    legend.box.margin = margin(0, 0.5, 0, 0.5, "cm"),
+    legend.key.size = unit(0.7, "line"),
+    legend.position = "top",
+    legend.direction = "horizontal",
+    legend.box = "horizontal"
+  )
+}
+```
+
+```{r country-name}
+country <- countrycode(
+  params$iso2, 
+  "iso2c", 
+  "country.name", 
+  custom_match = c("UK" = "United Kingdom")
+  )
+```
+
+
+## Labour productivity in `r country`
+
+```{r data-prep}
+data_raw <- read_xlsx("worker_productivity.xlsx") %>% 
+  mutate(country = fct_reorder(country, -max)) %>%
+  pivot_longer(
+    c(average, min, max),
+    names_to = "category",
+    values_to = "value"
+  ) %>%
+  mutate(
+    value = value / 1000,
+    category = factor(
+      category,
+      levels = c("min", "average", "max"),
+      labels = c("Minimum region", "National average", "Maximum region")
+    ))
+
+data_figure <- data_raw %>%
+  filter(country %in% c("IE", params$iso2, "BG"))
+```
+
+```{r value} 
+average_gva <- data_figure %>% 
+  filter(country == params$iso2, category == "National average") %>% 
+  pull(value)
+
+max_gva <- data_figure %>% 
+  filter(country == params$iso2, category == "Maximum region") %>% 
+  pull(value)
+
+min_gva <- data_figure %>% 
+  filter(country == params$iso2, category == "Minimum region") %>% 
+  pull(value)
+```
+
+On average, labour productivity in `r country` is `r scales::comma(average_gva * 1000)` USD per worker. The region with the highest labour productivity has a gross value added per worker of `r scales::comma(max_gva * 1000)` USD. Its GVA per worker is `r round(max_gva / min_gva, digits = 1)` times that of the region with the lowest GVA per worker at `r scales::comma(min_gva * 1000)` USD. 
+
+```{r fig, fig.width=6, fig.height=4.5}
+data_figure %>%
+  ggplot(aes(x = country, y = value)) +
+  geom_line(colour = "#00A9CB", size = 3) +
+  geom_point(aes(colour = category, shape = category), size = 3) +
+  geom_point(
+    data = filter(data_figure, category == "National average"),
+    colour = "black", size = 3, shape = 18
+  ) +
+  geom_hline(
+    aes(yintercept = 57.74, linetype = "OECD average"),
+    colour = "#1461B3"
+    ) +
+  labs(subtitle = "'000 USD per worker") +
+  scale_colour_manual(values = c("white", "black", "#0060B3")) +
+  scale_shape_manual(values = c(16, 18, 16)) +
+  scale_y_continuous(
+    limits = c(0, 220), expand = c(0, 0),
+    breaks = seq(0, 220, by = 20)
+  ) +
+  oecd_theme()
+```
+
+This is an example of country note to the [Regions and Cities at a Glance report](https://www.oecd.org/cfe/oecd-regions-and-cities-at-a-glance-26173212.htm). More data is available at <https://regions-cities-atlas.oecd.org/>.
