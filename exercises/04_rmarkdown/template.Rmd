@@ -17,8 +17,6 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/OE
 
 # Country note: `r params$country_selected`^[Disclaimer: <https://oecdcode.org/disclaimers/territories.html>] 
   
-
-
 ```{r libraries}
 library(tidyverse)
 library(readxl)
@@ -53,7 +51,6 @@ oecd_theme <- function() {
 ## Labour productivity in `r params$country_selected`
 
 ```{r data-prep}
-
 data_raw <- read_xlsx("worker_productivity.xlsx") %>% 
   mutate(country = fct_reorder(country, -max)) %>%
   pivot_longer(
@@ -70,8 +67,7 @@ data_raw <- read_xlsx("worker_productivity.xlsx") %>%
     ))
 
 data_figure <- data_raw %>%
-    filter(country %in% c("IE", params$country_selected, "BG"))
-
+  filter(country %in% c("IE", params$country_selected, "BG"))
 ```
 
 ```{r value} 
@@ -88,10 +84,9 @@ min_gva <- data_figure %>%
   pull(value)
 ```
 
-On average, labour productivity in `r params$country_selected` is `r scales::comma(average_gva * 1000)` USD per worker. The region with the highest labour produtivity has a gross value added per worker of `r scales::comma(max_gva * 1000)` USD. Its GVA per worker is `r round(max_gva / min_gva, digits = 1)` times that of the region with the lowest GVA per worker at `r scales::comma(min_gva * 1000)` USD. 
+On average, labour productivity in `r params$country_selected` is `r scales::comma(average_gva * 1000)` USD per worker. The region with the highest labour productivity has a gross value added per worker of `r scales::comma(max_gva * 1000)` USD. Its GVA per worker is `r round(max_gva / min_gva, digits = 1)` times that of the region with the lowest GVA per worker at `r scales::comma(min_gva * 1000)` USD. 
 
 ```{r fig, fig.width=6, fig.height=4.5}
-
 data_figure %>%
   ggplot(aes(x = country, y = value)) +
   geom_line(colour = "#00A9CB", size = 3) +
@@ -112,7 +107,6 @@ data_figure %>%
     breaks = seq(0, 220, by = 20)
   ) +
   oecd_theme()
-
 ```
 
 This is a country note to the Regions and Cities at a glance report. The report can be found [here](https://www.oecd.org/cfe/oecd-regions-and-cities-at-a-glance-26173212.htm). More data is available at <https://regions-cities-atlas.oecd.org/>.
