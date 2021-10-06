@@ -1,10 +1,9 @@
-# simple version: creating just one country note for a manually selected country
+# Simple version: Creating just one country note for the country given by
+# default in the template
 
 rmarkdown::render(
-  input = "04-rmarkdown.Rmd", 
-  params = list(
-    country_selected = "KR"
-  ) #, output_format = "all" # to simultanously create html and word files
+  input = "template.Rmd",
+  output_format = "all" # to simultaneously create html and word files
 )
 
 
@@ -12,26 +11,17 @@ rmarkdown::render(
 # Creating multiple country notes for a list of countries
 
 possible_countries <- c("KR", "ME", "UK")
+possible_outputs   <- c("html", "docx")
 
-
-## ... using for loops
+fs::dir_create("country-notes")
 
 for (i in possible_countries) {
-  rmarkdown::render(
-    input = "template.Rmd",
-    output_file = paste0(i,'-country-note.pdf'),
-    params = list(country_selected = i)
-  )
+  for (j in possible_outputs) {
+    rmarkdown::render(
+      input = "template.Rmd",
+      output_dir = "country-notes", 
+      output_file = paste0(i,'.', j),
+      params = list(iso2 = i)
+    )
+  }
 }
-
-
-## ... using purrr
-
-purrr::map(
-  .x = possible_countries,
-  .f = ~rmarkdown::render(
-    input = "template.Rmd", 
-    params = list(country_selected = .x), 
-    output_file = paste0(.x, "-country-note.html")
-  )
-)
