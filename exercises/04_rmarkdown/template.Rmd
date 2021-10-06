@@ -3,8 +3,9 @@ output:
   html_document: default
   word_document: default
 params:
-  country_selected: KR  # options: UK, ME, KR 
+  iso2: KR  # options: UK, ME, KR 
   show: false
+title: "`r paste0('Country note: ', params$iso2)`"
 ---
 
 ```{r setup, echo = FALSE}
@@ -14,6 +15,7 @@ knitr::opts_chunk$set(echo = params$show, message = FALSE)
 ```{r libraries}
 library(tidyverse)
 library(readxl)
+library(countrycode)
 ```
 
 ```{r theme}
@@ -42,7 +44,17 @@ oecd_theme <- function() {
 }
 ```
 
-## Labour productivity in `r params$country_selected`
+```{r country-name}
+country <- countrycode(
+  params$iso2, 
+  "iso2c", 
+  "country.name", 
+  custom_match = c("UK" = "United Kingdom")
+  )
+```
+
+
+## Labour productivity in `r country`
 
 ```{r data-prep}
 data_raw <- read_xlsx("worker_productivity.xlsx") %>% 
@@ -61,24 +73,24 @@ data_raw <- read_xlsx("worker_productivity.xlsx") %>%
     ))
 
 data_figure <- data_raw %>%
-  filter(country %in% c("IE", params$country_selected, "BG"))
+  filter(country %in% c("IE", params$iso2, "BG"))
 ```
 
 ```{r value} 
 average_gva <- data_figure %>% 
-  filter(country == params$country_selected, category == "National average") %>% 
+  filter(country == params$iso2, category == "National average") %>% 
   pull(value)
 
 max_gva <- data_figure %>% 
-  filter(country == params$country_selected, category == "Maximum region") %>% 
+  filter(country == params$iso2, category == "Maximum region") %>% 
   pull(value)
 
 min_gva <- data_figure %>% 
-  filter(country == params$country_selected, category == "Minimum region") %>% 
+  filter(country == params$iso2, category == "Minimum region") %>% 
   pull(value)
 ```
 
-On average, labour productivity in `r params$country_selected` is `r scales::comma(average_gva * 1000)` USD per worker. The region with the highest labour productivity has a gross value added per worker of `r scales::comma(max_gva * 1000)` USD. Its GVA per worker is `r round(max_gva / min_gva, digits = 1)` times that of the region with the lowest GVA per worker at `r scales::comma(min_gva * 1000)` USD. 
+On average, labour productivity in `r country` is `r scales::comma(average_gva * 1000)` USD per worker. The region with the highest labour productivity has a gross value added per worker of `r scales::comma(max_gva * 1000)` USD. Its GVA per worker is `r round(max_gva / min_gva, digits = 1)` times that of the region with the lowest GVA per worker at `r scales::comma(min_gva * 1000)` USD. 
 
 ```{r fig, fig.width=6, fig.height=4.5}
 data_figure %>%
@@ -103,4 +115,4 @@ data_figure %>%
   oecd_theme()
 ```
 
-This is a country note to the Regions and Cities at a glance report. The report can be found [here](https://www.oecd.org/cfe/oecd-regions-and-cities-at-a-glance-26173212.htm). More data is available at <https://regions-cities-atlas.oecd.org/>.
+This is a country note to the Regions and Cities at a Glance report. The report can be found [here](https://www.oecd.org/cfe/oecd-regions-and-cities-at-a-glance-26173212.htm). More data is available at <https://regions-cities-atlas.oecd.org/>.
