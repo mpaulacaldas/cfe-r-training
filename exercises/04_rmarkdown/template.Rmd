@@ -1,31 +1,37 @@
 ---
-output: pdf_document
+output:
+  html_document: default
+  word_document: default
 params:
   country_selected: KR  # options: UK, ME, KR 
   show: false
-header-includes:
-- \usepackage{sectsty} 
 ---
 
-```{r logo, echo=FALSE, fig.align="center", out.width="50%"}
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(
+  echo = params$show,
+  message = FALSE,
+  dpi = 300
+)
+
+```
+<center>
+```{r logo, out.width = "50%"}
 knitr::include_graphics("OECD_logo.jpg")
 ```
 
-\allsectionsfont{\centering}
 # Country note: `r params$country_selected`^[Disclaimer: <https://oecdcode.org/disclaimers/territories.html>] 
-
+</center>
+  
 \newpage
 
-```{r setup, echo=FALSE, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r libraries, echo=FALSE, message=FALSE}
+```{r libraries}
 library(tidyverse)
 library(readxl)
 ```
 
-```{r global, echo=FALSE, message=FALSE}
+```{r theme}
 oecd_theme <- function() {
   theme(
     axis.title = element_blank(),
@@ -51,10 +57,9 @@ oecd_theme <- function() {
 }
 ```
 
-\allsectionsfont{\raggedright}
 ## Labour productivity in `r params$country_selected`
 
-```{r data-prep, echo = FALSE, message=FALSE, results='hide', warning=FALSE}
+```{r data-prep}
 
 data_raw <- read_xlsx("worker_productivity.xlsx") %>% 
   mutate(country = fct_reorder(country, -max)) %>%
@@ -76,23 +81,23 @@ data_figure <- data_raw %>%
 
 ```
 
-```{r value, echo=FALSE} 
-average <- data_figure %>% 
+```{r value} 
+average_gva <- data_figure %>% 
   filter(country == params$country_selected, category == "National average") %>% 
-  select(value)
+  pull(value)
 
-max <- data_figure %>% 
+max_gva <- data_figure %>% 
   filter(country == params$country_selected, category == "Maximum region") %>% 
-  select(value)
+  pull(value)
 
-min <- data_figure %>% 
+min_gva <- data_figure %>% 
   filter(country == params$country_selected, category == "Minimum region") %>% 
-  select(value)
+  pull(value)
 ```
 
-On average, labour productivity in `r params$country_selected` is `r format(round(average*1000), big.mark=",")` USD per worker. The region with the highest labour produtivity has a gross value added per worker of `r format(round(max*1000), big.mark=",")` USD. Its GVA per worker is `r round(max/min, digits = 1)` times that of the region with the lowest GVA per worker at `r format(round(min*1000), big.mark=",")` USD. 
+On average, labour productivity in `r params$country_selected` is `r scales::comma(average_gva * 1000)` USD per worker. The region with the highest labour produtivity has a gross value added per worker of `r scales::comma(max_gva * 1000)` USD. Its GVA per worker is `r round(max_gva / min_gva, digits = 1)` times that of the region with the lowest GVA per worker at `r scales::comma(min_gva * 1000)` USD. 
 
-```{r fig, echo=FALSE}
+```{r fig, fig.width=6, fig.height=4.5}
 
 data_figure %>%
   ggplot(aes(x = country, y = value)) +
