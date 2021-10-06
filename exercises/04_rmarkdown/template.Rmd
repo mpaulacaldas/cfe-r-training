@@ -8,12 +8,7 @@ params:
 ---
 
 ```{r setup, echo = FALSE}
-knitr::opts_chunk$set(
-  echo = params$show,
-  message = FALSE,
-  dpi = 300
-)
-
+knitr::opts_chunk$set(echo = params$show, message = FALSE)
 ```
 
 ```{r logo, out.width = "20%"}
