@@ -13,11 +13,14 @@ rmarkdown::render(
 possible_countries <- c("KR", "ME", "UK")
 possible_outputs   <- c("html", "docx")
 
+fs::dir_create("country-notes")
+
 for (i in possible_countries) {
   for (j in possible_outputs) {
     rmarkdown::render(
       input = "template.Rmd",
-      output_file = paste0(i,'-country-note.', j),
+      output_dir = "country-notes", 
+      output_file = paste0(i,'.', j),
       params = list(iso2 = i)
     )
   }
