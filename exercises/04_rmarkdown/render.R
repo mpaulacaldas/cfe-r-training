@@ -1,8 +1,11 @@
 # simple version: creating just one country note for a manually selected country
 
-rmarkdown::render("template.Rmd", params = list(
-  country_selected = "KR"
-))
+rmarkdown::render(
+  input = "04-rmarkdown.Rmd", 
+  params = list(
+    country_selected = "KR"
+  ) #, output_format = "all" # to simultanously create html and word files
+)
 
 
 
@@ -24,15 +27,11 @@ for (i in possible_countries) {
 
 ## ... using purrr
 
-library(purrr)
-
-file_params <- purrr::cross(list(country_selected = possible_countries))
-
 purrr::map(
-  .x = file_params,
+  .x = possible_countries,
   .f = ~rmarkdown::render(
-    input = "template.Rmd",
-    output_file = paste0(.x, "-country-note.pdf"),
-    params = .x
+    input = "template.Rmd", 
+    params = list(country_selected = .x), 
+    output_file = paste0(.x, "-country-note.html")
   )
 )
