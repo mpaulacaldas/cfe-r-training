@@ -13,12 +13,11 @@ by [María Paula Caldas](mailto:mariapaula.caldas@oecd.org) and [Jolien Noels](m
 | 2021-09-16 | [Introduction to R, RStudio and the Tidyverse][01_intro] |
 | 2021-09-23 | [Data visualisation][02_dataviz]                         |
 | 2021-09-30 | [Programming with R][03_programming]                     |
-| 2021-10-07 | Reproducible reports with RMarkdown          |
+| 2021-10-07 | [Reproducible reports with RMarkdown][04_rmarkdown]      |
 | 2021-10-13 | Good practice and workflow with R            |
 
 <!---
 
-| 2021-10-07 | [Reproducible reports with RMarkdown][04_rmarkdown]      |
 | 2021-10-13 | [Good practice and workflow with R][05_goodpractice]     |
 
 --->
