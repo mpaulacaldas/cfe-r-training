@@ -1,11 +1,13 @@
 ---
+title: "`r paste0('Country note: ', params$iso2)`"
+author: "Centre for Entrepreneurship, SMEs, Regions and Cities"
+date: "`r Sys.Date()`"
 output:
   html_document: default
   word_document: default
 params:
-  iso2: KR  # options: UK, ME, KR 
+  iso2: "KR"  # options: UK, ME, KR 
   show: false
-title: "`r paste0('Country note: ', params$iso2)`"
 ---
 
 ```{r setup, echo = FALSE}
