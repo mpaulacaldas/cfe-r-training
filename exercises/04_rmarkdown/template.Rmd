@@ -7,11 +7,11 @@ output:
   word_document: default
 params:
   iso2: "KR"  # options: UK, ME, KR 
-  show: false
+  show_code: false
 ---
 
 ```{r setup, echo = FALSE}
-knitr::opts_chunk$set(echo = params$show, message = FALSE)
+knitr::opts_chunk$set(echo = params$show_code, message = FALSE)
 ```
 
 ```{r libraries}
