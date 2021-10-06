@@ -11,12 +11,6 @@ params:
 knitr::opts_chunk$set(echo = params$show, message = FALSE)
 ```
 
-```{r logo, out.width = "20%"}
-knitr::include_graphics("https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/OECD_logo_new.svg/1200px-OECD_logo_new.svg.png")
-```
-
-# Country note: `r params$country_selected`^[Disclaimer: <https://oecdcode.org/disclaimers/territories.html>] 
-  
 ```{r libraries}
 library(tidyverse)
 library(readxl)
