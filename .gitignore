@@ -8,5 +8,5 @@ README.html
 *.xlsx
 *.csv
 *.dta
-exercises/*/*.html
-exercises/*/*.docx
+exercises/**/*.html
+exercises/**/*.docx
