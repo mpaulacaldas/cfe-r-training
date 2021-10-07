@@ -650,7 +650,7 @@ ggplot(df, aes(region, speed)) +
 
 .footnote[
 .small[
-`r emoji("book")` [Chapter 27, R4DS](https://es.r4ds.hadley.nz/r-markdown.html#opciones-de-los-bloques)
+`r emoji("book")` [Chapter 27, R4DS](https://r4ds.had.co.nz/r-markdown.html#chunk-options)
 ]
 ]
 
@@ -881,4 +881,4 @@ knitr::include_graphics("https://bookdown.org/yihui/rmarkdown-cookbook/images/co
 
 __Ana Moreno__ is looking for examples of OECD documents produced in R Markdown. If you want to know of or want to contribute, answer in [this thread](https://community.oecd.org/thread/29197).
 
-__Romain Lesur__, the Head of Innovation at INSEE spoke on the [benefits and challenges of using RMarkdown in organisations](https://community.oecd.org/events/5062) at the OECD R/Python/Algobank CoP.
+__Romain Lesur__, the Head of Innovation at INSEE spoke on the _"Benefits and challenges of using RMarkdown in organisations"_ at the OECD R/Python/Algobank CoP. You can find his [slides](https://community.oecd.org/events/5062) in the CoP website and a [recording](https://oecd.sharepoint.com/teams/2020-Z8LFL7/Shared%20Documents/General/Recordings/R_Py_Ab%20CoP%20--%20R%20Markdown_%20benefits%20and%20challenges,%20Romain%20Lesur,%20INSEE-20210609_103033-Meeting%20Recording.mp4) in the [CoP Teams Space](https://teams.microsoft.com/l/team/19%3ae428d079b787461faf343cbbdbe9e9e0%40thread.tacv2/conversations?groupId=5b15779a-6a99-4cc0-bd60-778ed62d453d&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c).
