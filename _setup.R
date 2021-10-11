@@ -41,8 +41,8 @@ rmds <- c(
   "01_intro.Rmd",
   "02_dataviz.Rmd",
   "03_programming.Rmd",
-  "04_rmarkdown.Rmd"
-  # "05_goodpractice.Rmd"
+  "04_rmarkdown.Rmd",
+  "05_goodpractice.Rmd"
   )
 
 file_copy2 <- safely(fs::file_copy, otherwise = NULL)
@@ -81,3 +81,4 @@ render("docs/01_intro.Rmd")
 render("docs/02_dataviz.Rmd")
 render("docs/03_programming.Rmd")
 render("docs/04_rmarkdown.Rmd")
+render("docs/05_goodpractice.Rmd")
