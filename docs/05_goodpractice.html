@@ -1,95 +1,73 @@
----
-title: "Good practice and workflow with R"
-author: "María Paula Caldas"
-ta: "Jolien Noels"
-date: "2021-10-13"
-description: ""
-params:
-  module: "5"
-  url_slides:  "https://mpaulacaldas.github.io/cfe-r-training/05_goodpractice.html"
-  url_project: "https://rstudio.cloud/project/3022018"
-  url_teams: "https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c"
-  url_github: "https://github.com/mpaulacaldas/cfe-r-training"
-  png_background: "img/gradient-background.png"
-  png_break: "https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-  background_position: "1050px 20px"
-  background_size: "100px"
-output:
-  xaringan::moon_reader:
-    css: ["default", "cfe-fonts.css", "cfe.css"]
-    lib_dir: libs
-    seal: false # to customise the title slide
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      highlightLanguage: ["r", "css", "yaml"]
-      countIncrementalSlides: true
-      ratio: "16:9"
-editor_options: 
-  chunk_output_type: console
----
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Good practice and workflow with R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="María Paula Caldas" />
+    <meta name="date" content="2021-10-13" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="cfe-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="cfe.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(
-  fig.retina = 3, # https://community.rstudio.com/t/size-of-image-in-xaringan-slides/21319/12
-  collapse = TRUE,
-  comment = "#>"
-  )
 
-xaringanExtra::use_xaringan_extra(c(
-  "tile_view",  # type 'o' to see an overview of the slides
-  "clipboard",  # copy-paste of the code chunks
-  "panelset",   # panels, https://pkg.garrickadenbuie.com/xaringanExtra/panelset/
-  "freezeframe" # so gifs play when we get to the slide
-  ))
 
-emoji <- function(x) paste0(emo::ji(x), "&nbsp;")
-
-url_tidyverse_logo <- function(pkg) {
-  sprintf("https://raw.githubusercontent.com/tidyverse/%s/master/man/figures/logo.png", pkg)
-} 
-```
 
 class: title-slide, inverse, bottom
-background-image: url(`r params$png_background`)
+background-image: url(img/gradient-background.png)
 background-size: cover
 
-# `r rmarkdown::metadata$title`
-### `r paste0("CFE R Training - Module ", params$module)`
+# Good practice and workflow with R
+### CFE R Training - Module 5
 
-<br/>
+&lt;br/&gt;
 
-`r rmarkdown::metadata$author` and `r rmarkdown::metadata$ta`
+María Paula Caldas and Jolien Noels
 
 ---
 class: middle
 
 # Useful links
 
-[Slides](`r params$url_slides`), if you want to navigate on your own
+[Slides](https://mpaulacaldas.github.io/cfe-r-training/05_goodpractice.html), if you want to navigate on your own
 
-[RStudio Project](`r params$url_project`), to try out the exercises
+[RStudio Project](https://rstudio.cloud/project/3022018), to try out the exercises
 
-[Teams Space](`r params$url_teams`), for discussions
+[Teams Space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c), for discussions
 
-[Github repository](`r params$url_github`), for later reference
+[Github repository](https://github.com/mpaulacaldas/cfe-r-training), for later reference
 
 ---
 class: middle
 
 # Housekeeping matters
 
-`r emoji("woman_raising_hand")` During the session, ask questions in the chat 
+🙋‍♀️&amp;nbsp; During the session, ask questions in the chat 
 or raise your hand
 
-`r emoji("camera")` Sessions are recorded. Remember to turn off your camera if 
+📷&amp;nbsp; Sessions are recorded. Remember to turn off your camera if 
 its your preference
 
-`r emoji("speech_balloon")` After the session, post follow-up questions, 
-comments or reactions in the [Teams space](`r params$url_teams`)
+💬&amp;nbsp; After the session, post follow-up questions, 
+comments or reactions in the [Teams space](https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&amp;tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c)
 
-`r emoji("pencil")` If you are going through these slides on your own, type `p` 
+📝&amp;nbsp; If you are going through these slides on your own, type `p` 
 to see the presenter notes
 
 ???
@@ -196,17 +174,18 @@ background-size: 550px
 
 .pull-left[
 
-<br/>
+&lt;br/&gt;
 
 In the RStudio IDE, you can change the configurations via:
 
-`Tools -> Global Options -> General`
+`Tools -&gt; Global Options -&gt; General`
 
-<br/>
+&lt;br/&gt;
 
 Alternatively, in the Console:
 
-```{r, eval = FALSE}
+
+```r
 usethis::use_blank_slate()
 ```
 
@@ -227,12 +206,12 @@ By default, scripts saved with the RStudio IDE will be saved with the computer's
 
 To avoid issues when running your scripts on different operating systems, default text files to `UTF-8` encoding.
 
-<br/>
+&lt;br/&gt;
 
 In the RStudio IDE:
 
-`Tools -> Global Options -> `
-`Code -> Saving`
+`Tools -&gt; Global Options -&gt; `
+`Code -&gt; Saving`
 
 ]
 
@@ -254,11 +233,11 @@ Code gets harder to read the wider it becomes.
 
 Try to respect the [__80 character limit__](https://softwareengineering.stackexchange.com/questions/148677/why-is-80-characters-the-standard-limit-for-code-width)
 
-<br/>
+&lt;br/&gt;
 
 In the RStudio IDE:
 
-`Tools -> Global Options -> Code -> Display`
+`Tools -&gt; Global Options -&gt; Code -&gt; Display`
 
 ]
 
@@ -278,26 +257,26 @@ These workflows assume that _all_ files associated with a project are stored in 
 ]
 .pull-right[
 ```r
-#> mortality
-#> +-- mortality.Rproj
-#> +-- data
-#> |   +-- aus.rds
-#> |   +-- chl.rds
-#> |   \-- usa.rds
-#> +-- data-raw
-#> |   +-- can
-#> |   |   +-- 2020-07-20
-#> |   |   |   +-- 13100768.csv
-#> |   |   |   \-- 13100768_MetaData.csv
-#> |   |   +-- 2020-11-10
-#> |   |       +-- 13100768.csv
-#> |   |       \-- 13100768_MetaData.csv
-#> |   \------ README.md
-#> +-- figures
-#> |   \-- tl3-comparisons.R
-#> +-- 01_download.md
-#> +-- 02_treat.md
-#> \-- README.md
+#&gt; mortality
+#&gt; +-- mortality.Rproj
+#&gt; +-- data
+#&gt; |   +-- aus.rds
+#&gt; |   +-- chl.rds
+#&gt; |   \-- usa.rds
+#&gt; +-- data-raw
+#&gt; |   +-- can
+#&gt; |   |   +-- 2020-07-20
+#&gt; |   |   |   +-- 13100768.csv
+#&gt; |   |   |   \-- 13100768_MetaData.csv
+#&gt; |   |   +-- 2020-11-10
+#&gt; |   |       +-- 13100768.csv
+#&gt; |   |       \-- 13100768_MetaData.csv
+#&gt; |   \------ README.md
+#&gt; +-- figures
+#&gt; |   \-- tl3-comparisons.R
+#&gt; +-- 01_download.md
+#&gt; +-- 02_treat.md
+#&gt; \-- README.md
 ```
 ]
 
@@ -308,7 +287,8 @@ These workflows assume that _all_ files associated with a project are stored in 
 ### Working directory
 One way of adopting a project-based workflow is by __explicitly setting the working directory__ within scripts.
 
-```{r, eval = FALSE}
+
+```r
 # only for the illustrative purposes
 # this is bad practice! see next slides
 setwd("V:/mortality/data/")
@@ -335,7 +315,7 @@ Or using __relative paths__, that give the location of the file relative to the 
 ]
 
 ---
-# `r emoji("warning")` Avoid using `setwd()`
+# ⚠️&amp;nbsp; Avoid using `setwd()`
 
 Although presented earlier, know that `setwd()` is considered __bad practice__.
 
@@ -362,15 +342,13 @@ The main advantage of using projects is that they are _portable_.
 ]
 .pull-right[
 
-```{r, echo = FALSE, out.width="80%"}
-knitr::include_graphics("https://mpaulacaldas.github.io/good-enough-practices/figures/project0.PNG")
-```
+&lt;img src="https://mpaulacaldas.github.io/good-enough-practices/figures/project0.PNG" width="80%" /&gt;
 ]
 
 ---
 class: exercise
 
-# `r emoji("woman_technologist")` Create and use an RStudio project
+# 👩‍💻&amp;nbsp; Create and use an RStudio project
 
 We will demonstrate the following:
 
@@ -394,12 +372,12 @@ You will get an e-mail confirming the project has been created, with the require
 | For Archives | `\\main.oecd.org\em_arc\NAME_OF_PROJECT`
 | For Code Sharing | `https://algobank.oecd.org:4430/NAME_OF_PROJECT` |
 
-`r emoji("warning")` When working with other Directorates, avoid using the `V:/` alias. The alias points to a different location for each Directorate.
+⚠️&amp;nbsp; When working with other Directorates, avoid using the `V:/` alias. The alias points to a different location for each Directorate.
 
 ---
 class: exercise
 
-# `r emoji("woman_technologist")` Leveraging the `config` R package
+# 👩‍💻&amp;nbsp; Leveraging the `config` R package
 
 The [__config__](https://cran.r-project.org/web/packages/config/vignettes/introduction.html) package makes it easy to manage environment specific configuration values.
 
@@ -412,7 +390,7 @@ class: inverse, bottom, left
 # Files and file names
 
 ---
-# `r emoji("floppy_disk")` Good names
+# 💾&amp;nbsp; Good names
 
 The [three principles for file names](https://speakerdeck.com/jennybc/how-to-name-files) state that file names should:
 
@@ -425,7 +403,7 @@ The [three principles for file names](https://speakerdeck.com/jennybc/how-to-nam
 
 .pull-left[
 
-.center[`r emoji("x")` __Bad__]
+.center[❌&amp;nbsp; __Bad__]
 
 ```
 code.do
@@ -439,7 +417,7 @@ File with (Special characters).pdf
 
 .pull-right[
 
-.center[`r emoji("heavy_check_mark")` __Good__]
+.center[✔️&amp;nbsp; __Good__]
 
 ```
 analyse-prix.do
@@ -453,7 +431,7 @@ fig02_scatter-price-coverage.png
 
 ---
 
-# `r emoji("floppy_disk")` Good names
+# 💾&amp;nbsp; Good names
 ### 1. Machine readable
 
 .pull-left[
@@ -489,7 +467,7 @@ Regarding the case, keep in mind that Windows is case insensitive, while Linux i
 
 ---
 
-# `r emoji("floppy_disk")` Good names
+# 💾&amp;nbsp; Good names
 ### 2. Human readable
 
 .pull-left[
@@ -515,7 +493,7 @@ _For example:_
 
 ---
 
-# `r emoji("floppy_disk")` Good names
+# 💾&amp;nbsp; Good names
 ### 3. Play well with default ordering
 
 .pull-left[
@@ -571,7 +549,7 @@ Some examples:
 ---
 class: exercise
 
-# `r emoji("woman_technologist")` Building a project's infrastructure
+# 👩‍💻&amp;nbsp; Building a project's infrastructure
 
 We can automate some repetitive tasks using [fs](https://fs.r-lib.org/), an R package for file system operations.
 
@@ -587,14 +565,14 @@ Directory is a fancy name for a folder.
 
 ---
 class: inverse, bottom, left
-background-image: url(`r params$png_break`)
+background-image: url(https://images.unsplash.com/photo-1421986872218-300a0fea5895?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80)
 background-size: cover
 
 # Break
 
-```{r, echo = FALSE}
-countdown::countdown(minutes = 10, top = 0, id = "break")
-```
+<div class="countdown" id="break" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 ---
 class: inverse, bottom, left
@@ -621,7 +599,7 @@ If you switch scripts, restart R again.
 ---
 class: exercise
 
-# `r emoji("woman_technologist")` Working interactively
+# 👩‍💻&amp;nbsp; Working interactively
 
 Let's demonstrate these steps.
 
@@ -646,7 +624,7 @@ It is quickly becoming the default R style guide adopted by most R developers, d
 
 .center[`http://style.tidyverse.org/index.html`]
 
-<br/>
+&lt;br/&gt;
 
 In addition, there's also the [`styler`](https://github.com/r-lib/styler) package, to interactively restyle text, files or projects.
 
@@ -656,17 +634,18 @@ In addition, there's also the [`styler`](https://github.com/r-lib/styler) packag
 
 .pull-left[
 
-```{r, eval = FALSE}
+
+```r
 # Bad
 
 library(sf)
 
-deu_tl2 <- read_sf("path/to/deu-tl2.shp")
+deu_tl2 &lt;- read_sf("path/to/deu-tl2.shp")
 
 # many, many lines
 
 library(tidyverse)
-deu_tl2_names <- read_csv("path/elsewhere/codes-tl2.csv")
+deu_tl2_names &lt;- read_csv("path/elsewhere/codes-tl2.csv")
 
 # even more lines
 
@@ -677,22 +656,23 @@ write_xlsx(deu_tl2_final, "deu-tl2.xlsx")
 ]
 .pull-right[
 
-```{r, eval = FALSE}
+
+```r
 # Good
 
 library(sf)
 library(tidyverse)
 library(writexl)
 
-path_shp <- "path/to/deu-tl2.shp"
-path_nms <- "path/elsewhere/codes-tl2.csv"
-path_out <- "deu-tl2.xlsx"
+path_shp &lt;- "path/to/deu-tl2.shp"
+path_nms &lt;- "path/elsewhere/codes-tl2.csv"
+path_out &lt;- "deu-tl2.xlsx"
 
-deu_tl2 <- read_sf(path_shp)
+deu_tl2 &lt;- read_sf(path_shp)
 
 # many, many lines
 
-deu_tl2_names <- read_csv(path_nms)
+deu_tl2_names &lt;- read_csv(path_nms)
 
 # even more lines
 
@@ -704,7 +684,8 @@ write_xlsx(deu_tl2_final, path_out)
 ---
 ## Use snake case for variable and function names
 
-```{r, eval = FALSE}
+
+```r
 # Good
 day_one
 day_1
@@ -719,7 +700,8 @@ dayone
 
 .pull-left[
 
-```{r, eval = FALSE}
+
+```r
 # Good
 mean(x, na.rm = TRUE)
 
@@ -728,20 +710,22 @@ mean (x, na.rm = TRUE)
 mean( x, na.rm = TRUE )
 ```
 
-```{r, eval = FALSE}
+
+```r
 # Good
-height <- (feet * 12) + inches
+height &lt;- (feet * 12) + inches
 mean(x, na.rm = TRUE)
 
 # Bad
-height<-feet*12+inches
+height&lt;-feet*12+inches
 mean(x, na.rm=TRUE)
 ```
 
 ]
 
 .pull-right[
-```{r, eval = FALSE}
+
+```r
 # Good
 if (debug) {
   show(x)
@@ -758,7 +742,8 @@ if(debug){
 ---
 ## Avoid long lines
 
-```{r, eval = FALSE}
+
+```r
 # Good
 do_something_very_complicated(
   something = "that",
@@ -775,35 +760,37 @@ do_something_very_complicated("that", requires, many, arguments,
 ---
 ## Comments should explain the "why" not the "what"
 
-```{r, eval = FALSE}
+
+```r
 # Good
 
 # Take out "not regionalised" observations
-data_checked <- data_iso2 %>% 
+data_checked &lt;- data_iso2 %&gt;% 
   filter(check != "ZZ")
 
 # Bad
 
 # Filter observations
-data_checked <- data_iso2 %>% 
+data_checked &lt;- data_iso2 %&gt;% 
   filter(check != "ZZ")
 ```
 
 ---
-## Follow the `%>%` with a new line
+## Follow the `%&gt;%` with a new line
 
-```{r, eval = FALSE}
+
+```r
 # Good
-iris %>%
-  group_by(Species) %>%
-  summarize_if(is.numeric, mean) %>%
-  ungroup() %>%
-  gather(measure, value, -Species) %>%
+iris %&gt;%
+  group_by(Species) %&gt;%
+  summarize_if(is.numeric, mean) %&gt;%
+  ungroup() %&gt;%
+  gather(measure, value, -Species) %&gt;%
   arrange(value)
 
 # Bad
-iris %>% group_by(Species) %>% summarize_all(mean) %>%
-ungroup %>% gather(measure, value, -Species) %>%
+iris %&gt;% group_by(Species) %&gt;% summarize_all(mean) %&gt;%
+ungroup %&gt;% gather(measure, value, -Species) %&gt;%
 arrange(value)
 ```
 
@@ -811,13 +798,13 @@ arrange(value)
 ---
 class: exercise
 
-# `r emoji("pencil")` Restyle code
+# 📝&amp;nbsp; Restyle code
 
-Head over to the [RStudio Cloud Project](`r params$url_project`) and open the `air pollution.R` script. What would you change given what you have learned today?
+Head over to the [RStudio Cloud Project](https://rstudio.cloud/project/3022018) and open the `air pollution.R` script. What would you change given what you have learned today?
 
-```{r, echo = FALSE}
-countdown::countdown(minutes = 5, top = 0, id = "style")
-```
+<div class="countdown" id="style" style="top:0;right:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 ---
 class: inverse, bottom, left
@@ -844,13 +831,13 @@ frame discussions.
 ---
 class: exercise
 
-# `r emoji("woman_technologist")` Reviewing a script
+# 👩‍💻&amp;nbsp; Reviewing a script
 
 Let's do a live code review of the code that was styled during the previous exercise.
 
 ---
 class: inverse, bottom, left
-background-image: url(`r params$png_background`)
+background-image: url(img/gradient-background.png)
 background-size: cover
 
 # Annex
@@ -860,21 +847,29 @@ background-size: cover
 
 Back-slashes (`\`) have a special meaning in R, so you must use forward-slashes (`/`):
 
-```{r, error = TRUE}
+
+```r
 fs::dir_exists("C:\Users\Caldas_M")
 fs::dir_exists("C:/Users/Caldas_M")
+#&gt; Error: '\U' used without hex digits in character string starting ""C:\U"
 ```
 
 Alternatively, you can _escape_ a back-slash by doubling it:
 
-```{r}
+
+```r
 fs::dir_exists("C:\\Users\\Caldas_M")
+#&gt; C:\\Users\\Caldas_M 
+#&gt;                TRUE
 ```
 
 Or use the special `r"(...)"` notation introduced in `R 4.0.0`:
 
-```{r}
+
+```r
 fs::dir_exists(r"(C:\Users\Caldas_M)")
+#&gt; C:\\Users\\Caldas_M 
+#&gt;                TRUE
 ```
 
 
@@ -885,17 +880,21 @@ There are two ways to call a file in our local network.
 
 Either using the UNC path, making sure to properly escape the back-slashes:
 
-```{r}
+
+```r
 dir(r"(\\main.oecd.org\ASgenCFE\EXCESS_MORTALITY)")
+#&gt; [1] "COVID19 Regional Determinants" "data-fetching"
 ```
 
 Or using the path with the associated mapped drive letter:
 
-```{r}
+
+```r
 dir("V:/EXCESS_MORTALITY")
+#&gt; [1] "COVID19 Regional Determinants" "data-fetching"
 ```
 
-`r emoji("warning")` Use the UNC path for `V:/` when you're working with colleagues from another Directorate! o
+⚠️&amp;nbsp; Use the UNC path for `V:/` when you're working with colleagues from another Directorate! o
 
 ---
 # To learn more
@@ -919,3 +918,128 @@ dir("V:/EXCESS_MORTALITY")
 - [Workflow Tips and Tricks](https://mpaulacaldas.github.io/r-ladies-workflow/#1), R-Ladies Dammam
 
 ]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": ["r", "css", "yaml"],
+"countIncrementalSlides": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
