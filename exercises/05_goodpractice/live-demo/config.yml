@@ -1,0 +1,3 @@
+default:
+  path_eco: "\\\\main.oecd.org\\ASgenECO"
+  url_slides: "https://mpaulacaldas.github.io/cfe-r-training/05_goodpractice.html#21"
