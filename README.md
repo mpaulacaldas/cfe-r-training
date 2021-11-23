@@ -8,11 +8,15 @@ by [María Paula Caldas](mailto:mariapaula.caldas@oecd.org) and [Jolien Noels](m
 
 ## Modules
 
+<!--Uncomment the style script below before rendering to HTML-->
+
+<!--
 <style>
 colgroup {
   display: none;
 }
 </style>
+-->
 
 | Date       | Topic                                        | Links                                                                                   |
 |:-----------|:---------------------------------------------|:----------------------------------------------------------------------------------------|
