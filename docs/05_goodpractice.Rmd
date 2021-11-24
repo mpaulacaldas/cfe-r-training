@@ -6,7 +6,7 @@ date: "2021-10-13"
 description: ""
 params:
   module: "5"
-  url_slides:  "https://mpaulacaldas.github.io/cfe-r-training/05_goodpractice.html"
+  url_slides:  "https://oecd-cfe-eds.github.io/cfe-r-training/05_goodpractice.html"
   url_project: "https://rstudio.cloud/project/3022018"
   url_teams: "https://teams.microsoft.com/l/team/19%3aewi8FvNssJHrCsxFDSJbA7IL4q4kGH0E8IRMfMp8zPA1%40thread.tacv2/conversations?groupId=c957fd70-0f85-4bcc-b3a4-e453919316de&tenantId=ac41c7d4-1f61-460d-b0f4-fc925a2b471c"
   url_github: "https://github.com/mpaulacaldas/cfe-r-training"
@@ -363,7 +363,7 @@ The main advantage of using projects is that they are _portable_.
 .pull-right[
 
 ```{r, echo = FALSE, out.width="80%"}
-knitr::include_graphics("https://mpaulacaldas.github.io/good-enough-practices/figures/project0.PNG")
+knitr::include_graphics("https://oecd-cfe-eds.github.io/good-enough-practices/figures/project0.PNG")
 ```
 ]
 
@@ -916,6 +916,6 @@ dir("V:/EXCESS_MORTALITY")
 
 - [Good Practice in Data Analysis with R](https://algobank.oecd.org:4430/MariaPaula.CALDAS/rladies-good-practice/-/tree/master), OECD R-Ladies
 - [Code Reviews](https://algobank.oecd.org:4430/r-ladies/index/-/blob/master/meeting_2021-01-29.md), OECD R-Ladies
-- [Workflow Tips and Tricks](https://mpaulacaldas.github.io/r-ladies-workflow/#1), R-Ladies Dammam
+- [Workflow Tips and Tricks](https://oecd-cfe-eds.github.io/r-ladies-workflow/#1), R-Ladies Dammam
 
 ]
